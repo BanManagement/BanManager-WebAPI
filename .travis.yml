@@ -8,4 +8,4 @@ after_success:
 services:
   - mysql
 before_install:
-  - mysql -e 'create database bm_test;'
+  - mysql -e 'create database bm_web_test;'
