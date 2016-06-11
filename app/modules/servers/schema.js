@@ -41,7 +41,7 @@ var Joi = require('joi')
         , user: Joi.string().token().required()
         , password: Joi.string()
         , console: Joi.string().guid().required()
-        , tables: tablesSchema().required()
+        , tables: tablesSchema(true).required()
         })
     } else {
       return Joi.object(
