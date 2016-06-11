@@ -6,7 +6,8 @@ exports.up = function (knex) {
     table.string('host').notNullable()
     table.string('database').notNullable()
     table.string('user').notNullable()
-    table.string('password').notNullable()
+    table.string('password').notNullable().default('')
+    table.binary('console', 16).notNullable()
     table.json('tables').notNullable()
   })
 }
