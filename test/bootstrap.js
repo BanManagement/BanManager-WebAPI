@@ -13,7 +13,12 @@ noOpLogger.child = function () { return noOpLogger }
 module.exports = function (done) {
   if (cachedApp) return done(null, cachedApp)
 
-  pm.registerBeforeLoad(function logger(cb) { cb(null, noOpLogger) })
+  if (process.env.LOG_LEVEL) {
+    pm.registerBeforeLoad(function logger(cb) { cb(null, require('app/logger')(configuration)) })
+  } else {
+    pm.registerBeforeLoad(function logger(cb) { cb(null, noOpLogger) })
+  }
+
   pm.registerBeforeLoad(function config(cb) { cb(null, configuration) })
   pm.registerBeforeLoad(function pluginManager(cb) { cb(null, pm) })
 
