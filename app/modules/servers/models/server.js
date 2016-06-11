@@ -26,8 +26,8 @@ module.exports = function ServerModel(db, cb) {
           attributes.password = encrypted
         }
 
-        attributes.tables = JSON.stringify(attributes.tables)
-        attributes.console = uuid.parse(attributes.console, new Buffer(16))
+        if (attributes.tables) attributes.tables = JSON.stringify(attributes.tables)
+        if (attributes.console) attributes.console = uuid.parse(attributes.console, new Buffer(16))
 
         return attributes
       }
@@ -42,8 +42,8 @@ module.exports = function ServerModel(db, cb) {
         }
 
         // @TODO try/catch
-        attributes.tables = JSON.parse(attributes.tables)
-        attributes.console = uuid.unparse(attributes.console)
+        if (attributes.tables) attributes.tables = JSON.parse(attributes.tables)
+        if (attributes.console) attributes.console = uuid.unparse(attributes.console)
 
         return attributes
       }

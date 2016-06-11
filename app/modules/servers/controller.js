@@ -1,4 +1,5 @@
-var Joi = require('joi')
+var Boom = require('boom')
+  , Joi = require('joi')
   , tablesSchema = function () {
       var tables =
         [ 'players'
@@ -82,7 +83,7 @@ module.exports = function (ServerModel) {
             .forge({ id: req.params.id })
             .fetch()
             .then(function (server) {
-              if (!server) return reply.code(404)
+              if (!server) return reply(Boom.notFound())
 
               reply(server.toJSON())
             }).catch(function (error) {
