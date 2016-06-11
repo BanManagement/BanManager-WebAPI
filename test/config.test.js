@@ -1,4 +1,5 @@
 var assert = require('assert')
+var currentEnv = process.env.NODE_ENV
 
 describe('Config', function () {
   beforeEach(function () {
@@ -8,7 +9,7 @@ describe('Config', function () {
   })
 
   after(function () {
-    process.env.NODE_ENV = 'test'
+    process.env.NODE_ENV = currentEnv
   })
 
   it('should throw an error if incorrect environment', function () {
