@@ -26,7 +26,14 @@ describe('/v1/server', function () {
         }, function (res) {
           assert.equal(res.statusCode, 400)
           assert.equal(res.result.error, 'Bad Request')
-          assert.deepEqual(res.result.validation.keys, [ 'name', 'host', 'database', 'user', 'console' ])
+          assert.deepEqual(res.result.validation.keys
+            , [ 'name'
+              , 'host'
+              , 'database'
+              , 'user'
+              , 'console'
+              , 'tables'
+              ])
 
           done()
         })
@@ -86,6 +93,78 @@ describe('/v1/server', function () {
         }, function (res) {
           assert.equal(res.statusCode, 200)
           assert.deepEqual(res.result, createdServer)
+
+          done()
+        })
+    })
+
+  })
+
+  describe('PATCH /', function () {
+
+    it('should return 404', function (done) {
+      server.inject(
+        { method: 'PATCH'
+        , url: '/v1/server/fooooooworld'
+        , payload: {}
+        }, function (res) {
+          assert.equal(res.statusCode, 404)
+          assert.deepEqual(res.result, { statusCode: 404, error: 'Not Found' })
+
+          done()
+        })
+    })
+
+    it('should return 400', function (done) {
+      server.inject(
+        { method: 'PATCH'
+        , url: '/v1/server/' + createdServer.id
+        , payload: {}
+        }, function (res) {
+          assert.equal(res.statusCode, 400)
+          assert.equal(res.result.error, 'Bad Request')
+
+          done()
+        })
+    })
+
+    it('should return 200', function (done) {
+      server.inject(
+        { method: 'PATCH'
+        , url: '/v1/server/' + createdServer.id
+        , payload: { name: 'Test2' }
+        }, function (res) {
+          assert.equal(res.statusCode, 200)
+          assert.deepEqual(Object.keys(res.result), [ 'id', 'name' ])
+          assert.equal(res.result.name, 'Test2')
+
+          done()
+        })
+    })
+
+  })
+
+  describe('DELETE /', function () {
+
+    it('should return 404', function (done) {
+      server.inject(
+        { method: 'DELETE'
+        , url: '/v1/server/fooooooworld'
+        }, function (res) {
+          assert.equal(res.statusCode, 404)
+          assert.deepEqual(res.result, { statusCode: 404, error: 'Not Found' })
+
+          done()
+        })
+    })
+
+    it('should return 200', function (done) {
+      server.inject(
+        { method: 'DELETE'
+        , url: '/v1/server/' + createdServer.id
+        }, function (res) {
+          assert.equal(res.statusCode, 200)
+          assert.deepEqual(Object.keys(res.result), [ ])
 
           done()
         })

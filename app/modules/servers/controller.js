@@ -1,45 +1,5 @@
 var Boom = require('boom')
-  , Joi = require('joi')
-  , tablesSchema = function () {
-      var tables =
-        [ 'players'
-        , 'playerBans'
-        , 'playerBanRecords'
-        , 'playerMutes'
-        , 'playerMuteRecords'
-        , 'playerKicks'
-        , 'playerNotes'
-        , 'playerHistory'
-        , 'playerReports'
-        , 'playerReportLocations'
-        , 'playerReportStates'
-        , 'playerReportCommands'
-        , 'playerReportComments'
-        , 'playerWarnings'
-        , 'ipBans'
-        , 'ipBanRecords'
-        , 'ipMutes'
-        , 'ipMuteRecords'
-        , 'ipRangeBans'
-        , 'ipRangeBanRecords'
-        ]
-        , schema = {}
-
-      tables.forEach(function (table) {
-        schema[table] = Joi.string().min(1).required()
-      })
-
-      return Joi.object(schema)
-    }
-  , serverSchema = Joi.object(
-    { name: Joi.string().min(1).required()
-    , host: Joi.string().hostname().required()
-    , database: Joi.string().min(1).required()
-    , user: Joi.string().token().required()
-    , password: Joi.string()
-    , console: Joi.string().guid().required()
-    , tables: tablesSchema()
-    }).options({ abortEarly: false })
+  , schema = require('./schema')
 
 module.exports = function (ServerModel) {
   return function (server, options, cb) {
@@ -52,13 +12,12 @@ module.exports = function (ServerModel) {
             .save()
             .then(function (server) {
               reply(server.toJSON())
-            }).catch(function (error) {
-              reply(error)
             })
+            .catch(reply)
         }
       , config:
         { validate:
-          { payload: serverSchema
+          { payload: schema.create
           }
         }
       })
@@ -86,23 +45,55 @@ module.exports = function (ServerModel) {
               if (!server) return reply(Boom.notFound())
 
               reply(server.toJSON())
-            }).catch(function (error) {
-              reply(error)
             })
+            .catch(reply)
         }
       })
 
-    // server.post('/', function (req, res, next) {
-    //   // Create a server
-    // })
+    server.route(
+      { method: 'PATCH'
+      , path: '/{id}'
+      , handler: function (req, reply) {
+          ServerModel
+            .forge({ id: req.params.id })
+            .fetch()
+            .then(function (server) {
+              if (!server) return reply(Boom.notFound())
+              if (!Object.keys(req.payload).length) return reply(Boom.badRequest('Missing payload'))
 
-    // server.patch('/', function (req, res, next) {
-    //   // Update a server
-    // })
+              return server.save(req.payload, { patch: true })
+            })
+            .then(function (updatedServer) {
+              // updatedServer is sometimes boom error, huh?
+              if (!updatedServer.isBoom) reply(updatedServer.toJSON())
+            })
+            .catch(reply)
+        }
+      , config:
+        { validate:
+          { payload: schema.update
+          }
+        }
+      })
 
-    // server.delete('/', function (req, res, next) {
-    //   // Delete a server
-    // })
+    server.route(
+      { method: 'DELETE'
+      , path: '/{id}'
+      , handler: function (req, reply) {
+          ServerModel
+            .forge({ id: req.params.id })
+            .fetch()
+            .then(function (server) {
+              if (!server) return reply(Boom.notFound())
+
+              return server.destroy().then(function () {
+                reply(server.toJSON())
+              })
+            })
+            .catch(reply)
+        }
+      })
+
     cb()
   }
 }
