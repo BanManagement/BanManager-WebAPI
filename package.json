@@ -9,7 +9,7 @@
     "coveralls": "cat coverage/lcov.info | coveralls",
     "pretest": "npm run lint",
     "test": "istanbul cover _mocha test",
-    "posttest": "istanbul check-coverage --statements 90 --branches 75 --functions 100 --lines 95 || echo open coverage/lcov-report/index.html to find out more",
+    "posttest": "istanbul check-coverage --statements 90 --branches 75 --functions 100 --lines 95 || echo open coverage/lcov-report/index.html to find out more && exit 1",
     "postinstall": "rm -f node_modules/app && ln -s ../app node_modules/app"
   },
   "author": "",
