@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint -f unix .",
-    "coveralls": "cat coverage/lcov.info | coveralls",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "pretest": "npm run lint",
     "test": "istanbul cover _mocha test",
     "posttest": "istanbul check-coverage --statements 90 --branches 75 --functions 100 --lines 95 || echo open coverage/lcov-report/index.html to find out more && exit 1",
