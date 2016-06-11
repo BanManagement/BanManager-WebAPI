@@ -13,7 +13,7 @@
     "postinstall": "rm -f node_modules/app && ln -s ../app node_modules/app"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "async": "^1.5.2",
     "body-parser": "^1.14.2",
