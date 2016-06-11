@@ -26,11 +26,12 @@
     "hapi": "^13.4.1",
     "hapi-bunyan": "^0.6.0",
     "hapi-graceful-pm2": "^1.0.15",
+    "joi": "^8.4.1",
     "knex": "^0.11.5",
     "lodash": "^4.13.1",
     "mysql2": "^0.15.8",
     "pluginable": "^2.1.1",
-    "response-time": "^2.3.1"
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "@confuser/eslint-config": "^2.0.0",
