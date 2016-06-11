@@ -6,6 +6,7 @@ var noOpLogger = require('mc-logger')
   , configuration = require('app/config')
   , pm = pluginable(require('../modules'))
   , controllers = require('../controllers')
+  , dbCleaner = require('knex-cleaner')
   , cachedApp
 
 noOpLogger.child = function () { return noOpLogger }
@@ -51,7 +52,10 @@ module.exports = function (done) {
       var db = modules.db.knex
       // db.seed.run() when eventually needed
 
-      db.migrate.latest().then(function () {
+      dbCleaner.clean(db, { ignoreTables: [ 'bm_web_migrations', 'bm_web_migrations_lock' ] }).then(function () {
+        return db.migrate.latest()
+      })
+      .then(function () {
         done(null, app)
       }).catch(function (error) {
         throw error
