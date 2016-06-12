@@ -1,6 +1,7 @@
 var Hapi = require('hapi')
   , hapiPm2 = require('hapi-graceful-pm2')
   , hapiBunyan = require('hapi-bunyan')
+  , hapiBoom = require('hapi-boom-decorators')
 
 module.exports = function app(config, logger, cb) {
   var server = new Hapi.Server()
@@ -13,6 +14,8 @@ module.exports = function app(config, logger, cb) {
       }
     , { register: hapiBunyan
       , options: { logger: logger }
+      }
+    , { register: hapiBoom
       }
     ])
 

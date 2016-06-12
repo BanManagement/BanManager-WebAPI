@@ -1,5 +1,4 @@
-var Boom = require('boom')
-  , schema = require('./schema')
+var schema = require('./schema')
 
 module.exports = function (ServerModel) {
   return function (server, options, cb) {
@@ -42,7 +41,7 @@ module.exports = function (ServerModel) {
             .forge({ id: req.params.id })
             .fetch()
             .then(function (server) {
-              if (!server) return reply(Boom.notFound())
+              if (!server) return reply.notFound()
 
               reply(server.toJSON())
             })
@@ -58,14 +57,14 @@ module.exports = function (ServerModel) {
             .forge({ id: req.params.id })
             .fetch()
             .then(function (server) {
-              if (!server) return reply(Boom.notFound())
-              if (!Object.keys(req.payload).length) return reply(Boom.badRequest('Missing payload'))
+              if (!server) return reply.notFound()
+              if (!Object.keys(req.payload).length) return reply.badRequest('Missing payload')
 
               return server.save(req.payload, { patch: true })
             })
             .then(function (updatedServer) {
               // updatedServer is sometimes boom error, huh?
-              if (!updatedServer.isBoom) reply(updatedServer.toJSON())
+              if (updatedServer && !updatedServer.isBoom) reply(updatedServer.toJSON())
             })
             .catch(reply)
         }
@@ -84,7 +83,7 @@ module.exports = function (ServerModel) {
             .forge({ id: req.params.id })
             .fetch()
             .then(function (server) {
-              if (!server) return reply(Boom.notFound())
+              if (!server) return reply.notFound()
 
               return server.destroy().then(function () {
                 reply(server.toJSON())
