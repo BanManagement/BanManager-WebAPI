@@ -2,10 +2,9 @@ process.env.NODE_ENV = 'test' // @TODO Move out of code
 
 var noOpLogger = require('mc-logger')
   , pluginable = require('pluginable')
-  , async = require('async')
   , configuration = require('app/config')
   , pm = pluginable(require('../modules'))
-  , controllers = require('../controllers')
+  , loader = require('app/loader')
   , dbCleaner = require('knex-cleaner')
   , cachedApp
 
@@ -26,24 +25,7 @@ module.exports = function (done) {
   pm.load(function (error, modules) {
     if (error) return done(error)
 
-    var app = modules.app
-
-    if (!app) return done(new Error('Missing app module'))
-
-    // Find controllers
-    async.forEachOf(controllers, function (file, path, callback) {
-      var router = pm.bond(require(file))()
-
-      if (!router) return callback(new Error(path + ' missing returned router'))
-
-      router.attributes = { name: path }
-
-      app.register(
-        { register: router
-        }
-        , { routes: { prefix: path } }
-        , callback)
-    }, function (error) {
+    loader(modules, function (error, app) {
       if (error) return done(error)
 
       cachedApp = app
