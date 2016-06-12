@@ -1,4 +1,5 @@
 var assert = require('assert')
+  , _ = require('lodash')
   , bootstrap = require('./bootstrap')
   , serverFixture = require('./fixtures/server')
   , server
@@ -49,6 +50,20 @@ describe('/v1/server', function () {
           assert.deepEqual(Object.keys(res.result), [ 'name', 'id' ])
 
           createdServer = res.result
+
+          done()
+        })
+    })
+
+    it('should return 400', function (done) {
+      server.inject(
+        { method: 'POST'
+        , url: '/v1/server'
+        , payload: _.merge({}, serverFixture, { tables: { players: 'bm_noExist' } })
+        }, function (res) {
+          assert.equal(res.statusCode, 400)
+          assert.equal(res.result.error, 'Bad Request')
+          assert.equal(res.result.message, 'Table bm_noExist does not exist')
 
           done()
         })
@@ -137,6 +152,20 @@ describe('/v1/server', function () {
           assert.equal(res.statusCode, 200)
           assert.deepEqual(Object.keys(res.result), [ 'id', 'name' ])
           assert.equal(res.result.name, 'Test2')
+
+          done()
+        })
+    })
+
+    it('should return 400', function (done) {
+      server.inject(
+        { method: 'PATCH'
+        , url: '/v1/server/' + createdServer.id
+        , payload: _.merge({}, serverFixture, { tables: { players: 'bm_noExist' } })
+        }, function (res) {
+          assert.equal(res.statusCode, 400)
+          assert.equal(res.result.error, 'Bad Request')
+          assert.equal(res.result.message, 'Table bm_noExist does not exist')
 
           done()
         })

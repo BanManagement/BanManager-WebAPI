@@ -1,4 +1,5 @@
 var schema = require('./schema')
+  , validateConnection = require('app/lib/validate-connection')
 
 module.exports = function (ServerModel) {
   return function (server, options, cb) {
@@ -6,13 +7,17 @@ module.exports = function (ServerModel) {
       { method: 'POST'
       , path: '/'
       , handler: function (req, reply) {
-          ServerModel
-            .forge(req.payload)
-            .save()
-            .then(function (server) {
-              reply(server.toJSON())
-            })
-            .catch(reply)
+          validateConnection(req.payload, req.payload.tables, function (error) {
+            if (error) return reply.badRequest(error.message)
+
+            ServerModel
+              .forge(req.payload)
+              .save()
+              .then(function (server) {
+                reply(server.toJSON())
+              })
+              .catch(reply)
+          })
         }
       , config:
         { validate:
@@ -60,13 +65,17 @@ module.exports = function (ServerModel) {
               if (!server) return reply.notFound()
               if (!Object.keys(req.payload).length) return reply.badRequest('Missing payload')
 
-              return server.save(req.payload, { patch: true })
+              validateConnection(req.payload, req.payload.tables, function (error) {
+                if (error) return reply.badRequest(error.message)
+
+                server.save(req.payload, { patch: true })
+                  .then(function (updatedServer) {
+                  // updatedServer is sometimes boom error, huh?
+                  if (updatedServer && !updatedServer.isBoom) reply(updatedServer.toJSON())
+                })
+                .catch(reply)
+              })
             })
-            .then(function (updatedServer) {
-              // updatedServer is sometimes boom error, huh?
-              if (updatedServer && !updatedServer.isBoom) reply(updatedServer.toJSON())
-            })
-            .catch(reply)
         }
       , config:
         { validate:
