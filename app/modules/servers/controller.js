@@ -41,44 +41,30 @@ module.exports = function (ServerModel) {
 
     server.route(
       { method: 'GET'
-      , path: '/{id}'
+      , path: '/{serverId}'
       , handler: function (req, reply) {
-          ServerModel
-            .forge({ id: req.params.id })
-            .fetch()
-            .then(function (server) {
-              if (!server) return reply.notFound()
-
-              reply(server.toJSON())
-            })
-            .catch(reply)
+          reply(req.app.server.toJSON())
         }
       })
 
     server.route(
       { method: 'PATCH'
-      , path: '/{id}'
+      , path: '/{serverId}'
       , handler: function (req, reply) {
-          ServerModel
-            .forge({ id: req.params.id })
-            .fetch()
-            .then(function (server) {
-              if (!server) return reply.notFound()
-              if (!Object.keys(req.payload).length) return reply.badRequest('Missing payload')
+          if (!Object.keys(req.payload).length) return reply.badRequest('Missing payload')
 
-              var merged = _.merge({}, server.toJSON(), req.payload)
+          var merged = _.merge({}, req.app.server.toJSON(), req.payload)
 
-              validateConnection(merged, merged.tables, function (error) {
-                if (error) return reply.badRequest(error.message)
+          validateConnection(merged, merged.tables, function (error) {
+            if (error) return reply.badRequest(error.message)
 
-                server.save(req.payload, { patch: true })
-                  .then(function (updatedServer) {
-                  // updatedServer is sometimes boom error, huh?
-                  if (updatedServer && !updatedServer.isBoom) reply(updatedServer.toJSON())
-                })
-                .catch(reply)
-              })
+            req.app.server.save(req.payload, { patch: true })
+              .then(function (updatedServer) {
+              // updatedServer is sometimes boom error, huh?
+              if (updatedServer && !updatedServer.isBoom) reply(updatedServer.toJSON())
             })
+            .catch(reply)
+          })
         }
       , config:
         { validate:
@@ -89,19 +75,12 @@ module.exports = function (ServerModel) {
 
     server.route(
       { method: 'DELETE'
-      , path: '/{id}'
+      , path: '/{serverId}'
       , handler: function (req, reply) {
-          ServerModel
-            .forge({ id: req.params.id })
-            .fetch()
-            .then(function (server) {
-              if (!server) return reply.notFound()
-
-              return server.destroy().then(function () {
-                reply(server.toJSON())
-              })
-            })
-            .catch(reply)
+          req.app.server.destroy()
+            .then(function () {
+              reply(req.app.server.toJSON())
+            }).catch(reply)
         }
       })
 
