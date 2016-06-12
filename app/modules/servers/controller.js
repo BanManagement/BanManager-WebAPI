@@ -1,4 +1,5 @@
-var schema = require('./schema')
+var _ = require('lodash')
+  , schema = require('./schema')
   , validateConnection = require('app/lib/validate-connection')
 
 module.exports = function (ServerModel) {
@@ -65,7 +66,9 @@ module.exports = function (ServerModel) {
               if (!server) return reply.notFound()
               if (!Object.keys(req.payload).length) return reply.badRequest('Missing payload')
 
-              validateConnection(req.payload, req.payload.tables, function (error) {
+              var merged = _.merge({}, server.toJSON(), req.payload)
+
+              validateConnection(merged, merged.tables, function (error) {
                 if (error) return reply.badRequest(error.message)
 
                 server.save(req.payload, { patch: true })
