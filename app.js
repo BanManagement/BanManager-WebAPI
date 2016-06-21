@@ -3,6 +3,9 @@ var Hapi = require('hapi')
   , hapiBunyan = require('hapi-bunyan')
   , hapiBoom = require('hapi-boom-decorators')
 
+// Use bluebird instead of native
+global.Promise = require('bluebird')
+
 module.exports = function app(config, logger, cb) {
   var server = new Hapi.Server()
 
