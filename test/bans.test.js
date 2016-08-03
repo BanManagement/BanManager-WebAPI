@@ -1,11 +1,15 @@
 var assert = require('assert')
   , _ = require('lodash')
+  , uuid = require('uuid')
   , bootstrap = require('./bootstrap')
-  , serverFixture = require('./fixtures/server')()
+  , serverFixture = require('./fixtures/server')
+  , banFixture = require('./fixtures/ban')
   , server
   , createdServer
+  , players
+  , prefix
 
-describe('/v1/server', function () {
+describe('/v1/server/{serverId}/ban', function () {
 
   before(function (done) {
     bootstrap(function (error, app) {
@@ -13,27 +17,55 @@ describe('/v1/server', function () {
 
       server = app
 
-      done()
+      server.inject(
+        { method: 'POST'
+        , url: '/v1/server'
+        , payload: serverFixture()
+        }, function (res) {
+          createdServer = res.result
+          prefix = '/v1/server/' + createdServer.id + '/ban'
+
+          done()
+        })
     })
   })
 
-  describe('POST /', function () {
+  before(function (done) {
+    server.inject(
+      { method: 'GET'
+      , url: '/v1/search/player'
+      }, function (res) {
+        players = res.result.results
+
+        done()
+      })
+  })
+
+  after(function (done) {
+    server.inject(
+      { method: 'DELETE'
+      , url: '/v1/server'
+      , payload: createdServer.id
+      }, function () {
+        done()
+      })
+  })
+
+  describe('POST /player', function () {
 
     it('should return 400', function (done) {
       server.inject(
         { method: 'POST'
-        , url: '/v1/server'
+        , url: prefix + '/player'
         , payload: {}
         }, function (res) {
           assert.equal(res.statusCode, 400)
           assert.equal(res.result.error, 'Bad Request')
           assert.deepEqual(res.result.validation.keys
-            , [ 'name'
-              , 'host'
-              , 'database'
-              , 'user'
-              , 'console'
-              , 'tables'
+            , [ 'player_id'
+              , 'reason'
+              , 'actor_id'
+              , 'expires'
               ])
 
           done()
@@ -43,11 +75,19 @@ describe('/v1/server', function () {
     it('should return 200', function (done) {
       server.inject(
         { method: 'POST'
-        , url: '/v1/server'
-        , payload: serverFixture
+        , url: prefix + '/player'
+        , payload: banFixture(players[0], players[1])
         }, function (res) {
           assert.equal(res.statusCode, 200)
-          assert.deepEqual(Object.keys(res.result), [ 'name', 'id' ])
+          assert.deepEqual(Object.keys(res.result)
+            , [ 'player_id'
+              , 'actor_id'
+              , 'reason'
+              , 'created'
+              , 'updated'
+              , 'expires'
+              , 'id'
+              ])
 
           createdServer = res.result
 
@@ -55,15 +95,15 @@ describe('/v1/server', function () {
         })
     })
 
-    it('should return 400', function (done) {
+    it('should return 404', function (done) {
       server.inject(
         { method: 'POST'
-        , url: '/v1/server'
-        , payload: _.merge({}, serverFixture, { tables: { players: 'bm_noExist' } })
+        , url: prefix + '/player'
+        , payload: _.merge({}, banFixture({ id: uuid.v4() }, { id: uuid.v4() }))
         }, function (res) {
-          assert.equal(res.statusCode, 400)
-          assert.equal(res.result.error, 'Bad Request')
-          assert.equal(res.result.message, 'Table bm_noExist does not exist')
+          assert.equal(res.statusCode, 404)
+          assert.equal(res.result.error, 'Not Found')
+          assert.equal(res.result.message, 'Player not found')
 
           done()
         })
@@ -71,7 +111,7 @@ describe('/v1/server', function () {
 
   })
 
-  describe('GET /', function () {
+  describe.skip('GET /', function () {
 
     it('should return 200', function (done) {
       server.inject(
@@ -79,8 +119,7 @@ describe('/v1/server', function () {
         , url: '/v1/server'
         }, function (res) {
           assert.equal(res.statusCode, 200)
-
-          assert.deepEqual(Object.keys(res.result[0]), [ 'id', 'name' ])
+          assert.deepEqual(res.result, [ createdServer ])
 
           done()
         })
@@ -88,12 +127,12 @@ describe('/v1/server', function () {
 
   })
 
-  describe('GET /{id}', function () {
+  describe('GET /player/{id}', function () {
 
     it('should return 404', function (done) {
       server.inject(
         { method: 'GET'
-        , url: '/v1/server/fooooooworld'
+        , url: prefix + '/player/9999'
         }, function (res) {
           assert.equal(res.statusCode, 404)
           assert.deepEqual(res.result, { statusCode: 404, error: 'Not Found' })
@@ -105,10 +144,18 @@ describe('/v1/server', function () {
     it('should return 200', function (done) {
       server.inject(
         { method: 'GET'
-        , url: '/v1/server/' + createdServer.id
+        , url: prefix + '/player/1'
         }, function (res) {
           assert.equal(res.statusCode, 200)
-          assert.deepEqual(res.result, createdServer)
+          assert.deepEqual(Object.keys(res.result)
+            , [ 'id'
+              , 'player_id'
+              , 'reason'
+              , 'actor_id'
+              , 'created'
+              , 'updated'
+              , 'expires'
+              ])
 
           done()
         })
@@ -116,13 +163,13 @@ describe('/v1/server', function () {
 
   })
 
-  describe('PATCH /', function () {
+  describe('PATCH /player', function () {
 
     it('should return 404', function (done) {
       server.inject(
         { method: 'PATCH'
-        , url: '/v1/server/fooooooworld'
-        , payload: {}
+        , url: prefix + '/player'
+        , payload: _.merge({}, banFixture(players[0], players[1]), { id: 9999 })
         }, function (res) {
           assert.equal(res.statusCode, 404)
           assert.deepEqual(res.result, { statusCode: 404, error: 'Not Found' })
@@ -134,8 +181,8 @@ describe('/v1/server', function () {
     it('should return 400', function (done) {
       server.inject(
         { method: 'PATCH'
-        , url: '/v1/server/' + createdServer.id
-        , payload: {}
+        , url: prefix + '/player'
+        , payload: { id: 1 }
         }, function (res) {
           assert.equal(res.statusCode, 400)
           assert.equal(res.result.error, 'Bad Request')
@@ -147,26 +194,12 @@ describe('/v1/server', function () {
     it('should return 200', function (done) {
       server.inject(
         { method: 'PATCH'
-        , url: '/v1/server/' + createdServer.id
-        , payload: { name: 'Test2' }
+        , url: prefix + '/player'
+        , payload: _.merge({}, banFixture(players[0], players[1]), { id: 1, reason: 'updated yeah' })
         }, function (res) {
           assert.equal(res.statusCode, 200)
-          assert.equal(res.result.id, createdServer.id)
-          assert.equal(res.result.name, 'Test2')
-
-          done()
-        })
-    })
-
-    it('should return 400', function (done) {
-      server.inject(
-        { method: 'PATCH'
-        , url: '/v1/server/' + createdServer.id
-        , payload: _.merge({}, serverFixture, { tables: { players: 'bm_noExist' } })
-        }, function (res) {
-          assert.equal(res.statusCode, 400)
-          assert.equal(res.result.error, 'Bad Request')
-          assert.equal(res.result.message, 'Table bm_noExist does not exist')
+          assert.equal(res.result.id, 1)
+          assert.equal(res.result.reason, 'updated yeah')
 
           done()
         })
@@ -174,12 +207,12 @@ describe('/v1/server', function () {
 
   })
 
-  describe('DELETE /', function () {
+  describe('DELETE /player', function () {
 
     it('should return 404', function (done) {
       server.inject(
         { method: 'DELETE'
-        , url: '/v1/server/fooooooworld'
+        , url: prefix + '/player/9999'
         }, function (res) {
           assert.equal(res.statusCode, 404)
           assert.deepEqual(res.result, { statusCode: 404, error: 'Not Found' })
@@ -191,7 +224,7 @@ describe('/v1/server', function () {
     it('should return 200', function (done) {
       server.inject(
         { method: 'DELETE'
-        , url: '/v1/server/' + createdServer.id
+        , url: prefix + '/player/1'
         }, function (res) {
           assert.equal(res.statusCode, 200)
           assert.deepEqual(Object.keys(res.result), [ ])

@@ -9,8 +9,9 @@ var config = configs[env]
 
 config.env = env
 
-if (env !== 'development' && env !== 'test' && config.secretKey === 'YouMustChangeThis') {
-  throw new Error('You must change the default secretKey')
+if (env !== 'development' && env !== 'test') {
+  if (config.secretKey === 'YouMustChangeThis') throw new Error('You must change the default secretKey')
+  if (config.fastHashSeed === 0xCAFEBABE) throw new Error('You must change the fastHashSeed')
 }
 
 module.exports = config

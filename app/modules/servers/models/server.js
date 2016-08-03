@@ -1,20 +1,53 @@
 var crypto = require('crypto')
-  , config = require('app/config')
   , uuid = require('uuid')
+  , config = require('app/config')
+  , createDb = Promise.promisify(require('app/modules/db'))
   , algorithm = 'aes-256-ctr' // @TODO confirm this is strong enough
 
 module.exports = function ServerModel(db, cb) {
   var model = db.Model.extend(
     { tableName: 'bm_web_servers'
     , hasTimestamps: false
-    , hidden: [ 'host', 'user', 'password', 'database', 'console', 'tables' ]
+    // @TODO
+    // , hidden: [ 'host', 'user', 'password', 'database', 'console', 'tables' ]
     , initialize: function () {
         this.on('saving', this._generateId)
+        // @TODO Revisit for cluster/scaling support
+        this.on('saved', this.dbConnect)
+        this.on('fetched', this.dbConnect)
+        this.on('destroyed', this.dbConnectDestroy)
       }
     , _generateId: function (model) {
         if (model.isNew()) {
           model.set(model.idAttribute, crypto.randomBytes(4).toString('hex'))
         }
+      }
+    , dbConnect: function (model) {
+        if (model.db) model.db.knex.destroy()
+
+        var config =
+          { client: 'mysql2'
+          , connection: model.attributes
+          , pool:
+            { min: 0
+            , max: 3
+            }
+          }
+
+        return createDb(config)
+          .then(function (db) {
+            model.db = db
+          })
+          .catch(function (error) {
+            throw error
+          })
+      }
+    , dbConnectDestroy: function (model) {
+        return model.db.knex
+          .destroy()
+          .then(function () {
+            delete model.db
+          })
       }
     , format: function (attributes) {
         if (attributes.password) {

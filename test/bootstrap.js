@@ -32,10 +32,12 @@ module.exports = function (done) {
 
       // Setup database
       var db = modules.db.knex
-      // db.seed.run() when eventually needed
 
       dbCleaner.clean(db, { ignoreTables: [ 'bm_web_migrations', 'bm_web_migrations_lock' ] }).then(function () {
         return db.migrate.latest()
+      })
+      .then(function () {
+        return db.seed.run()
       })
       .then(function () {
         done(null, app)
