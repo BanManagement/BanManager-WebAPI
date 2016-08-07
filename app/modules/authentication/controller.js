@@ -58,7 +58,7 @@ module.exports = function (config, PinModel, PlayerModel, ServerCollection, Sess
 
               var id = new SessionModel().generateId()
                 , playerId = matches.get('id') || matches.get('player_id')
-                , expires = Math.floor(Date.now() / 1000) + 14400 // 4 hours
+                , expires = Math.floor(Date.now() / 1000) + 604800 // 1 week
                 , tokenData =
                   { id: id.toString('hex')
                   , 'player_id': playerId
