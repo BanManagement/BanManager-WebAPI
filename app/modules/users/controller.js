@@ -4,7 +4,12 @@ module.exports = function () {
       { method: 'GET'
       , path: '/me'
       , handler: function (req, reply) {
-          reply({ data: { id: req.auth.credentials.player_id, type: 'user' } })
+          // TODO Added ACL attributes
+          var attributes =
+            { name: req.auth.credentials.name
+            }
+
+          reply({ data: { id: req.auth.credentials.player_id, type: 'user', attributes: attributes } })
         }
       , config:
         { auth: 'jwt'
