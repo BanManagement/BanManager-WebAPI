@@ -18,7 +18,7 @@ module.exports =
     { tableName: 'bm_web_migrations'
     }
   , seeds:
-    { directory: './seeds'
+    { directory: './seeds/development'
     }
   , port: 60990
   , webClients: [ '*' ]

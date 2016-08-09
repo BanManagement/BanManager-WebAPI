@@ -29,7 +29,7 @@ CREATE TABLE `bm_ip_ban_records` (
   `createdReason` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `bm_ip_ban_records_created_idx` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_ip_bans` (
@@ -44,7 +44,7 @@ CREATE TABLE `bm_ip_bans` (
   KEY `bm_ip_bans_created_idx` (`created`),
   KEY `bm_ip_bans_expires_idx` (`expires`),
   KEY `bm_ip_bans_updated_idx` (`updated`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_ip_mute_records` (
@@ -61,7 +61,7 @@ CREATE TABLE `bm_ip_mute_records` (
   PRIMARY KEY (`id`),
   KEY `bm_ip_mute_records_created_idx` (`created`),
   KEY `bm_ip_mute_records_soft_idx` (`soft`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_ip_mutes` (
@@ -78,7 +78,7 @@ CREATE TABLE `bm_ip_mutes` (
   KEY `bm_ip_mutes_soft_idx` (`soft`),
   KEY `bm_ip_mutes_created_idx` (`created`),
   KEY `bm_ip_mutes_expires_idx` (`expires`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_ip_range_ban_records` (
@@ -143,7 +143,7 @@ CREATE TABLE `bm_player_ban_all` (
   KEY `bm_player_ban_all_uuid_idx` (`uuid`),
   KEY `bm_player_ban_all_actorUuid_idx` (`actorUuid`),
   KEY `bm_player_ban_all_expires_idx` (`expires`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_ban_records` (
@@ -158,7 +158,7 @@ CREATE TABLE `bm_player_ban_records` (
   `createdReason` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `bm_player_ban_records_created_idx` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_bans` (
@@ -174,7 +174,7 @@ CREATE TABLE `bm_player_bans` (
   KEY `bm_player_bans_created_idx` (`created`),
   KEY `bm_player_bans_expires_idx` (`expires`),
   KEY `bm_player_bans_updated_idx` (`updated`)
-) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_history` (
@@ -187,7 +187,7 @@ CREATE TABLE `bm_player_history` (
   KEY `bm_player_history_ip_idx` (`ip`),
   KEY `bm_player_history_leave_idx` (`leave`),
   KEY `bm_player_history_join_idx` (`join`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_kicks` (
@@ -251,7 +251,7 @@ CREATE TABLE `bm_player_mutes` (
   KEY `bm_player_mutes_soft_idx` (`soft`),
   KEY `bm_player_mutes_updated_idx` (`updated`),
   KEY `bm_player_mutes_created_idx` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_note_all` (
@@ -279,7 +279,7 @@ CREATE TABLE `bm_player_notes` (
   KEY `bm_player_notes_created_idx` (`created`),
   KEY `bm_player_notes_actor_idx` (`actor_id`),
   KEY `bm_player_notes_player_idx` (`player_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_report_commands` (
@@ -296,7 +296,7 @@ CREATE TABLE `bm_player_report_commands` (
   KEY `bm_player_report_commands_command_idx` (`command`),
   KEY `bm_player_report_commands_report_idx` (`report_id`),
   KEY `bm_player_report_commands_created_idx` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_report_comments` (
@@ -311,7 +311,7 @@ CREATE TABLE `bm_player_report_comments` (
   KEY `bm_player_report_comments_report_idx` (`report_id`),
   KEY `bm_player_report_comments_actor_idx` (`actor_id`),
   KEY `bm_player_report_comments_created_idx` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_report_locations` (
@@ -328,14 +328,14 @@ CREATE TABLE `bm_player_report_locations` (
   KEY `bm_player_report_locations_player_idx` (`player_id`),
   KEY `bm_player_report_locations_world_idx` (`world`),
   KEY `bm_player_report_locations_report_idx` (`report_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_report_states` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_reports` (
@@ -354,7 +354,7 @@ CREATE TABLE `bm_player_reports` (
   KEY `bm_player_reports_updated_idx` (`updated`),
   KEY `bm_player_reports_state_id_idx` (`state_id`),
   KEY `bm_player_reports_assignee_id_idx` (`assignee_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_player_unban_all` (
@@ -394,14 +394,13 @@ CREATE TABLE `bm_player_warnings` (
   `expires` int(10) NOT NULL,
   `read` tinyint(1) DEFAULT NULL,
   `points` decimal(60,2) NOT NULL DEFAULT '1.00',
-  `intpoints` int(10) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `bm_player_warnings_expires_idx` (`expires`),
   KEY `bm_player_warnings_read_idx` (`read`),
   KEY `bm_player_warnings_created_idx` (`created`),
   KEY `bm_player_warnings_player_idx` (`player_id`),
   KEY `bm_player_warnings_points_idx` (`points`)
-) ENGINE=MyISAM AUTO_INCREMENT=545 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_players` (
@@ -422,7 +421,7 @@ CREATE TABLE `bm_report_logs` (
   PRIMARY KEY (`id`),
   KEY `bm_report_logs_log_idx` (`log_id`),
   KEY `bm_report_logs_report_idx` (`report_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 , multiline(function () {/*
 CREATE TABLE `bm_server_logs` (
@@ -431,7 +430,19 @@ CREATE TABLE `bm_server_logs` (
   `created` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `bm_server_logs_created_idx` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+*/})
+, multiline(function () {/*
+CREATE TABLE `bm_player_pins` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` binary(16) NOT NULL,
+  `pin` int(6) NOT NULL,
+  `expires` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bm_player_pins_player_idx` (`player_id`),
+  KEY `bm_player_pins_pin_idx` (`player_id`, `pin`),
+  KEY `bm_player_pins_expires_idx` (`expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 */})
 ]
 
