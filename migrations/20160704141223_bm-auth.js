@@ -13,7 +13,7 @@ exports.up = function (knex) {
       table.specificType('player_id', 'BINARY(16)').notNullable().primary()
       table.string('email').notNullable().index()
       table.string('display_name', 16).notNullable().index()
-      table.specificType('password', 'BINARY(60)').nullable()
+      table.string('password', 60).nullable()
     })
 }
 
