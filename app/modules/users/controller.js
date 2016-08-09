@@ -1,4 +1,5 @@
-var bcrypt = require('bcrypt')
+var Joi = require('joi')
+  , bcrypt = require('bcrypt')
   , hash = Promise.promisify(bcrypt.hash)
 
 module.exports = function (dataMapper, UserModel) {
@@ -73,6 +74,12 @@ module.exports = function (dataMapper, UserModel) {
         }
       , config:
         { auth: 'jwt'
+        , validate:
+          { payload:
+            { email: Joi.string().email()
+            , password: Joi.string().min(4).max(60)
+            }
+          }
         }
       })
 
