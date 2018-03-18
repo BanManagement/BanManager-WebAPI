@@ -30,36 +30,36 @@ describe('PlayerServer', async function () {
   it('should have an ip field of type Int behind ACL', function () {
     assert('ip' in fields)
     assert.deepStrictEqual(fields.ip.type, GraphQLInt)
-    assertHasDirective(fields.ip, 'allowIf', { resource: 'players', permission: 'ip' })
+    assertHasDirective(fields.ip, 'allowIf', { resource: 'player.ips', permission: 'view' })
   })
 
   it('should have a bans field of type PlayerBan behind ACL', async function () {
     assert('bans' in fields)
-    assert.deepStrictEqual(fields.bans.type, GraphQLList(schema.getType('PlayerBan')))
+    assert.deepStrictEqual(fields.bans.type, GraphQLList(GraphQLNonNull(schema.getType('PlayerBan'))))
     assertHasDirective(fields.bans, 'allowIf', { resource: 'player.bans', permission: 'view', serverSrc: 'id' })
   })
 
   it('should have a kicks field of type PlayerKick behind ACL', function () {
     assert('kicks' in fields)
-    assert.deepStrictEqual(fields.kicks.type, GraphQLList(schema.getType('PlayerKick')))
+    assert.deepStrictEqual(fields.kicks.type, GraphQLList(GraphQLNonNull(schema.getType('PlayerKick'))))
     assertHasDirective(fields.kicks, 'allowIf', { resource: 'player.kicks', permission: 'view', serverSrc: 'id' })
   })
 
   it('should have a mutes field of type PlayerMute behind ACL', function () {
     assert('mutes' in fields)
-    assert.deepStrictEqual(fields.mutes.type, GraphQLList(schema.getType('PlayerMute')))
+    assert.deepStrictEqual(fields.mutes.type, GraphQLList(GraphQLNonNull(schema.getType('PlayerMute'))))
     assertHasDirective(fields.mutes, 'allowIf', { resource: 'player.mutes', permission: 'view', serverSrc: 'id' })
   })
 
   it('should have a notes field of type PlayerNote behind ACL', function () {
     assert('notes' in fields)
-    assert.deepStrictEqual(fields.notes.type, GraphQLList(schema.getType('PlayerNote')))
+    assert.deepStrictEqual(fields.notes.type, GraphQLList(GraphQLNonNull(schema.getType('PlayerNote'))))
     assertHasDirective(fields.notes, 'allowIf', { resource: 'player.notes', permission: 'view', serverSrc: 'id' })
   })
 
   it('should have a warnings field of type PlayerWarning behind ACL', function () {
     assert('warnings' in fields)
-    assert.deepStrictEqual(fields.warnings.type, GraphQLList(schema.getType('PlayerWarning')))
+    assert.deepStrictEqual(fields.warnings.type, GraphQLList(GraphQLNonNull(schema.getType('PlayerWarning'))))
     assertHasDirective(fields.warnings, 'allowIf', { resource: 'player.warnings', permission: 'view', serverSrc: 'id' })
   })
 

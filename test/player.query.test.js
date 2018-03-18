@@ -20,7 +20,7 @@ describe('Query player', function () {
 
   before(async function () {
     setup = await createSetup()
-    const app = await createApp(setup.config, setup.dbPool, setup.logger, setup.serversPool)
+    const app = await createApp(setup.dbPool, setup.logger, setup.serversPool)
 
     server = app.listen()
     request = supertest(server)
