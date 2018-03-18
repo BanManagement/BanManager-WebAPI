@@ -1,4 +1,4 @@
-const argon2 = require('argon2')
+const { hash } = require('../data/hash')
 
 module.exports = async function ({ request: { body: { email, password } }, response, session, state }) {
   if (!session || !session.playerId) {
@@ -32,14 +32,14 @@ module.exports = async function ({ request: { body: { email, password } }, respo
     return
   }
 
-  const hash = await argon2.hash(password)
+  const encodedHash = await hash(password)
   const conn = await state.dbPool.getConnection()
 
   try {
     await conn.beginTransaction()
 
     await conn.execute(
-      'INSERT INTO bm_web_users (player_id, email, password) VALUES(?, ?, ?)', [ session.playerId, email, hash ])
+      'INSERT INTO bm_web_users (player_id, email, password) VALUES(?, ?, ?)', [ session.playerId, email, encodedHash ])
 
     await conn.execute(
       'INSERT INTO bm_web_player_roles (player_id, role_id) VALUES(?, ?)', [ session.playerId, 2 ])

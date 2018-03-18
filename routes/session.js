@@ -1,4 +1,4 @@
-const argon2 = require('argon2')
+const { verify } = require('../data/hash')
 
 module.exports = async function (ctx) {
   if (ctx.request.body.password) return handlePasswordLogin(ctx)
@@ -11,7 +11,7 @@ async function handlePasswordLogin({ session, response, throw: throwError, reque
 
   if (!result) return throwError(400, 'Incorrect login details')
 
-  const match = await argon2.verify(result.password, password)
+  const match = await verify(result.password, password)
 
   if (!match) return throwError(400, 'Incorrect login details')
 
@@ -40,7 +40,7 @@ async function handlePinLogin({ session, response, throw: throwError, request: {
 
   if (!result) return throwError(400, 'Incorrect login details')
 
-  const match = await argon2.verify(result.pin, pin)
+  const match = await verify(result.pin, pin)
 
   if (!match) return throwError(400, 'Incorrect login details')
 
