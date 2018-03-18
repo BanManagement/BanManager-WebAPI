@@ -2,20 +2,18 @@ language: node_js
 node_js:
   - 8
   - 9
-  - 10
 # after_success:
   # - npm run coveralls
 services:
   - mysql
 env:
-  - LOG_LEVEL=debug
-  - PORT=3001
-  - ENCRYPTION_ALGORITHM=aes-256-ctr
-  - SESSION_KEY=d58d68213c2d27f45715cc299f867cf8e1cc658f078046e144129f883ae923cc
-  - SESSION_NAME=bm-ui-sess
-  - SITE_HOST=http://localhost:3000
-  - DB_HOST=127.0.0.1
-  - DB_PORT=3306
-  - DB_USER=root
-  - DB_PASSWORD=
-  - DB_CONNECTION_LIMIT=5
+  global:
+    - LOG_LEVEL=debug PORT=3001 ENCRYPTION_ALGORITHM=aes-256-ctr
+    - SESSION_KEY=d58d68213c2d27f45715cc299f867cf8e1cc658f078046e144129f883ae923cc
+    - SESSION_NAME=bm-ui-sess
+    - SITE_HOST=http://localhost:3000
+    - DB_HOST=127.0.0.1
+    - DB_PORT=3306
+    - DB_USER=root
+    - DB_PASSWORD=
+    - DB_CONNECTION_LIMIT=5
