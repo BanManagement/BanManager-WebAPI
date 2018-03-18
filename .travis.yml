@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-  - 4
-  - 5
-  - 6
-after_success:
-  - npm run coveralls
+  - 8
+  - 9
+  - 10
+# after_success:
+  # - npm run coveralls
 services:
   - mysql
 before_install:
-  - mysql -e 'create database bm_web_test;'
+- mysql -e 'create database bm_web_test;'

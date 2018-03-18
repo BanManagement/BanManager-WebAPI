@@ -1,19 +1,12 @@
-var uuid = require('uuid')
-  , crypto = require('crypto')
-  , ip = require('ip')
+const { date, name, internet, random } = require('faker')
+const { parse } = require('uuid-parse')
+const { toLong } = require('ip')
 
-module.exports = function (insert) {
-  var player =
-  { id: uuid.v4()
-  , name: crypto.randomBytes(6).toString('hex')
-  , ip: '127.0.0.1'
-  , lastSeen: Math.floor(Date.now() / 1000)
+module.exports = function () {
+  return {
+    id: parse(random.uuid(), new Buffer(16))
+  , name: name.firstName()
+  , ip: toLong(internet.ip())
+  , lastSeen: Math.round((new Date(date.past()).getTime() / 1000))
   }
-
-  if (insert) {
-    player.id = uuid.parse(player.id, new Buffer(16))
-    player.ip = ip.toLong(player.ip)
-  }
-
-  return player
 }
