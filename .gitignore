@@ -2,10 +2,7 @@
 node_modules
 coverage
 npm-debug.log
-<<<<<<< HEAD
-=======
 typings*
 .sync
 .env
 .nyc_output/
->>>>>>> 386a8b5... Rewrite using GraphQL
