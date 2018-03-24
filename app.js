@@ -67,7 +67,7 @@ module.exports = async (dbPool, logger, serversPool) => {
 
         logger.error(error)
 
-        return new Error('Internal Server Error')
+        return { message: 'Internal Server Error' }
       }
     , validationRules: [ depthLimit(10) ]
     }
