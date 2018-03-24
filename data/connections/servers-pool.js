@@ -2,7 +2,7 @@ const { difference } = require('lodash')
 const setupPool = require('./setup-db-pool')
 const { createDecipher } = require('crypto')
 
-async function interval(servers, dbPool, logger, config) {
+async function interval(servers, dbPool, logger) {
   const [ rows ] = await dbPool.query('SELECT * FROM bm_web_servers')
   const newIds = rows.map((server) => {
     server.tables = JSON.parse(server.tables)
@@ -21,7 +21,7 @@ async function interval(servers, dbPool, logger, config) {
     let password
 
     if (server.password) {
-      const decipher = createDecipher(config.secrets.encryption.algorithm, config.secrets.encryption.key)
+      const decipher = createDecipher(process.env.ENCRYPTION_ALGORITHM, process.env.ENCRYPTION_KEY)
       let decrypted = decipher.update(server.password, 'hex', 'utf8')
 
       decrypted += decipher.final('utf8')
