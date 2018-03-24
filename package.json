@@ -20,7 +20,7 @@
     "db-migrate": "^0.10.5",
     "db-migrate-mysql": "^1.1.10",
     "dotenv": "^5.0.0",
-    "graphql": "^0.12.3",
+    "graphql": "^0.13.0",
     "graphql-depth-limit": "^1.1.0",
     "graphql-list-fields": "^2.0.0",
     "graphql-tools": "^2.23.1",
