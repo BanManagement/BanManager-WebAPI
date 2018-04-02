@@ -17,7 +17,7 @@ module.exports = ({ state }) => {
         FROM
           bm_web_resource_permissions rp
             LEFT JOIN
-          bm_dev.bm_web_role_resources wrr ON wrr.resource_id = rp.resource_id
+          bm_web_role_resources wrr ON wrr.resource_id = rp.resource_id
         WHERE
           wrr.role_id = ?
       `, [ id ])

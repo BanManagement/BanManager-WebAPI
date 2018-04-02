@@ -31,7 +31,7 @@ async function handlePinLogin({ session, response, throw: throwError, request: {
     SELECT
       pins.id AS id, p.id AS playerId, pins.pin AS pin
     FROM
-      bm_dev.bm_players p
+      bm_players p
           RIGHT JOIN
       bm_player_pins pins ON pins.player_id = p.id
     WHERE
