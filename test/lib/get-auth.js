@@ -4,7 +4,7 @@ module.exports = async function (request, email, password) {
   const { header, statusCode } = await request
     .post('/session')
     .set('Accept', 'application/json')
-    .send({ email, password: password || 'test' })
+    .send({ email, password: password || 'testing' })
 
   assert.equal(statusCode, 204)
 

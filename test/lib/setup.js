@@ -62,8 +62,8 @@ module.exports = async () => { // eslint-disable-line max-statements
     ])
 
   await insert(dbPool, 'bm_web_users',
-    [ { 'player_id': loggedInUser.id, email: 'user@banmanagement.com', password: await hash('test') }
-    , { 'player_id': adminUser.id, email: 'admin@banmanagement.com', password: await hash('test') }
+    [ { 'player_id': loggedInUser.id, email: 'user@banmanagement.com', password: await hash('testing') }
+    , { 'player_id': adminUser.id, email: 'admin@banmanagement.com', password: await hash('testing') }
     ])
 
   // Create a server

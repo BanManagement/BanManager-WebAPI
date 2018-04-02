@@ -263,7 +263,7 @@ CREATE TABLE `bm_player_notes` (
 CREATE TABLE `bm_player_pins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `player_id` binary(16) NOT NULL,
-  `pin` int(6) NOT NULL,
+  `pin` varchar(255) NOT NULL,
   `expires` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `bm_player_pins_player_idx` (`player_id`),
