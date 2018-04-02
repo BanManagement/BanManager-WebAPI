@@ -10,8 +10,9 @@ const setupServersPool = require('../../data/connections/servers-pool')
 const { createServer, createPlayer } = require('../fixtures')
 const loaders = require('../../data/loaders')
 const { insert } = require('../../data/udify')
+const { hash } = require('../../data/hash')
 
-module.exports = async () => {
+module.exports = async () => { // eslint-disable-line max-statements
   const dbName = 'bm_web_tests_' + randomBytes(4).toString('hex')
   const dbConfig =
     { driver: 'mysql'
@@ -49,8 +50,21 @@ module.exports = async () => {
 
   // Create player console
   const playerConsole = createPlayer()
+  // Create two users, logged in and admin
+  const loggedInUser = createPlayer()
+  const adminUser = createPlayer()
 
-  await insert(dbPool, 'bm_players', playerConsole)
+  await insert(dbPool, 'bm_players', [ playerConsole, loggedInUser, adminUser ])
+
+  await insert(dbPool, 'bm_web_player_roles',
+    [ { 'player_id': loggedInUser.id, 'role_id': 2 }
+    , { 'player_id': adminUser.id, 'role_id': 3 }
+    ])
+
+  await insert(dbPool, 'bm_web_users',
+    [ { 'player_id': loggedInUser.id, email: 'user@banmanagement.com', password: await hash('test') }
+    , { 'player_id': adminUser.id, email: 'admin@banmanagement.com', password: await hash('test') }
+    ])
 
   // Create a server
   const server = createServer(playerConsole.id, dbName)
