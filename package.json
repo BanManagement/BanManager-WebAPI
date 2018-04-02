@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha --exit --timeout=10000 test/**/*.test.js"
+    "test": "nyc --reporter=html --reporter=text mocha --exit --timeout=10000 test/**/*.test.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "James Mortemore (jamesmortemore@gmail.com)",
   "license": "MIT",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@confuser/eslint-config": "2.0.0",
+    "coveralls": "^3.0.0",
     "eslint": "4.19.1",
     "eslint-plugin-standard": "3.0.1",
     "faker": "4.1.0",
