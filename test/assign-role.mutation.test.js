@@ -2,7 +2,7 @@ const assert = require('assert')
 const { unparse } = require('uuid-parse')
 const supertest = require('supertest')
 const createApp = require('../app')
-const { createSetup, getAuth } = require('./lib')
+const { createSetup, getAuthPassword } = require('./lib')
 const { createPlayer } = require('./fixtures')
 const { insert } = require('../data/udify')
 
@@ -48,7 +48,7 @@ describe('Mutation assignRole', function () {
   })
 
   it('should require servers.manage permission', async function () {
-    const cookie = await getAuth(request, 'user@banmanagement.com')
+    const cookie = await getAuthPassword(request, 'user@banmanagement.com')
     const { pool } = setup.serversPool.values().next().value
     const player = createPlayer()
 
@@ -73,7 +73,7 @@ describe('Mutation assignRole', function () {
   })
 
   it('should error if role does not exist', async function () {
-    const cookie = await getAuth(request, 'admin@banmanagement.com')
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { pool } = setup.serversPool.values().next().value
     const player = createPlayer()
 
@@ -97,7 +97,7 @@ describe('Mutation assignRole', function () {
   })
 
   it('should assign player role', async function () {
-    const cookie = await getAuth(request, 'admin@banmanagement.com')
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { pool } = setup.serversPool.values().next().value
     const player = createPlayer()
 
@@ -122,7 +122,7 @@ describe('Mutation assignRole', function () {
   })
 
   it('should not error when assigning a player to a role they are already assigned to', async function () {
-    const cookie = await getAuth(request, 'admin@banmanagement.com')
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { pool } = setup.serversPool.values().next().value
     const player = createPlayer()
 

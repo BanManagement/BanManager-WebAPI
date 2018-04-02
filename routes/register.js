@@ -1,45 +1,37 @@
 const { hash } = require('../data/hash')
+const { isEmail, isLength } = require('validator')
 
-module.exports = async function ({ request: { body: { email, password } }, response, session, state }) {
-  if (!session || !session.playerId) {
-    response.body = { error: 'You are not logged in' }
-    return
+// eslint-disable-next-line complexity
+module.exports = async function ({ log, request: { body }, throw: throwError, response, session, state }) {
+  if (!session || !session.playerId) return throwError(400, 'You are not logged in')
+
+  if (typeof body.email !== 'string') return throwError(400, 'Invalid email type')
+  if (!isEmail(body.email)) return throwError(400, 'Invalid email address')
+
+  if (typeof body.password !== 'string') return throwError(400, 'Invalid password type')
+  if (!isLength(body.password, { min: 6, max: 255 })) {
+    return throwError(400, 'Invalid password, minimum length 6 characters')
   }
 
   const [ [ checkResult ] ] = await state.dbPool.execute(
-    'SELECT email FROM bm_web_users WHERE player_id = ?', [ session.playerId ])
+    'SELECT player_id FROM bm_web_users WHERE player_id = ?', [ session.playerId ])
 
-    if (checkResult) {
-    response.body = { error: 'You already have an account' }
-    return
-  }
+  if (checkResult) return throwError(400, 'You already have an account')
 
   const [ [ emailResult ] ] = await state.dbPool.execute(
-    'SELECT email FROM bm_web_users WHERE email = ?', [ email ])
+    'SELECT email FROM bm_web_users WHERE email = ?', [ body.email ])
 
-  if (emailResult) {
-    response.body = { error: 'You already have an account' }
-    return
-  }
+  if (emailResult) return throwError(400, 'You already have an account')
 
-  if (!email || typeof email !== 'string') { // @TODO Validate email address
-    response.body = { error: 'Invalid email address' }
-    return
-  }
-
-  if (!password || typeof password !== 'string') {
-    response.body = { error: 'Invalid password' }
-    return
-  }
-
-  const encodedHash = await hash(password)
+  const encodedHash = await hash(body.password)
   const conn = await state.dbPool.getConnection()
 
   try {
     await conn.beginTransaction()
 
     await conn.execute(
-      'INSERT INTO bm_web_users (player_id, email, password) VALUES(?, ?, ?)', [ session.playerId, email, encodedHash ])
+      'INSERT INTO bm_web_users (player_id, email, password) VALUES(?, ?, ?)',
+      [ session.playerId, body.email, encodedHash ])
 
     await conn.execute(
       'INSERT INTO bm_web_player_roles (player_id, role_id) VALUES(?, ?)', [ session.playerId, 2 ])

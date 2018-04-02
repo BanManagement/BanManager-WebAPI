@@ -1,5 +1,6 @@
 module.exports = {
   assertHasDirective: require('./assert-has-directive')
 , createSetup: require('./setup')
-, getAuth: require('./get-auth')
+, getAuthPassword: require('./get-auth-password')
+, getAuthPin: require('./get-auth-pin')
 }
