@@ -77,10 +77,11 @@ module.exports = async (dbPool, logger, serversPool) => {
   router.post('/graphql', graphqlKoa(graphqlOpts))
   router.get('/graphql', graphqlKoa(graphqlOpts))
 
-  // @TODO Disable in production
-  router.get('/graphiql', graphiqlKoa({
-    endpointURL: '/graphql'
-  }))
+  if (process.env.NODE_ENV !== 'production') {
+    router.get('/graphiql', graphiqlKoa({
+      endpointURL: '/graphql'
+    }))
+  }
 
   routes(router)
 
