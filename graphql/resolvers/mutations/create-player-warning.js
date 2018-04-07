@@ -14,5 +14,5 @@ module.exports = async function createPlayerWarning(obj, { input }, { session, s
 
   const data = await state.loaders.playerWarning.serverDataId.load({ server: input.server, id })
 
-  return data[0] // @TODO Investigate, shouldn't .load return one item?
+  return data
 }

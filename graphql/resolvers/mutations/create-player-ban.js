@@ -18,10 +18,12 @@ module.exports = async function createPlayerBan(obj, { input }, { session, state
 
     id = result.id
   } catch (e) {
-    if (e.code === 'ER_DUP_ENTRY') throw new ExposedError('Player already banned on selected server, please unban first')
+    if (e.code === 'ER_DUP_ENTRY') {
+      throw new ExposedError('Player already banned on selected server, please unban first')
+    }
   }
 
   const data = await state.loaders.playerBan.serverDataId.load({ server: input.server, id })
 
-  return data[0] // @TODO Investigate, shouldn't .load return one item?
+  return data
 }

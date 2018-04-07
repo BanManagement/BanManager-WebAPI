@@ -18,10 +18,12 @@ module.exports = async function createPlayerMute(obj, { input }, { session, stat
 
     id = result.id
   } catch (e) {
-    if (e.code === 'ER_DUP_ENTRY') throw new ExposedError('Player already muted on selected server, please unmute first')
+    if (e.code === 'ER_DUP_ENTRY') {
+      throw new ExposedError('Player already muted on selected server, please unmute first')
+    }
   }
 
   const data = await state.loaders.playerMute.serverDataId.load({ server: input.server, id })
 
-  return data[0] // @TODO Investigate, shouldn't .load return one item?
+  return data
 }

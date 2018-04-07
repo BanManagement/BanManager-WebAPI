@@ -8,5 +8,5 @@ module.exports = async function updatePlayerBan(obj, { id, serverId, input }, { 
 
   const data = await state.loaders.playerBan.serverDataId.load({ server: serverId, id })
 
-  return data[0] // @TODO Investigate, shouldn't .load return one item?
+  return data
 }

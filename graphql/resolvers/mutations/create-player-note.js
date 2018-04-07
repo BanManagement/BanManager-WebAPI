@@ -11,5 +11,5 @@ module.exports = async function createPlayerNote(obj, { input }, { state }) {
     , [ table, player, actor, input.message ])
   const data = await state.loaders.playerNote.serverDataId.load({ server: input.server, id })
 
-  return data[0] // @TODO Investigate, shouldn't .load return one item?
+  return data
 }
