@@ -17,10 +17,15 @@ exports.builder = {}
 exports.handler = async function () {
   console.log('Starting setup')
   console.log('If unsure, use default')
-  const { siteHost, port, sessionName } = await inquirer.prompt(
+  const { siteHost, port, sessionName, sessionDomain } = await inquirer.prompt(
     [ { type: 'input', name: 'siteHost', message: 'BanManager UI Site Hostname', default: 'http://localhost:3000' }
     , { type: 'input', name: 'port', message: 'Port to run API', default: 3001 }
     , { type: 'input', name: 'sessionName', message: 'Cookie session name', default: 'bm-ui-sess' }
+    , { type: 'input'
+      , name: 'sessionDomain'
+      , message: 'Top level cookie session domain e.g. frostcast.net'
+      , default: 'localhost'
+      }
     ])
   const encryptionAlg = 'aes-256-ctr'
   const encryptionKey = randomBytes(32).toString('hex')
@@ -102,6 +107,7 @@ ENCRYPTION_ALGORITHM=${encryptionAlg}
 
 SESSION_KEY=${sessionKey}
 SESSION_NAME=${sessionName}
+SESSION_DOMAIN=${sessionDomain}
 
 SITE_HOST=${siteHost}
 

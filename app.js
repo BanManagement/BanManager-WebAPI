@@ -28,6 +28,7 @@ module.exports = async (dbPool, logger, serversPool) => {
         return json
       }
     , sameSite: 'lax'
+    , domain: process.env.SESSION_DOMAIN
     }
 
   app.keys = [ process.env.SESSION_KEY ]
