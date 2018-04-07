@@ -23,7 +23,7 @@ module.exports = async () => { // eslint-disable-line max-statements
     }
   const logger = pino(
     { name: 'banmanager-api-test'
-    , level: 'silent'
+    , level: 'error'
     })
   let dbPool = await setupPool(dbConfig)
 
