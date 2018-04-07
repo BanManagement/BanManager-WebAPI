@@ -134,6 +134,14 @@ exports.up = async function (db) {
 
   await attachPermission('player.history', 3, 'view')
 
+  await attachPermission('player.kicks', 3
+    , 'update.any'
+    , 'update.own'
+    , 'delete.any'
+    , 'delete.own'
+    , 'view'
+    )
+
   await attachPermission('player.mutes', 1
     , 'view'
     )
