@@ -228,6 +228,7 @@ CREATE TABLE `bm_player_mutes` (
   `expires` int(10) NOT NULL,
   `soft` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `bm_player_mutes_player_idx` (`player_id`),
   KEY `bm_player_mutes_expires_idx` (`expires`),
   KEY `bm_player_mutes_soft_idx` (`soft`),
   KEY `bm_player_mutes_updated_idx` (`updated`),

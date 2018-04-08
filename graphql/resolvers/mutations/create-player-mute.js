@@ -6,21 +6,24 @@ module.exports = async function createPlayerMute(obj, { input }, { session, stat
   const table = server.config.tables.playerMutes
   const player = parse(input.player, new Buffer(16))
   const actor = session.playerId
+  const soft = input.soft ? 1 : 0
   let id
 
   try {
-    const [ result ] = await server.query(
+    const [ result ] = await server.execute(
       `INSERT INTO ${table}
         (player_id, actor_id, reason, created, updated, expires, soft)
           VALUES
-        (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), ?)`
-      , [ player, actor, input.reason, input.expires, input.soft ])
+        (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), ?, ?)`
+      , [ player, actor, input.reason, input.expires, soft ])
 
-    id = result.id
+    id = result.insertId
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') {
       throw new ExposedError('Player already muted on selected server, please unmute first')
     }
+
+    throw e
   }
 
   const data = await state.loaders.playerMute.serverDataId.load({ server: input.server, id })
