@@ -5,14 +5,14 @@ module.exports = async function createPlayerWarning(obj, { input }, { session, s
   const table = server.config.tables.playerWarnings
   const player = parse(input.player, new Buffer(16))
   const actor = session.playerId
-  const [ { id } ] = await server.query(
+
+  const [ { insertId } ] = await server.execute(
     `INSERT INTO ${table}
-      (player_id, actor_id, reason, created, expires, points, read)
+      (player_id, actor_id, reason, created, expires, points, \`read\`)
         VALUES
       (?, ?, ?, UNIX_TIMESTAMP(), ?, ?, ?)`
     , [ player, actor, input.reason, input.expires, input.points, 0 ])
-
-  const data = await state.loaders.playerWarning.serverDataId.load({ server: input.server, id })
+  const data = await state.loaders.playerWarning.serverDataId.load({ server: input.server, id: insertId })
 
   return data
 }
