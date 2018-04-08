@@ -9,18 +9,20 @@ module.exports = async function createPlayerBan(obj, { input }, { session, state
   let id
 
   try {
-    const [ result ] = await server.query(
+    const [ result ] = await server.execute(
       `INSERT INTO ${table}
         (player_id, actor_id, reason, created, updated, expires)
           VALUES
         (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), ?)`
       , [ player, actor, input.reason, input.expires ])
 
-    id = result.id
+    id = result.insertId
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') {
       throw new ExposedError('Player already banned on selected server, please unban first')
     }
+
+    throw e
   }
 
   const data = await state.loaders.playerBan.serverDataId.load({ server: input.server, id })
