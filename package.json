@@ -52,7 +52,7 @@
     "eslint-plugin-standard": "3.0.1",
     "faker": "4.1.0",
     "mocha": "5.1.0",
-    "nyc": "11.6.0",
+    "nyc": "11.7.1",
     "supertest": "3.0.0"
   }
 }
