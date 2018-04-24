@@ -49,7 +49,7 @@
     "@confuser/eslint-config": "2.0.0",
     "coveralls": "3.0.0",
     "eslint": "4.19.1",
-    "eslint-plugin-standard": "3.0.1",
+    "eslint-plugin-standard": "3.1.0",
     "faker": "4.1.0",
     "mocha": "5.1.1",
     "nyc": "11.7.1",
