@@ -81,7 +81,7 @@ module.exports = ({ state }, tableName, resource) => {
       data = data.concat(rows)
     }
 
-    return data
+    return punishmentIds.map(id => data.find(row => row.id == id))
   })
 
   return {
