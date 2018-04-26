@@ -110,7 +110,6 @@ describe('/session', function () {
       assert.equal(statusCode, 400)
 
       assert(body)
-      console.log(body)
       assert.strictEqual(body.error, 'Incorrect login details')
     })
 
@@ -232,7 +231,6 @@ describe('/session', function () {
       assert.equal(statusCode, 400)
 
       assert(body)
-      console.log(body)
       assert.strictEqual(body.error, 'Incorrect login details')
     })
 
