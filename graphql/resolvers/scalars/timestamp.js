@@ -6,7 +6,7 @@ const regex = /^\d{10}$/
 module.exports = new GraphQLScalarType(
 { name: 'Timestamp'
 , serialize: value => {
-    return value
+    return parseInt(value, 10)
   }
 , parseValue: value => {
     if (value !== 0 && !regex.test(value)) {
