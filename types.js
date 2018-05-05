@@ -209,6 +209,7 @@ type PlayerWarning {
 type Me {
   id: UUID!
   name: String!
+  hasAccount: Boolean!
 }
 
 type MenuItem {

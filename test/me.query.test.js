@@ -31,6 +31,7 @@ describe('Query me', function () {
         me {
           id
           name
+          hasAccount
         }
       }`})
 
@@ -40,6 +41,7 @@ describe('Query me', function () {
     assert(body.data)
     assert(body.data.me.id)
     assert(body.data.me.name)
+    assert(body.data.me.hasAccount)
   })
 
   it('should error if not logged in', async function () {
