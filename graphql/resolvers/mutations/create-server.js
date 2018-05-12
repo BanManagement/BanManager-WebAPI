@@ -14,7 +14,6 @@ module.exports = async function createServer(obj, { input }, { state }) {
 
   const conn = await createConnection(input)
 
-  // @TODO Clean up this file, getting very long/messy
   const tablesMissing = await Promise.reduce(tables, async (missing, table) => {
     const [ [ { exists } ] ] = await conn.execute(
       'SELECT COUNT(*) AS `exists` FROM information_schema.tables WHERE table_schema = ? AND table_name = ?'
@@ -30,14 +29,14 @@ module.exports = async function createServer(obj, { input }, { state }) {
     throw new ExposedError(`Tables do not exist in the database: ${tablesMissing.join(', ')}`)
   }
 
-  const [ [ { id: exists } ] ] = await conn.query(
+  const [ [ exists ] ] = await conn.query(
     'SELECT id FROM ?? WHERE id = ?'
     , [ input.tables.players, parse(input.console, new Buffer(16)) ])
 
   conn.end()
 
   if (!exists) {
-    throw new ExposedError(`Console UUID not found in ${tables.players} table`)
+    throw new ExposedError(`Console UUID not found in ${input.tables.players} table`)
   }
 
   if (input.password) {
