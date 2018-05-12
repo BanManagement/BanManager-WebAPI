@@ -10,6 +10,7 @@ const schema = require('./schema')()
 const loaders = require('./data/loaders')
 const acl = require('./data/middleware/acl')
 const routes = require('./routes')
+const { valid } = require('./data/session')
 
 module.exports = async (dbPool, logger, serversPool) => {
   const app = new Koa()
@@ -29,6 +30,9 @@ module.exports = async (dbPool, logger, serversPool) => {
       }
     , sameSite: 'lax'
     , domain: process.env.SESSION_DOMAIN
+    , valid(session, data) {
+        return valid(data)
+      }
     }
 
   app.keys = [ process.env.SESSION_KEY ]

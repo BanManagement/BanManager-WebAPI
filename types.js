@@ -10,7 +10,7 @@ scalar UUID
 
 directive @allowRole(role: String!) on FIELD_DEFINITION
 directive @allowIf(resource: String! permission: String!, serverVar: String, serverSrc: String) on FIELD_DEFINITION
-directive @allowOwnOrAny(resource: String! permission: String!, ownSrc: String!, serverVar: String, serverSrc: String) on FIELD_DEFINITION
+directive @allowIfLoggedIn on FIELD_DEFINITION
 
 type Server {
   id: ID!
@@ -416,6 +416,8 @@ type Mutation {
   reportState(report: ID!, serverId: ID!, state: ID!): PlayerReport!
   deleteReportComment(comment: ID!, serverId: ID!): PlayerReportComment!
   createReportComment(report: ID!, serverId: ID!, input: ReportCommentInput!): PlayerReportComment!
+
+  setPassword(currentPassword: String, newPassword: String!): Me! @allowIfLoggedIn
 }
 
 `

@@ -61,9 +61,11 @@ module.exports = async () => { // eslint-disable-line max-statements
     , { 'player_id': adminUser.id, 'role_id': 3 }
     ])
 
+  const updated = Math.floor(Date.now() / 1000)
+
   await insert(dbPool, 'bm_web_users',
-    [ { 'player_id': loggedInUser.id, email: 'user@banmanagement.com', password: await hash('testing') }
-    , { 'player_id': adminUser.id, email: 'admin@banmanagement.com', password: await hash('testing') }
+    [ { 'player_id': loggedInUser.id, email: 'user@banmanagement.com', password: await hash('testing'), updated }
+    , { 'player_id': adminUser.id, email: 'admin@banmanagement.com', password: await hash('testing'), updated }
     ])
 
   // Create a server

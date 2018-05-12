@@ -1,7 +1,9 @@
 const memoize = require('memoizee')
 const { get } = require('lodash')
+const { valid } = require('../session')
 
-module.exports = async ({ session, state }, next) => {
+module.exports = async (ctx, next) => {
+  const { state } = ctx
   const { dbPool } = state
   let resourceValues = {}
   let serverResourceValues = {}
@@ -11,7 +13,20 @@ module.exports = async ({ session, state }, next) => {
 
   state.permissionValues = await loadPermissionValues(dbPool)
 
-  if (!session || !session.playerId) {
+  if (valid(ctx.session)) {
+    // Check if session requires invalidating due to password change
+    const [ [ checkResult ] ] = await state.dbPool.execute(
+        'SELECT updated FROM bm_web_users WHERE player_id = ? AND updated < ?'
+      , [ ctx.session.playerId, ctx.session.updated ]
+      )
+
+    if (checkResult) {
+      // Password has changed recently, invalidate ctx.session
+      ctx.session = null
+    }
+  }
+
+  if (!valid(ctx.session)) { // Validate twice in case previous check invalidates
     // They're a guest, load Guest role permissions
     resourceValues = await loadRoleResourceValues(dbPool, 1)
   } else {
@@ -25,9 +40,9 @@ module.exports = async ({ session, state }, next) => {
           LEFT JOIN
         bm_web_player_roles pr ON pr.role_id = rr.role_id
       WHERE
-        pr.player_id = ?`, [ session.playerId ])
+        pr.player_id = ?`, [ ctx.session.playerId ])
 
-        if (!playerRoleResults.length) {
+    if (!playerRoleResults.length) {
       // They're a guest, load Guest role permissions
       resourceValues = await loadRoleResourceValues(dbPool, 1)
     } else {
@@ -56,7 +71,7 @@ module.exports = async ({ session, state }, next) => {
           LEFT JOIN
         bm_web_player_server_roles psr ON psr.role_id = rr.role_id
       WHERE
-        psr.player_id = ?`, [ session.playerId ])
+        psr.player_id = ?`, [ ctx.session.playerId ])
 
     if (serverRoleResults.length) {
       serverRoleResults.forEach((row) => {
@@ -101,7 +116,7 @@ module.exports = async ({ session, state }, next) => {
         return !!(resourceValues[resource] & value)
       }
     , owns(actorId) {
-        const playerId = get(session, 'player_id', null)
+        const playerId = get(ctx.session, 'player_id', null)
 
         return Buffer.isBuffer(playerId) && Buffer.isBuffer(actorId) && actorId.equals(playerId)
       }

@@ -1,5 +1,6 @@
 const { verify } = require('../data/hash')
 const { isEmail, isLength } = require('validator')
+const { create } = require('../data/session')
 
 module.exports = async function (ctx) {
   if (ctx.request.body.password) return handlePasswordLogin(ctx)
@@ -7,7 +8,9 @@ module.exports = async function (ctx) {
   return handlePinLogin(ctx)
 }
 
-async function handlePasswordLogin({ session, response, throw: throwError, request, state }) {
+async function handlePasswordLogin(ctx) {
+  const { response, throw: throwError, request, state } = ctx
+
   if (typeof request.body.email !== 'string') return throwError(400, 'Invalid email type')
   if (!isEmail(request.body.email)) return throwError(400, 'Invalid email address')
 
@@ -17,7 +20,7 @@ async function handlePasswordLogin({ session, response, throw: throwError, reque
   }
 
   const [ [ result ] ] = await state.dbPool.execute(
-    'SELECT player_id AS playerId, password FROM bm_web_users WHERE email = ?', [ request.body.email ])
+    'SELECT player_id AS playerId, password, updated FROM bm_web_users WHERE email = ?', [ request.body.email ])
 
   if (!result) return throwError(400, 'Incorrect login details')
 
@@ -25,12 +28,14 @@ async function handlePasswordLogin({ session, response, throw: throwError, reque
 
   if (!match) return throwError(400, 'Incorrect login details')
 
-  session.playerId = result.playerId
+  ctx.session = create(result.playerId, result.updated, 'password')
 
   response.body = null
 }
 
-async function handlePinLogin({ session, response, throw: throwError, request, state }) {
+async function handlePinLogin(ctx) {
+  const { response, throw: throwError, request, state } = ctx
+
   if (!/^[a-z0-9_]{2,16}$/i.test(request.body.name)) return throwError(400, 'Invalid name')
 
   if (typeof request.body.pin !== 'string') return throwError(400, 'Invalid pin type')
@@ -60,10 +65,10 @@ async function handlePinLogin({ session, response, throw: throwError, request, s
 
   await server.execute(`DELETE FROM ${table} WHERE id = ?`, [ result.id ])
 
-  session.playerId = result.playerId
-
   const [ [ checkResult ] ] = await state.dbPool.execute(
-    'SELECT email FROM bm_web_users WHERE player_id = ?', [ result.playerId ])
+    'SELECT updated FROM bm_web_users WHERE player_id = ?', [ result.playerId ])
+
+  ctx.session = create(result.playerId, checkResult ? checkResult.updated : null, 'pin')
 
   response.body = { hasAccount: !!checkResult }
 }

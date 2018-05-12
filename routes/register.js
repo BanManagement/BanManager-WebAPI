@@ -30,7 +30,7 @@ module.exports = async function ({ log, request: { body }, throw: throwError, re
     await conn.beginTransaction()
 
     await conn.execute(
-      'INSERT INTO bm_web_users (player_id, email, password) VALUES(?, ?, ?)',
+      'INSERT INTO bm_web_users (player_id, email, password, updated) VALUES(?, ?, ?, UNIX_TIMESTAMP())',
       [ session.playerId, body.email, encodedHash ])
 
     await conn.execute(

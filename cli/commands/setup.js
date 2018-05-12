@@ -15,6 +15,7 @@ exports.builder = {}
 
 // eslint-disable-next-line max-statements
 exports.handler = async function () {
+  // @TODO Check if API already set up, use values from env var if set as defaults
   console.log('Starting setup')
   console.log('If unsure, use default')
   const { siteHost, port, sessionName, sessionDomain } = await inquirer.prompt(
@@ -89,7 +90,7 @@ exports.handler = async function () {
   const password = await askPassword()
   const playerId = await askPlayer('Your Minecraft Player UUID', conn, serverTables.players)
   const user = {
-    email, password, 'player_id': playerId
+    email, password, 'player_id': playerId, updated: Math.floor(Date.now() / 1000)
   }
 
   await udify.insert(conn, 'bm_web_users', user)
