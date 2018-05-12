@@ -80,6 +80,26 @@ describe('Mutation set password', function () {
       'Incorrect login details')
   })
 
+  it('should error if new password too short', async function () {
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
+    const { body, statusCode } = await request
+      .post('/graphql')
+      .set('Cookie', cookie)
+      .set('Accept', 'application/json')
+      .send({
+        query: `mutation setPassword {
+          setPassword(currentPassword: "notCorrect", newPassword: "test") {
+            id
+          }
+      }`})
+
+    assert.equal(statusCode, 200)
+
+    assert(body)
+    assert.strictEqual(body.errors[0].message,
+      'Invalid password, minimum length 6 characters')
+  })
+
   it('should update password and invalidate all other sessions', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
 
