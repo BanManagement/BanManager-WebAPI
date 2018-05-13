@@ -101,6 +101,25 @@ describe('Mutation set email', function () {
       'Invalid password, minimum length 6 characters')
   })
 
+  it('should error if email already used', async function () {
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
+    const { body, statusCode } = await request
+      .post('/graphql')
+      .set('Cookie', cookie)
+      .set('Accept', 'application/json')
+      .send({
+        query: `mutation setEmail {
+          setEmail(currentPassword: "testing", email: "admin@banmanagement.com") {
+            id
+          }
+      }`})
+
+    assert.equal(statusCode, 200)
+
+    assert(body)
+    assert.strictEqual(body.errors[0].message, 'You already have an account')
+  })
+
   it('should update email', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { header, body, statusCode } = await request
