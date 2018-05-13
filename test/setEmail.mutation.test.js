@@ -122,7 +122,7 @@ describe('Mutation set email', function () {
 
   it('should update email', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
-    const { header, body, statusCode } = await request
+    const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
