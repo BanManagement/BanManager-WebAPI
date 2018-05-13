@@ -209,6 +209,7 @@ type PlayerWarning {
 type Me {
   id: UUID!
   name: String!
+  email: String!
   hasAccount: Boolean!
 }
 
@@ -418,6 +419,7 @@ type Mutation {
   createReportComment(report: ID!, serverId: ID!, input: ReportCommentInput!): PlayerReportComment!
 
   setPassword(currentPassword: String, newPassword: String!): Me! @allowIfLoggedIn
+  setEmail(currentPassword: String!, email: String!): Me! @allowIfLoggedIn
 }
 
 `

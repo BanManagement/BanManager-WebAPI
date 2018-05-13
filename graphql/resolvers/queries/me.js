@@ -9,6 +9,7 @@ module.exports = async function me(obj, info, { session, state }) {
   const me = {
     ...await state.loaders.player.ids.load(session.playerId)
   , hasAccount: !!checkResult
+  , email: checkResult ? checkResult.email : null
   }
 
   return me
