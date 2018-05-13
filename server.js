@@ -1,5 +1,22 @@
 global.Promise = require('bluebird')
 require('dotenv').config()
+const requireEnv = require('require-environment-variables')
+
+requireEnv(
+  [ 'LOG_LEVEL'
+  , 'PORT'
+  , 'ENCRYPTION_KEY'
+  , 'ENCRYPTION_ALGORITHM'
+  , 'SESSION_KEY'
+  , 'SESSION_NAME'
+  , 'SESSION_DOMAIN'
+  , 'SITE_HOST'
+  , 'DB_HOST'
+  , 'DB_PORT'
+  , 'DB_USER'
+  , 'DB_NAME'
+  , 'DB_CONNECTION_LIMIT'
+  ])
 
 const logger = require('pino')(
   { name: 'banmanager-api'

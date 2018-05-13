@@ -41,6 +41,7 @@
     "memoizee": "^0.4.11",
     "mysql2": "^1.5.1",
     "pino": "^4.10.2",
+    "require-environment-variables": "^1.1.2",
     "uuid-parse": "^1.0.0",
     "validator": "^10.0.0",
     "yargs": "^11.0.0"
