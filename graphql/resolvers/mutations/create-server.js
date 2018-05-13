@@ -1,5 +1,4 @@
 const { randomBytes, createCipher } = require('crypto')
-const { difference } = require('lodash')
 const { parse } = require('uuid-parse')
 const { createConnection } = require('mysql2/promise')
 const tables = require('../../../data/tables')
@@ -8,10 +7,6 @@ const ExposedError = require('../../../data/exposed-error')
 
 module.exports = async function createServer(obj, { input }, { state }) {
   const id = randomBytes(4).toString('hex') // @TODO Use async randomBytes
-  const diff = difference(Object.keys(input.tables), tables)
-
-  if (diff.length) throw new ExposedError(`Tables differ: ${diff.join(', ')}`)
-
   const conn = await createConnection(input)
 
   const tablesMissing = await Promise.reduce(tables, async (missing, table) => {
