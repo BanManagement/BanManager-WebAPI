@@ -116,7 +116,7 @@ module.exports = async (ctx, next) => {
         return !!(resourceValues[resource] & value)
       }
     , owns(actorId) {
-        const playerId = get(ctx.session, 'player_id', null)
+        const playerId = get(ctx.session, 'playerId', null)
 
         return Buffer.isBuffer(playerId) && Buffer.isBuffer(actorId) && actorId.equals(playerId)
       }
