@@ -211,6 +211,11 @@ type Me {
   name: String!
   email: String!
   hasAccount: Boolean!
+  session: PlayerSession!
+}
+
+type PlayerSession {
+  type: String!
 }
 
 type MenuItem {
