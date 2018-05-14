@@ -91,6 +91,12 @@ module.exports = async (dbPool, logger, serversPool) => {
 
   app.use(router.routes())
   app.use(router.allowedMethods())
+  app.use(async (ctx) => {
+    if (ctx.status === 404) {
+      ctx.status = 404
+      ctx.body = { error: 'Not Found' }
+    }
+  })
 
   return app
 }
