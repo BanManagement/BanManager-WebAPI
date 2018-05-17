@@ -296,72 +296,72 @@ type Query {
 
 input CreatePlayerNoteInput {
   player: UUID!
-  message: String!
+  message: String! @constraint(maxLength: 255)
   server: ID!
 }
 
 input UpdatePlayerNoteInput {
-  message: String!
+  message: String! @constraint(maxLength: 255)
 }
 
 input CreatePlayerBanInput {
   player: UUID!
-  reason: String!
+  reason: String! @constraint(maxLength: 255)
   expires: Timestamp!
   server: ID!
 }
 
 input UpdatePlayerBanInput {
-  reason: String!
+  reason: String! @constraint(maxLength: 255)
   expires: Timestamp!
 }
 
 input CreatePlayerMuteInput {
   player: UUID!
-  reason: String!
+  reason: String! @constraint(maxLength: 255)
   expires: Timestamp!
   soft: Boolean!
   server: ID!
 }
 
 input UpdatePlayerMuteInput {
-  reason: String!
+  reason: String! @constraint(maxLength: 255)
   expires: Timestamp!
   soft: Boolean!
 }
 
 input CreatePlayerWarningInput {
   player: UUID!
-  reason: String!
+  reason: String! @constraint(maxLength: 255)
   expires: Timestamp!
   server: ID!
   points: Float!
 }
 
 input UpdatePlayerWarningInput {
-  reason: String!
+  reason: String! @constraint(maxLength: 255)
   expires: Timestamp!
   points: Float!
 }
 
 
 input CreateServerInput {
-  name: String!
-  host: String!
+  name: String! @constraint(maxLength: 20)
+  host: String! @constraint(maxLength: 255)
   port: Int!
-  database: String!
-  user: String!
+  database: String! @constraint(maxLength: 255)
+  user: String! @constraint(maxLength: 255)
   password: String
   console: UUID!
   tables: ServerTablesInput!
 }
 
 input UpdateServerInput {
-  name: String!
-  host: String!
+  name: String! @constraint(maxLength: 20)
+  host: String! @constraint(maxLength: 255)
   port: Int!
-  database: String!
-  user: String!
+  database: String! @constraint(maxLength: 255)
+  user: String! @constraint(maxLength: 255)
   password: String
   console: UUID!
   tables: ServerTablesInput!
@@ -372,7 +372,7 @@ input ServerTablesInput {
 }
 
 input UpdateRoleInput {
-  name: String!
+  name: String! @constraint(maxLength: 20)
   parent: ID
   resources: [ResourceInput!]!
 }
@@ -390,7 +390,7 @@ input PermissionInput {
 }
 
 input ReportCommentInput {
-  message: String!
+  message: String! @constraint(maxLength: 255)
 }
 
 type Mutation {
