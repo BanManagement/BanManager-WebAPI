@@ -4,6 +4,7 @@ const { createConnection } = require('mysql2/promise')
 const DBMigrate = require('db-migrate')
 const { createCipher, randomBytes } = require('crypto')
 const { parse } = require('uuid-parse')
+const { generateVAPIDKeys } = require('web-push')
 const { hash } = require('../../data/hash')
 const { safeLoad } = require('js-yaml')
 const tables = require('../../data/tables')
@@ -18,7 +19,7 @@ exports.handler = async function () {
   // @TODO Check if API already set up, use values from env var if set as defaults
   console.log('Starting setup')
   console.log('If unsure, use default')
-  const { siteHost, port, sessionName, sessionDomain } = await inquirer.prompt(
+  const { siteHost, port, sessionName, sessionDomain, contactEmail } = await inquirer.prompt(
     [ { type: 'input', name: 'siteHost', message: 'BanManager UI Site Hostname', default: 'http://localhost:3000' }
     , { type: 'input', name: 'port', message: 'Port to run API', default: 3001 }
     , { type: 'input', name: 'sessionName', message: 'Cookie session name', default: 'bm-ui-sess' }
@@ -27,10 +28,12 @@ exports.handler = async function () {
       , message: 'Top level cookie session domain e.g. frostcast.net'
       , default: 'localhost'
       }
+    , { type: 'input', name: 'contactEmail', message: 'Contact Email Address' }
     ])
   const encryptionAlg = 'aes-256-ctr'
   const encryptionKey = randomBytes(32).toString('hex')
   const sessionKey = randomBytes(32).toString('hex')
+  const { publicKey, privateKey } = generateVAPIDKeys()
   const dbQuestions =
     [ { type: 'input', name: 'host', message: 'Database Host', default: '127.0.0.1' }
     , { type: 'input', name: 'port', message: 'Database Port', default: 3306 }
@@ -109,6 +112,11 @@ ENCRYPTION_ALGORITHM=${encryptionAlg}
 SESSION_KEY=${sessionKey}
 SESSION_NAME=${sessionName}
 SESSION_DOMAIN=${sessionDomain}
+
+NOTIFICATION_VAPID_PUBLIC_KEY=${publicKey}
+NOTIFICATION_VAPID_PRIVATE_KEY=${privateKey}
+
+CONTACT_EMAIL=${contactEmail}
 
 SITE_HOST=${siteHost}
 
