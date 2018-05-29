@@ -1,5 +1,6 @@
 const { hash } = require('../data/hash')
 const { isEmail, isLength } = require('validator')
+const { pwnedPassword } = require('hibp')
 
 // eslint-disable-next-line complexity
 module.exports = async function ({ log, request: { body }, throw: throwError, response, session, state }) {
@@ -11,6 +12,10 @@ module.exports = async function ({ log, request: { body }, throw: throwError, re
   if (typeof body.password !== 'string') return throwError(400, 'Invalid password type')
   if (!isLength(body.password, { min: 6, max: 255 })) {
     return throwError(400, 'Invalid password, minimum length 6 characters')
+  }
+
+  if (await pwnedPassword(body.password) > 5) {
+    return throwError(400, 'Commonly used password, please choose another')
   }
 
   const [ [ checkResult ] ] = await state.dbPool.execute(

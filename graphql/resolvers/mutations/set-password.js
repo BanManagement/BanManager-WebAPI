@@ -1,3 +1,4 @@
+const { pwnedPassword } = require('hibp')
 const { hash, verify } = require('../../../data/hash')
 const { isLength } = require('validator')
 const ExposedError = require('../../../data/exposed-error')
@@ -23,6 +24,10 @@ module.exports = async function setPassword(obj, { currentPassword, newPassword 
     const match = await verify(checkResult.password, currentPassword)
 
     if (!match) throw new ExposedError('Incorrect login details')
+  }
+
+  if (await pwnedPassword(newPassword) > 5) {
+    throw new ExposedError('Commonly used password, please choose another')
   }
 
   const encodedHash = await hash(newPassword)

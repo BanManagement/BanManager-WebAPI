@@ -1,6 +1,7 @@
 const assert = require('assert')
 const supertest = require('supertest')
 const MockDate = require('mockdate')
+const nock = require('nock')
 const createApp = require('../app')
 const { createSetup, getAuthPassword } = require('./lib')
 
@@ -100,6 +101,31 @@ describe('Mutation set password', function () {
       'Invalid password, minimum length 6 characters')
   })
 
+  it('should error if new password is too common', async function () {
+    nock('https://api.pwnedpasswords.com')
+      .get('/range/8843D')
+      .reply(200, '7F92416211DE9EBB963FF4CE28125932878:11063')
+
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
+    const { body, statusCode } = await request
+      .post('/graphql')
+      .set('Cookie', cookie)
+      .set('Accept', 'application/json')
+      .send({
+        query: `mutation setPassword {
+          setPassword(currentPassword: "testing", newPassword: "foobar") {
+            id
+          }
+      }`})
+
+    assert.equal(statusCode, 200)
+    assert(nock.isDone())
+
+    assert(body)
+    assert.strictEqual(body.errors[0].message,
+      'Commonly used password, please choose another')
+  })
+
   it('should update password and invalidate all other sessions', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
 
@@ -107,6 +133,10 @@ describe('Mutation set password', function () {
     let oldCookie = await getAuthPassword(request, 'admin@banmanagement.com')
 
     assert.notStrictEqual(cookie, oldCookie)
+
+    nock('https://api.pwnedpasswords.com')
+      .get('/range/8843D')
+      .reply(200, '7F92416211DE9EBB963FF4CE28125932878:1')
 
     const { header, body, statusCode } = await request
       .post('/graphql')
@@ -119,6 +149,7 @@ describe('Mutation set password', function () {
           }
       }`})
 
+    assert(nock.isDone())
     assert.equal(statusCode, 200)
     assert(body)
 

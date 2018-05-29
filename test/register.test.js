@@ -1,5 +1,6 @@
 const assert = require('assert')
 const supertest = require('supertest')
+const nock = require('nock')
 const createApp = require('../app')
 const { createSetup, getAuthPassword, getAuthPin } = require('./lib')
 const { createPlayer } = require('./fixtures')
@@ -123,7 +124,30 @@ describe('/register', function () {
     assert.strictEqual(body.error, 'Invalid password, minimum length 6 characters')
   })
 
+  it('should error if password too common/insecure', async function () {
+    nock('https://api.pwnedpasswords.com')
+      .get('/range/8843D')
+      .reply(200, '7F92416211DE9EBB963FF4CE28125932878:11603')
+
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
+    const { body, statusCode } = await request
+      .post('/register')
+      .set('Cookie', cookie)
+      .set('Accept', 'application/json')
+      .send({ email: 'asd@asd.com', password: 'foobar' })
+
+    assert.equal(statusCode, 400)
+
+    assert(nock.isDone())
+    assert(body)
+    assert.strictEqual(body.error, 'Commonly used password, please choose another')
+  })
+
   it('should error if player has an account', async function () {
+    nock('https://api.pwnedpasswords.com')
+      .get('/range/DDE9E')
+      .reply(200, '')
+
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { body, statusCode } = await request
       .post('/register')
@@ -133,6 +157,7 @@ describe('/register', function () {
 
     assert.equal(statusCode, 400)
 
+    assert(nock.isDone())
     assert(body)
     assert.strictEqual(body.error, 'You already have an account')
   })
@@ -143,6 +168,10 @@ describe('/register', function () {
 
     await insert(server.pool, 'bm_players', player)
 
+    nock('https://api.pwnedpasswords.com')
+      .get('/range/DC724')
+      .reply(200, '')
+
     const cookie = await getAuthPin(request, server, player)
     const { body, statusCode } = await request
       .post('/register')
@@ -152,6 +181,7 @@ describe('/register', function () {
 
     assert.equal(statusCode, 400)
 
+    assert(nock.isDone())
     assert(body)
     assert.strictEqual(body.error, 'You already have an account')
   })
@@ -162,6 +192,10 @@ describe('/register', function () {
 
     await insert(server.pool, 'bm_players', player)
 
+    nock('https://api.pwnedpasswords.com')
+      .get('/range/DC724')
+      .reply(200, '')
+
     const cookie = await getAuthPin(request, server, player)
     const { statusCode } = await request
       .post('/register')
@@ -169,6 +203,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'asd@asda123.com', password: 'testing' })
 
+    assert(nock.isDone())
     assert.equal(statusCode, 204)
   })
 })
