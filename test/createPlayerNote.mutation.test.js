@@ -47,6 +47,48 @@ describe('Mutation create player note', function () {
       'You do not have permission to perform this action, please contact your server administrator')
   })
 
+  it('should error if message too long', async function () {
+    const { config: server } = setup.serversPool.values().next().value
+    const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
+
+    // eslint-disable-next-line max-len
+    const message = 'wowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowowo'
+    const player = createPlayer()
+    const { body, statusCode } = await request
+      .post('/graphql')
+      .set('Cookie', cookie)
+      .set('Accept', 'application/json')
+      .send({
+        query: `mutation createPlayerNote {
+        createPlayerNote(input: {
+          player: "${unparse(player.id)}", message: "${message}", server: "${server.id}"
+        }) {
+          id
+          message
+          created
+          player {
+            id
+            name
+          }
+          actor {
+            id
+            name
+          }
+          acl {
+            delete
+            update
+            yours
+          }
+        }
+      }`})
+
+    assert.equal(statusCode, 400)
+
+    assert(body)
+    assert.strictEqual(body.errors[0].message,
+      'message Must be no more than 255 characters in length')
+  })
+
   it('should resolve all fields', async function () {
     const { config: server, pool } = setup.serversPool.values().next().value
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')

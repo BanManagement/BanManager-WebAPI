@@ -68,7 +68,15 @@ module.exports = async (dbPool, logger, serversPool) => {
       schema
     , context: { state, session, log }
     , formatError(error) {
-        if (error.originalError && error.originalError.exposed) return error
+        if (error.originalError && error.originalError.exposed) {
+          return error
+        }
+
+        if (error.originalError && error.originalError.code === 'ERR_GRAPHQL_CONSTRAINT_VALIDATION') {
+          const { fieldName, message } = error.originalError
+
+          return { ...error, message: `${fieldName} ${message}` }
+        }
 
         logger.error(error)
 
