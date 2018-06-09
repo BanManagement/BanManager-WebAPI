@@ -1,4 +1,5 @@
 global.Promise = require('bluebird')
+Promise.config({ longStackTraces: true, warnings: true })
 
 require('dotenv').config()
 
