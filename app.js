@@ -67,6 +67,7 @@ module.exports = async (dbPool, logger, serversPool) => {
     return {
       schema
     , context: { state, session, log }
+    , cacheControl: true
     , formatError(error) {
         if (error.originalError && error.originalError.exposed) {
           return error
