@@ -75,7 +75,7 @@ module.exports = async () => { // eslint-disable-line max-statements
 
   const serversPool = await setupServersPool(dbPool, logger, true)
   const teardown = async () => {
-    for (let server in serversPool.values()) {
+    for (let server of serversPool.values()) {
       await server.pool.end()
     }
 
