@@ -267,6 +267,28 @@ enum RecordType {
   PlayerWarning
 }
 
+type DeviceComponent {
+  id: ID!
+  component: String!
+  x: Int!
+  y: Int!
+  w: Int!
+  colour: String
+  textAlign: String
+  meta: String
+}
+
+type PageDevices {
+  mobile: [DeviceComponent!]
+  tablet: [DeviceComponent!]
+  desktop: [DeviceComponent!]
+}
+
+type PageLayout {
+  pathname: String!
+  devices: PageDevices!
+}
+
 type Query {
   searchPlayers(name: String!, limit: Int = 10): [Player!]
   player(id: UUID!): Player
@@ -285,6 +307,9 @@ type Query {
 
   navigation: Navigation!
   adminNavigation: AdminNavigation! @allowIf(resource: "servers", permission: "manage")
+
+  pageLayout(pathname: String!): PageLayout! @cache(maxAge: 500)
+  pageLayouts: [PageLayout!] @allowIf(resource: "servers", permission: "manage")
 
   roles(defaultOnly: Boolean): [Role!] @allowIf(resource: "servers", permission: "manage")
   role(id: ID!): Role! @allowIf(resource: "servers", permission: "manage")
@@ -394,6 +419,24 @@ input ReportCommentInput {
   message: String! @constraint(maxLength: 255)
 }
 
+input UpdatePageLayoutInput {
+  mobile: [PageLayoutComponentInput!]!
+  tablet: [PageLayoutComponentInput!]!
+  desktop: [PageLayoutComponentInput!]!
+}
+
+input PageLayoutComponentInput {
+  id: ID!
+  component: String!
+  x: Int!
+  y: Int!
+  w: Int!
+  colour: String
+  textAlign: String
+  meta: String
+}
+
+
 type Mutation {
   deletePunishmentRecord(id: ID!, serverId: ID!, type: RecordType!, keepHistory: Boolean!): ID!
 
@@ -426,6 +469,8 @@ type Mutation {
 
   setPassword(currentPassword: String, newPassword: String!): Me! @allowIfLoggedIn
   setEmail(currentPassword: String!, email: String!): Me! @allowIfLoggedIn
+
+  updatePageLayout(pathname: ID!, input: UpdatePageLayoutInput!): PageLayout @allowIf(resource: "servers", permission: "manage")
 }
 
 `
