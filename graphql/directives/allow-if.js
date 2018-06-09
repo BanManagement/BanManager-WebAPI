@@ -16,7 +16,8 @@ module.exports = async function allowIf(next, src
       info.operation.operation === 'mutation' ||
       !isNullableType(info.returnType) // Cover non-nullable fields
     ) {
-      throw new ExposedError('You do not have permission to perform this action, please contact your server administrator')
+      throw new ExposedError(
+        'You do not have permission to perform this action, please contact your server administrator')
     }
 
     // @TODO Test more
