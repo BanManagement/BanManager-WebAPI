@@ -285,7 +285,7 @@ type PageDevices {
 }
 
 type PageLayout {
-  pathname: String!
+  pathname: ID!
   devices: PageDevices!
 }
 

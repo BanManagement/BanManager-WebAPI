@@ -1,34 +1,50 @@
-const { insert } = require('../../../data/udify')
+const { insert, update } = require('../../../data/udify')
+const ExposedError = require('../../../data/exposed-error')
+const pageLayout = require('../queries/page-layout')
 
 module.exports = async function updatePageLayout(obj, { pathname, input }, { log, state }) {
+  // Find all component ids
+  const [ results ] = await state.dbPool.execute('SELECT id FROM bm_web_page_layouts WHERE pathname = ? LIMIT 1',
+    [ pathname ])
+
+  if (!results.length) throw new ExposedError('Page Layout does not exist')
+
   const conn = await state.dbPool.getConnection()
 
   try {
     await conn.beginTransaction()
-    await conn.execute('DELETE FROM bm_web_page_layouts WHERE pathname = ?', [ pathname ])
 
     const devices = Object.keys(input)
     const components = []
 
     devices.forEach(device => {
-      input[device].forEach(({ component, x, y, w, textAlign, colour, meta }) => {
+      // @TODO Validate component is allowed in this pathname
+      input[device].forEach(({ id, component, x, y, w, textAlign, colour, meta }) => {
         const data = {
           pathname
         , device
-        , component: component
+        , component
         , x
         , y
         , w
-        , textAlign
-        , colour
-        , meta
+        , textAlign: textAlign || null
+        , colour: textAlign || null
+        , meta: textAlign || null
         }
+
+        if (id) data.id = id
 
         components.push(data)
       })
     })
 
-    await insert(conn, 'bm_web_page_layouts', components)
+    await Promise.each(components, (component) => {
+      if (component.id) {
+        return update(conn, 'bm_web_page_layouts', component, { id: component.id })
+      }
+
+      return insert(conn, 'bm_web_page_layouts', component)
+    })
 
     await conn.commit()
   } catch (e) {
@@ -37,9 +53,11 @@ module.exports = async function updatePageLayout(obj, { pathname, input }, { log
     if (!conn.connection._fatalError) {
       conn.rollback()
     }
+
+    throw e
   } finally {
     conn.release()
   }
 
-  return { pathname }
+  return pageLayout(obj, { pathname }, { state })
 }
