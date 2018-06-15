@@ -28,8 +28,8 @@ module.exports = async function updatePageLayout(obj, { pathname, input }, { log
         , y
         , w
         , textAlign: textAlign || null
-        , colour: textAlign || null
-        , meta: textAlign || null
+        , colour: colour || null
+        , meta: meta || null
         }
 
         if (id) data.id = id
