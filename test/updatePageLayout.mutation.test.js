@@ -27,7 +27,11 @@ describe('Mutation updatePageLayout', function () {
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({ query: `mutation updatePageLayout {
-        updatePageLayout(pathname: "player", input: { mobile: [], tablet: [], desktop: []}) {
+        updatePageLayout(pathname: "player", input: {
+          mobile: { components: [], unusedComponents: [] },
+          tablet: { components: [], unusedComponents: [] },
+          desktop: { components: [], unusedComponents: [] }
+        }) {
           pathname
         }
       }`})
@@ -46,7 +50,11 @@ describe('Mutation updatePageLayout', function () {
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
       .send({ query: `mutation updatePageLayout {
-        updatePageLayout(pathname: "player", input: { mobile: [], tablet: [], desktop: []}) {
+        updatePageLayout(pathname: "player", input: {
+          mobile: { components: [], unusedComponents: [] },
+          tablet: { components: [], unusedComponents: [] },
+          desktop: { components: [], unusedComponents: [] }
+        }) {
           pathname
         }
       }`})
@@ -65,7 +73,11 @@ describe('Mutation updatePageLayout', function () {
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
       .send({ query: `mutation updatePageLayout {
-        updatePageLayout(pathname: "foo", input: { mobile: [], tablet: [], desktop: []}) {
+        updatePageLayout(pathname: "foo", input: {
+          mobile: { components: [], unusedComponents: [] },
+          tablet: { components: [], unusedComponents: [] },
+          desktop: { components: [], unusedComponents: [] }
+        }) {
           pathname
         }
       }`})
@@ -77,26 +89,39 @@ describe('Mutation updatePageLayout', function () {
   })
 
   it('should update page layout', async function () {
-    const mobile = [{ id: '1', component: 'PlayerHeader', y: 0, x: 0, w: 5 },
+    const components = [{ id: '1', component: 'PlayerHeader', y: 0, x: 0, w: 5 },
       { id: '4', component: 'PlayerPunishmentList', y: 2, x: 0, w: 5 },
       { id: '7', component: 'PlayerIpList', y: 1, x: 0, w: 5 },
-      { id: '10', component: 'PlayerHistoryList', y: 3, x: 0, w: 5 },
-      { id: '13', component: 'PlayerAlts', y: 4, x: 0, w: 5 }]
+      { id: '10', component: 'PlayerHistoryList', y: 3, x: 0, w: 5 }]
+    const unusedComponents = [{ id: '13', component: 'PlayerAlts', y: 4, x: 0, w: 5 }]
     const query = jsonToGraphQLQuery({
       mutation: {
         updatePageLayout:
           { __args:
             { pathname: 'player'
-            , input: { mobile, desktop: [], tablet: [] }
+            , input:
+              { mobile: { components, unusedComponents }
+              , desktop: { components: [], unusedComponents: [] }
+              , tablet: { components: [], unusedComponents: [] }
+              }
             }
           , pathname: true
           , devices:
             { mobile:
-              { id: true
-              , component: true
-              , x: true
-              , y: true
-              , w: true
+              { components:
+                { id: true
+                , component: true
+                , x: true
+                , y: true
+                , w: true
+                }
+              , unusedComponents:
+                { id: true
+                , component: true
+                , x: true
+                , y: true
+                , w: true
+                }
               }
             }
           }
@@ -113,6 +138,8 @@ describe('Mutation updatePageLayout', function () {
 
     assert(body)
     assert.strictEqual(body.data.updatePageLayout.pathname, 'player')
-    assert.deepStrictEqual(body.data.updatePageLayout.devices.mobile, mobile)
+    assert.deepStrictEqual(body.data.updatePageLayout.devices.mobile.components, components)
+    assert.deepStrictEqual(body.data.updatePageLayout.devices.mobile.unusedComponents,
+      [{ id: '13', component: 'PlayerAlts', y: -1, x: 0, w: 5 }])
   })
 })

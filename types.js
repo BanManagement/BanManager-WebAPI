@@ -40,8 +40,16 @@ type EntityACL {
 type Player {
   id: UUID!
   name: String!
+  email: String @allowIf(resource: "servers", permission: "manage")
   lastSeen: Timestamp!
   servers: [PlayerServer!]!
+  roles: [Role!]! @allowIf(resource: "servers", permission: "manage")
+  serverRoles: [Role!]! @allowIf(resource: "servers", permission: "manage")
+}
+
+type PlayerList {
+  total: Int!
+  players: [Player!]
 }
 
 type PlayerBan {
@@ -278,10 +286,15 @@ type DeviceComponent {
   meta: String
 }
 
+type PageDevice {
+  components: [DeviceComponent!]!
+  unusedComponents: [DeviceComponent!]!
+}
+
 type PageDevices {
-  mobile: [DeviceComponent!]
-  tablet: [DeviceComponent!]
-  desktop: [DeviceComponent!]
+  mobile: PageDevice
+  tablet: PageDevice
+  desktop: PageDevice
 }
 
 type PageLayout {
@@ -292,6 +305,7 @@ type PageLayout {
 type Query {
   searchPlayers(name: String!, limit: Int = 10): [Player!]
   player(id: UUID!): Player
+  listPlayers(email: String, role: String, serverRole: String, limit: Int = 10, offset: Int = 0): PlayerList @allowIf(resource: "servers", permission: "manage")
 
   servers: [Server!]
   serverTables: [String!]
@@ -420,9 +434,14 @@ input ReportCommentInput {
 }
 
 input UpdatePageLayoutInput {
-  mobile: [PageLayoutComponentInput!]!
-  tablet: [PageLayoutComponentInput!]!
-  desktop: [PageLayoutComponentInput!]!
+  mobile: PageLayoutDeviceInput!
+  tablet: PageLayoutDeviceInput!
+  desktop: PageLayoutDeviceInput!
+}
+
+input PageLayoutDeviceInput {
+  components: [PageLayoutComponentInput!]!
+  unusedComponents: [PageLayoutComponentInput!]!
 }
 
 input PageLayoutComponentInput {

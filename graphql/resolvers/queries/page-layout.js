@@ -1,4 +1,3 @@
-const { groupBy } = require('lodash')
 const ExposedError = require('../../../data/exposed-error')
 
 module.exports = async function pageLayout(obj, { pathname }, { state: { dbPool } }) {
@@ -6,7 +5,21 @@ module.exports = async function pageLayout(obj, { pathname }, { state: { dbPool 
 
   if (!results.length) throw new ExposedError('Page Layout not found')
 
-  const devices = groupBy(results, 'device')
+  const devices = {}
+
+  results.forEach(result => {
+    const { device, y } = result
+
+    if (!devices[device]) devices[device] = {}
+    if (!devices[device].unusedComponents) devices[device].unusedComponents = []
+    if (!devices[device].components) devices[device].components = []
+
+    if (y < 0) {
+      devices[device].unusedComponents.push(result)
+    } else {
+      devices[device].components.push(result)
+    }
+  })
 
   return { pathname, devices }
 }

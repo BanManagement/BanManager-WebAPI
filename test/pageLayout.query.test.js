@@ -46,34 +46,70 @@ describe('Query pageLayout', function () {
           pathname
           devices {
             mobile {
-              id
-              component
-              x
-              y
-              w
-              colour
-              textAlign
-              meta
+              components {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
+              unusedComponents {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
             }
             tablet {
-              id
-              component
-              x
-              y
-              w
-              colour
-              textAlign
-              meta
+              components {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
+              unusedComponents {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
             }
             desktop {
-              id
-              component
-              x
-              y
-              w
-              colour
-              textAlign
-              meta
+              components {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
+              unusedComponents {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
             }
           }
         }
@@ -84,7 +120,7 @@ describe('Query pageLayout', function () {
     assert(body)
     assert.strictEqual(body.data.pageLayout.pathname, 'player')
     assert.deepStrictEqual(body.data.pageLayout.devices, {
-      mobile:
+      mobile: { components:
         [{
           id: '1',
           component: 'PlayerHeader',
@@ -134,8 +170,10 @@ describe('Query pageLayout', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }],
-      tablet:
+        }]
+      , unusedComponents: []
+      },
+      tablet: { components:
         [{
           id: '2',
           component: 'PlayerHeader',
@@ -185,8 +223,10 @@ describe('Query pageLayout', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }],
-      desktop:
+        }]
+      , unusedComponents: []
+      },
+      desktop: { components:
         [{
           id: '3',
           component: 'PlayerHeader',
@@ -237,6 +277,8 @@ describe('Query pageLayout', function () {
           textAlign: null,
           meta: null
         }]
+      , unusedComponents: []
+      }
     })
   })
 })
