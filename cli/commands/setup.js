@@ -20,26 +20,26 @@ exports.handler = async function () {
   console.log('Starting setup')
   console.log('If unsure, use default')
   const { siteHost, port, sessionName, sessionDomain, contactEmail } = await inquirer.prompt(
-    [ { type: 'input', name: 'siteHost', message: 'BanManager UI Site Hostname', default: 'http://localhost:3000' }
-    , { type: 'input', name: 'port', message: 'Port to run API', default: 3001 }
-    , { type: 'input', name: 'sessionName', message: 'Cookie session name', default: 'bm-ui-sess' }
-    , { type: 'input'
-      , name: 'sessionDomain'
-      , message: 'Top level cookie session domain e.g. frostcast.net'
-      , default: 'localhost'
-      }
-    , { type: 'input', name: 'contactEmail', message: 'Contact Email Address' }
+    [ { type: 'input', name: 'siteHost', message: 'BanManager UI Site Hostname', default: 'http://localhost:3000' },
+      { type: 'input', name: 'port', message: 'Port to run API', default: 3001 },
+      { type: 'input', name: 'sessionName', message: 'Cookie session name', default: 'bm-ui-sess' },
+      { type: 'input',
+        name: 'sessionDomain',
+        message: 'Top level cookie session domain e.g. frostcast.net',
+        default: 'localhost'
+      },
+      { type: 'input', name: 'contactEmail', message: 'Contact Email Address' }
     ])
   const encryptionAlg = 'aes-256-ctr'
   const encryptionKey = randomBytes(32).toString('hex')
   const sessionKey = randomBytes(32).toString('hex')
   const { publicKey, privateKey } = generateVAPIDKeys()
   const dbQuestions =
-    [ { type: 'input', name: 'host', message: 'Database Host', default: '127.0.0.1' }
-    , { type: 'input', name: 'port', message: 'Database Port', default: 3306 }
-    , { type: 'input', name: 'user', message: 'Database User' }
-    , { type: 'password', name: 'password', message: 'Database Password' }
-    , { type: 'input', name: 'database', message: 'Database Name' }
+    [ { type: 'input', name: 'host', message: 'Database Host', default: '127.0.0.1' },
+      { type: 'input', name: 'port', message: 'Database Port', default: 3306 },
+      { type: 'input', name: 'user', message: 'Database User' },
+      { type: 'password', name: 'password', message: 'Database Password' },
+      { type: 'input', name: 'database', message: 'Database Name' }
     ]
   const dbAnswers = await inquirer.prompt(dbQuestions)
   const conn = await createConnection(dbAnswers)
@@ -48,10 +48,10 @@ exports.handler = async function () {
   console.log('Setting up database...')
 
   const dbConfig =
-    { ...dbAnswers
-    , driver: 'mysql'
-    , connectionLimit: 1
-    , multipleStatements: true
+    { ...dbAnswers,
+      driver: 'mysql',
+      connectionLimit: 1,
+      multipleStatements: true
     }
   const dbmOpts = { config: { dev: dbConfig }, migrationsDir: '../../data/migrations' }
   const dbm = DBMigrate.getInstance(true, dbmOpts)
@@ -65,15 +65,15 @@ exports.handler = async function () {
   const consoleId = await askPlayer('Console UUID (paste "uuid" value from BanManager/console.yml)', serverConn, serverTables.players)
   const { serverName } = await inquirer.prompt([ { name: 'serverName', message: 'Server Name' } ])
   const server =
-    { id: randomBytes(4).toString('hex')
-    , name: serverName
-    , tables: JSON.stringify(serverTables)
-    , console: consoleId
-    , host: serverConn.connection.config.host
-    , port: serverConn.connection.config.port
-    , user: serverConn.connection.config.user
-    , password: serverConn.connection.config.password || ''
-    , database: serverConn.connection.config.database
+    { id: randomBytes(4).toString('hex'),
+      name: serverName,
+      tables: JSON.stringify(serverTables),
+      console: consoleId,
+      host: serverConn.connection.config.host,
+      port: serverConn.connection.config.port,
+      user: serverConn.connection.config.user,
+      password: serverConn.connection.config.password || '',
+      database: serverConn.connection.config.database
     }
 
   if (server.password) {
@@ -99,7 +99,7 @@ exports.handler = async function () {
   await udify.insert(conn, 'bm_web_users', user)
   await udify.insert(conn, 'bm_web_player_roles', { 'player_id': playerId, 'role_id': 3 })
 
-  console.log(`Account created, login via ${siteHost}/login`)
+  console.log(`Account created, start the application and login via ${siteHost}/login`)
 
   const env = `
 LOG_LEVEL=debug
@@ -141,21 +141,21 @@ DB_CONNECTION_LIMIT=5
   console.log('Setup completed')
 }
 
-async function askPassword() {
+async function askPassword () {
   const { password, vPass } = await inquirer.prompt(
-    [ { type: 'password', name: 'password', message: 'Password' }
-    , { type: 'password', name: 'vPass', message: 'Confirm Password' }
+    [ { type: 'password', name: 'password', message: 'Password' },
+      { type: 'password', name: 'vPass', message: 'Confirm Password' }
     ])
 
   if (password !== vPass) {
     console.log('Passwords do not match')
-    return await askPassword()
+    return askPassword()
   }
 
-  return await hash(password)
+  return hash(password)
 }
 
-async function promptServerDetails() {
+async function promptServerDetails () {
   const questions = [ { type: 'editor', name: 'yaml', message: 'Paste BanManager/config.yml' } ]
   const { yaml } = await inquirer.prompt(questions)
   let config
@@ -166,23 +166,23 @@ async function promptServerDetails() {
     console.error(e)
     console.log('Invalid yaml')
 
-    return await promptServerDetails()
+    return promptServerDetails()
   }
 
   if (!config || typeof config === 'string' || typeof config === 'number') {
     console.log('Invalid config')
-    return await promptServerDetails()
+    return promptServerDetails()
   }
 
   let db
 
   try {
     db =
-      { host: config.databases.local.host
-      , port: config.databases.local.port
-      , user: config.databases.local.user
-      , password: config.databases.local.password
-      , database: config.databases.local.name
+      { host: config.databases.local.host,
+        port: config.databases.local.port,
+        user: config.databases.local.user,
+        password: config.databases.local.password,
+        database: config.databases.local.name
       }
     const conn = await createConnection(db)
 
@@ -192,7 +192,7 @@ async function promptServerDetails() {
     for (let table of tables) {
       let tableName = config.databases.local.tables[table]
 
-      if (table === 'playerReportLogs' || table === 'serverLogs') {
+      if (table === 'playerReportLogs' || table === 'serverLogs' || table === 'playerPins') {
         const answer = await inquirer.prompt([ { name: 'tableName', message: `${table} table name` } ])
 
         tableName = answer.tableName
@@ -207,12 +207,11 @@ async function promptServerDetails() {
   } catch (e) {
     console.error(e)
     console.log(`Failed to connect to ${db.user}@${db.host}:${db.port}/${db.database}`)
-    return await promptServerDetails()
+    return promptServerDetails()
   }
-
 }
 
-async function checkTable(conn, table) {
+async function checkTable (conn, table) {
   const [ [ { exists } ] ] = await conn.execute(
     'SELECT COUNT(*) AS `exists` FROM information_schema.tables WHERE table_schema = ? AND table_name = ?'
     , [ conn.connection.config.database, table ])
@@ -223,7 +222,7 @@ async function checkTable(conn, table) {
 }
 
 // { type: 'input', name: 'name', message: 'Server Name', default: 'Frostcast' }
-async function askPlayer(question, conn, table) {
+async function askPlayer (question, conn, table) {
   const questions = [ { name: 'id', message: question } ]
   const { id } = await inquirer.prompt(questions)
 
@@ -233,7 +232,7 @@ async function askPlayer(question, conn, table) {
 
   if (!result) {
     console.log(`Could not find Player ${id}`)
-    return await askPlayer(conn, table)
+    return askPlayer(conn, table)
   }
 
   console.log(`Found player ${result.name}`)
