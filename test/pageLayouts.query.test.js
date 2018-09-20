@@ -70,34 +70,40 @@ describe('Query pageLayouts', function () {
           pathname
           devices {
             mobile {
-              id
-              component
-              x
-              y
-              w
-              colour
-              textAlign
-              meta
+              components {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
             }
             tablet {
-              id
-              component
-              x
-              y
-              w
-              colour
-              textAlign
-              meta
+              components {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
             }
             desktop {
-              id
-              component
-              x
-              y
-              w
-              colour
-              textAlign
-              meta
+              components {
+                id
+                component
+                x
+                y
+                w
+                colour
+                textAlign
+                meta
+              }
             }
           }
         }
@@ -108,7 +114,7 @@ describe('Query pageLayouts', function () {
     assert(body)
     assert.strictEqual(body.data.pageLayouts[0].pathname, 'player')
     assert.deepStrictEqual(body.data.pageLayouts[0].devices, {
-      mobile:
+      mobile: { components:
         [{
           id: '1',
           component: 'PlayerHeader',
@@ -158,8 +164,9 @@ describe('Query pageLayouts', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }],
-      tablet:
+        }]
+      },
+      tablet: { components:
         [{
           id: '2',
           component: 'PlayerHeader',
@@ -209,8 +216,9 @@ describe('Query pageLayouts', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }],
-      desktop:
+        }]
+      },
+      desktop: { components:
         [{
           id: '3',
           component: 'PlayerHeader',
@@ -261,6 +269,7 @@ describe('Query pageLayouts', function () {
           textAlign: null,
           meta: null
         }]
+      }
     })
   })
 })
