@@ -19,13 +19,31 @@ module.exports = async function updatePageLayout(obj, { pathname, input }, { log
 
     devices.forEach(device => {
       // @TODO Validate component is allowed in this pathname
-      input[device].forEach(({ id, component, x, y, w, textAlign, colour, meta }) => {
+      input[device].components.forEach(({ id, component, x, y, w, textAlign, colour, meta }) => {
         const data = {
           pathname
         , device
         , component
         , x
         , y
+        , w
+        , textAlign: textAlign || null
+        , colour: colour || null
+        , meta: meta || null
+        }
+
+        if (id) data.id = id
+
+        components.push(data)
+      })
+
+      input[device].unusedComponents.forEach(({ id, component, x, w, textAlign, colour, meta }) => {
+        const data = {
+          pathname
+        , device
+        , component
+        , x
+        , y: -1
         , w
         , textAlign: textAlign || null
         , colour: colour || null
