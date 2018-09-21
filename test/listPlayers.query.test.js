@@ -66,8 +66,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -99,8 +104,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -141,8 +151,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -170,8 +185,9 @@ describe('Query listPlayers', function () {
     const serverRoles = bodyPlayer.serverRoles
 
     assert.strictEqual(serverRoles.length, 1)
-    assert.strictEqual(serverRoles[0].id, '1')
-    assert.strictEqual(serverRoles[0].name, 'Guest')
+    assert.strictEqual(serverRoles[0].role.id, '1')
+    assert.strictEqual(serverRoles[0].role.name, 'Guest')
+    assert.strictEqual(serverRoles[0].server.id, server.id)
   })
 
   it('should filter role', async function () {
@@ -193,8 +209,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -240,8 +261,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -274,8 +300,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -321,8 +352,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -365,8 +401,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -395,8 +436,9 @@ describe('Query listPlayers', function () {
     const serverRoles = bodyPlayer.serverRoles
 
     assert.strictEqual(serverRoles.length, 1)
-    assert.strictEqual(serverRoles[0].id, '4')
-    assert.strictEqual(serverRoles[0].name, 'Test')
+    assert.strictEqual(serverRoles[0].role.id, '4')
+    assert.strictEqual(serverRoles[0].role.name, 'Test')
+    assert.strictEqual(serverRoles[0].server.id, server.id)
   })
 
   it('should filter server role and return no results', async function () {
@@ -418,8 +460,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }
@@ -452,8 +499,13 @@ describe('Query listPlayers', function () {
               name
             }
             serverRoles {
-              id
-              name
+              server {
+                id
+              }
+              role {
+                id
+                name
+              }
             }
           }
         }

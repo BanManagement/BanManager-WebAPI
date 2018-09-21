@@ -1,4 +1,5 @@
 const { parse } = require('uuid-parse')
+const { find } = require('lodash')
 
 module.exports = {
   Player: {
@@ -27,10 +28,13 @@ module.exports = {
     },
     serverRoles: {
       async resolve ({ id }, args, { state: { dbPool, loaders } }) {
-        const [results] = await dbPool.execute('SELECT role_id FROM bm_web_player_server_roles WHERE player_id = ?',
+        const [results] = await dbPool.execute('SELECT role_id, server_id FROM bm_web_player_server_roles WHERE player_id = ?',
           [ parse(id, new Buffer(16)) ])
+        const roles = await loaders.role.ids.loadMany(results.map(row => row.role_id))
 
-        return loaders.role.ids.loadMany(results.map(row => row.role_id))
+        return results.map(r => {
+          return { server: { id: r.server_id }, role: find(roles, { id: r.role_id }) }
+        })
       }
     },
     email: {

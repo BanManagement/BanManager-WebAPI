@@ -44,7 +44,7 @@ type Player {
   lastSeen: Timestamp!
   servers: [PlayerServer!]!
   roles: [Role!]! @allowIf(resource: "servers", permission: "manage")
-  serverRoles: [Role!]! @allowIf(resource: "servers", permission: "manage")
+  serverRoles: [ServerRole!]! @allowIf(resource: "servers", permission: "manage")
 }
 
 type PlayerList {
@@ -253,6 +253,11 @@ type Role {
   name: String!
   parent: ID
   resources: [Resources!]
+}
+
+type ServerRole {
+  server: Server!
+  role: Role!
 }
 
 type Resources {
@@ -478,7 +483,7 @@ type Mutation {
   createRole(input: UpdateRoleInput!): Role! @allowIf(resource: "servers", permission: "manage")
   updateRole(id: ID!, input: UpdateRoleInput!): Role! @allowIf(resource: "servers", permission: "manage")
   deleteRole(id: ID!): Role! @allowIf(resource: "servers", permission: "manage")
-  assignRole(players: [UUID!], role: Int!): Role! @allowIf(resource: "servers", permission: "manage")
+  assignRole(players: [UUID!]!, role: Int!): Role! @allowIf(resource: "servers", permission: "manage")
   assignServerRole(players: [UUID!], role: Int!, serverId: ID!): Role! @allowIf(resource: "servers", permission: "manage")
 
   assignReport(report: ID!, serverId: ID!, player: UUID!): PlayerReport!
