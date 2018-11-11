@@ -33,6 +33,8 @@ module.exports = async () => { // eslint-disable-line max-statements
 
   dbConfig.database = dbName
 
+  console.log(`Using database ${dbName}`)
+
   // Recreate the pool, as USE DATABASE would only apply to one connection, not the whole pool?
   // @TODO Confirm above
   dbPool = await setupPool(dbConfig)
