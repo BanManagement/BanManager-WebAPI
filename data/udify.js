@@ -13,8 +13,10 @@ async function deleteData (pool, table, where) {
   const values = Object.values(where)
 
   Object.keys(where).forEach(col => {
-    query += `\`${col}\` = ?` // @TODO Escape column names
+    query += `\`${col}\` = ? AND ` // @TODO Escape column names
   })
+
+  query = query.slice(0, -5)
 
   return await pool.execute(query, values)
 }
@@ -55,7 +57,7 @@ async function update(pool, table, entity, where) {
     query += ' WHERE '
 
     Object.keys(where).forEach(col => {
-      query += `\`${col}\` = ?` // @TODO Escape column names
+      query += `\`${col}\` = ? ` // @TODO Escape column names
     })
 
     values = [ ...values, ...Object.values(where) ]
