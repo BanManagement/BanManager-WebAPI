@@ -69,7 +69,7 @@ module.exports = async function updatePageLayout(obj, { pathname, input }, { log
     log.error(e)
 
     if (!conn.connection._fatalError) {
-      conn.rollback()
+      await conn.rollback()
     }
 
     throw e

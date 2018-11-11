@@ -46,7 +46,7 @@ module.exports = async function ({ log, request: { body }, throw: throwError, re
     log.error(e)
 
     if (!conn.connection._fatalError) {
-      conn.rollback()
+      await conn.rollback()
     }
   } finally {
     conn.release()

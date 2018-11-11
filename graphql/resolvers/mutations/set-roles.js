@@ -41,7 +41,7 @@ module.exports = async function setRoles (obj, { player, input: { roles, serverR
     log.error(e)
 
     if (!conn.connection._fatalError) {
-      conn.rollback()
+      await conn.rollback()
     }
   } finally {
     conn.release()
