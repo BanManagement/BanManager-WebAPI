@@ -460,6 +460,23 @@ input PageLayoutComponentInput {
   meta: String
 }
 
+input RoleInput {
+  id: ID!
+}
+
+input ServerInput {
+  id: ID!
+}
+
+input ServerRoleInput {
+  role: RoleInput!
+  server: ServerInput!
+}
+
+input SetRolesInput {
+  roles: [RoleInput!]!
+  serverRoles: [ServerRoleInput!]!
+}
 
 type Mutation {
   deletePunishmentRecord(id: ID!, serverId: ID!, type: RecordType!, keepHistory: Boolean!): ID!
@@ -485,6 +502,7 @@ type Mutation {
   deleteRole(id: ID!): Role! @allowIf(resource: "servers", permission: "manage")
   assignRole(players: [UUID!]!, role: Int!): Role! @allowIf(resource: "servers", permission: "manage")
   assignServerRole(players: [UUID!], role: Int!, serverId: ID!): Role! @allowIf(resource: "servers", permission: "manage")
+  setRoles(player: ID!, input: SetRolesInput!): Player! @allowIf(resource: "servers", permission: "manage")
 
   assignReport(report: ID!, serverId: ID!, player: UUID!): PlayerReport!
   reportState(report: ID!, serverId: ID!, state: ID!): PlayerReport!
