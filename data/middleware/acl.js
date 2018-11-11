@@ -1,5 +1,6 @@
 const memoize = require('memoizee')
 const { get } = require('lodash')
+const { parse } = require('uuid-parse')
 const { valid } = require('../session')
 
 module.exports = async (ctx, next) => {
@@ -115,9 +116,13 @@ module.exports = async (ctx, next) => {
         return !!(resourceValues[resource] & value)
       }
     , owns(actorId) {
+        if (!actorId) return false
+
         const playerId = get(ctx.session, 'playerId', null)
 
-        return Buffer.isBuffer(playerId) && Buffer.isBuffer(actorId) && actorId.equals(playerId)
+        if (!Buffer.isBuffer(actorId)) actorId = parse(actorId, new Buffer(16))
+
+        return actorId.equals(playerId)
       }
     }
 
