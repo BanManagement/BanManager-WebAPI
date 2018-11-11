@@ -51,11 +51,10 @@ module.exports = async (ctx, next) => {
           resourceValues[row.name] = row.value
         } else {
           // Merge resource values, granting as many permissions as possible from duplicates
-          // @TODO Test this
           const x = resourceValues[row.name]
           const y = row.value
 
-          resourceValues[row.name] = x ^ ((x ^ y) & 1)
+          if (!(x & y)) resourceValues[row.name] = x + y
         }
       })
     }
@@ -85,7 +84,7 @@ module.exports = async (ctx, next) => {
           const x = server[row.name]
           const y = row.value
 
-          server[row.name] = x ^ ((x ^ y) & 1)
+          if (!(x & y)) server[row.name] = x + y
         }
       })
 
