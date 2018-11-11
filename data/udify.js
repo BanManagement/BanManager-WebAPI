@@ -4,10 +4,19 @@
 // @TODO Replace with knex or a lighter query builder
 module.exports =
 { update
-, async delete(pool, table, where) {
-
-  }
+, delete: deleteData
 , insert
+}
+
+async function deleteData (pool, table, where) {
+  let query = `DELETE FROM \`${table}\` WHERE `
+  const values = Object.values(where)
+
+  Object.keys(where).forEach(col => {
+    query += `\`${col}\` = ?` // @TODO Escape column names
+  })
+
+  return await pool.execute(query, values)
 }
 
 async function insert(pool, table, entity) {
