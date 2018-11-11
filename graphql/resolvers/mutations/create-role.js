@@ -17,7 +17,6 @@ module.exports = async function createRole(obj
       const resource = find(resources, { id: allResource.id })
 
       if (!resource) {
-        log.info('hello', id)
         await udify.insert(conn, 'bm_web_role_resources', { value: 0, 'role_id': id, 'resource_id': allResource.id })
         continue
       }
