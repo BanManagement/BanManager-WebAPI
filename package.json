@@ -41,7 +41,7 @@
     "lodash": "^4.17.4",
     "memoizee": "^0.4.11",
     "mysql2": "^1.5.1",
-    "pino": "^4.10.2",
+    "pino": "^5.0.0",
     "require-environment-variables": "^1.1.2",
     "uuid-parse": "^1.0.0",
     "validator": "^10.0.0",
@@ -58,7 +58,7 @@
     "mocha": "5.2.0",
     "mockdate": "2.0.2",
     "nock": "10.0.2",
-    "nyc": "12.0.2",
+    "nyc": "13.1.0",
     "supertest": "3.3.0"
   },
   "standard": {
