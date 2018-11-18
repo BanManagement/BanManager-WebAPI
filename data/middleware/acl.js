@@ -120,6 +120,8 @@ module.exports = async (ctx, next) => {
 
         const playerId = get(ctx.session, 'playerId', null)
 
+        if (!playerId) return false
+
         if (!Buffer.isBuffer(actorId)) actorId = parse(actorId, new Buffer(16))
 
         return actorId.equals(playerId)
