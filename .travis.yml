@@ -3,6 +3,7 @@ node_js:
   - 8
   - 9
   - 10
+cache: npm
 after_success:
   - npm run coverage
 services:
