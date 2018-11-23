@@ -17,9 +17,9 @@ const noop = () => {}
 
 // eslint-disable-next-line max-statements
 exports.up = async function (db) {
-  await db.insert('bm_web_roles', [ 'name' ], [ 'Guest' ], noop)
-  await db.insert('bm_web_roles', [ 'name' ], [ 'Logged In' ], noop)
-  await db.insert('bm_web_roles', [ 'name' ], [ 'Admin' ], noop)
+  await db.insert('bm_web_roles', [ 'role_id', 'name' ], [ 1, 'Guest' ], noop)
+  await db.insert('bm_web_roles', [ 'role_id', 'name' ], [ 2, 'Logged In' ], noop)
+  await db.insert('bm_web_roles', [ 'role_id', 'name' ], [ 3, 'Admin' ], noop)
 
   const { addResource, addPermission, attachPermission } = aclHelper(db)
 
@@ -216,8 +216,13 @@ exports.up = async function (db) {
     )
 }
 
-exports.down = function (db) {
-  return null
+exports.down = async function (db) {
+  await db.runSql('TRUNCATE bm_web_resource_permissions')
+  await db.runSql('TRUNCATE bm_web_player_server_roles')
+  await db.runSql('TRUNCATE bm_web_player_roles')
+  // Foreign key constraints
+  await db.runSql('DELETE FROM bm_web_roles')
+  await db.runSql('DELETE FROM bm_web_resources')
 }
 
 exports._meta = {
