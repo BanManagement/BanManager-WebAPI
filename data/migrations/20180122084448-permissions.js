@@ -193,8 +193,8 @@ exports.up = async function (db) {
     , 'view.locations'
     )
   await attachPermission('player.reports', 3
-    , 'update.status.any'
-    , 'update.status.own'
+    , 'update.state.any'
+    , 'update.state.own'
     , 'update.assign.any'
     , 'update.assign.own'
     , 'comment.any'
