@@ -1,5 +1,5 @@
 exports.up = async function (db) {
-  await db.addColumn('bm_web_users', 'updated', { type: 'int', length: 10, notNull: true, defaultValue: 0 })
+  await db.addColumn('bm_web_users', 'updated', { type: 'int', length: 10, notNull: true, defaultValue: Math.floor(Date.now() / 1000) })
 }
 
 exports.down = async function (db) {
