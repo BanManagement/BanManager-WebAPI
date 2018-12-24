@@ -11,7 +11,7 @@ module.exports = async function reportState(obj, { serverId, state: stateId, rep
 
   if (!report) throw new ExposedError(`Report ${id} does not exist`)
 
-  const [ [ row ] ] = server.execute(`SELECT state_id FROM ${server.config.tables.playerReportStates} WHERE state_id = ?`
+  const [ [ row ] ] = server.query(`SELECT id FROM ${server.config.tables.playerReportStates} WHERE id = ?`
     , [ stateId ])
 
   if (!row) throw new ExposedError(`Report State ${stateId} does not exist`)
