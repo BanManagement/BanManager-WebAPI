@@ -1,15 +1,27 @@
 const { parse, unparse } = require('uuid-parse')
 
 // eslint-disable-next-line complexity
-module.exports = async function reports(obj, { actor, assigned, player, state: stateId, limit }, { state }) {
+module.exports = async function listReports(obj, { actor, assigned, player, state: stateId, limit, offset }, { state }) {
   const filter = {}
+
+  if (limit > 50) throw new ExposedError('Limit too large')
+  if (!limit) limit = 10
 
   if (actor) filter['r.actor_id'] = parse(actor, new Buffer(16))
   if (assigned) filter['r.assignee_id'] = parse(assigned, new Buffer(16))
   if (player) filter['r.player_id'] = parse(player, new Buffer(16))
   if (stateId) filter['r.state_id'] = stateId
-  if (!limit || limit > 100) limit = 10
 
+  let totalQuery = `SELECT COUNT(*) AS total FROM
+    ?? r
+        LEFT JOIN
+    ?? rps ON r.state_id = rps.id
+        LEFT JOIN
+    ?? a ON r.actor_id = a.id
+        JOIN
+    ?? p ON r.player_id = p.id
+        LEFT JOIN
+    ?? ap ON r.assignee_id = ap.id`
   let query = `SELECT
     r.id,
     r.reason,
@@ -37,15 +49,19 @@ module.exports = async function reports(obj, { actor, assigned, player, state: s
   const filterValues = Object.values(filter)
 
   if (filterKeys.length) {
-    query += ' WHERE ' + filterKeys.map(key => {
+    const whereQuery = ' WHERE ' + filterKeys.map(key => {
       return `${key} = ?`
     }).join(' AND ')
+
+    totalQuery += whereQuery
+    query += whereQuery
   }
 
-  query += ` LIMIT ${limit}`
+  query += ` LIMIT ?, ?`
 
-  let data = []
+  const data = { total: 0, reports: [] }
 
+  // @TODO Clean up
   for (let server of state.serversPool.values()) {
     const tables = server.config.tables
     const actualQuery = query
@@ -54,10 +70,21 @@ module.exports = async function reports(obj, { actor, assigned, player, state: s
       .replace('??', tables.players)
       .replace('??', tables.players)
       .replace('??', tables.players)
+    const actualTotalQuery = totalQuery
+      .replace('??', tables.playerReports)
+      .replace('??', tables.playerReportStates)
+      .replace('??', tables.players)
+      .replace('??', tables.players)
+      .replace('??', tables.players)
 
-    const [ results ] = await server.execute(actualQuery, filterValues)
+    const [ [ { total } ] ] = await state.dbPool.execute(actualTotalQuery, filterValues)
+    const [ results ] = await server.execute(actualQuery, [ ...filterValues, offset, limit ])
 
-    data = data.concat(results.map(result => {
+    console.log([ ...filterValues, offset, limit ])
+
+    data.total += total
+
+    data.reports = data.reports.concat(results.map(result => {
       const report = {
         id: result.id,
         reason: result.reason,

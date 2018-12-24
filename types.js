@@ -104,6 +104,11 @@ type PlayerNote {
   acl: EntityACL!
 }
 
+type PlayerReportList {
+  total: Int!
+  reports: [PlayerReport!]!
+}
+
 type PlayerReport {
   id: ID!
   player: Player!
@@ -336,7 +341,7 @@ type Query {
 
   reportStates(serverId: ID!): [PlayerReportState!]
   report(id: ID!, serverId: ID!): PlayerReport @allowIf(resource: "player.reports", permission: "view.any")
-  reports(actor: UUID, assigned: UUID, player: UUID, state: ID, limit: Int = 10): [PlayerReport!]
+  listReports(actor: UUID, assigned: UUID, player: UUID, state: ID, limit: Int = 10, offset: Int = 0): PlayerReportList!
 }
 
 input CreatePlayerNoteInput {
