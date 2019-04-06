@@ -147,7 +147,7 @@ async function askPassword () {
       { type: 'password', name: 'vPass', message: 'Confirm Password' }
     ])
 
-  if (password !== vPass) {
+  if (!(password && vPass) || password !== vPass) {
     console.log('Passwords do not match')
     return askPassword()
   }
@@ -232,7 +232,7 @@ async function askPlayer (question, conn, table) {
 
   if (!result) {
     console.log(`Could not find Player ${id}`)
-    return askPlayer(conn, table)
+    return askPlayer(question, conn, table)
   }
 
   console.log(`Found player ${result.name}`)
