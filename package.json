@@ -52,7 +52,7 @@
   "devDependencies": {
     "@confuser/eslint-config": "2.0.0",
     "coveralls": "3.0.3",
-    "eslint": "4.19.1",
+    "eslint": "5.16.0",
     "eslint-plugin-standard": "3.1.0",
     "faker": "4.1.0",
     "json-to-graphql-query": "1.9.0",
