@@ -2,7 +2,7 @@ const assert = require('assert')
 const { unparse } = require('uuid-parse')
 const supertest = require('supertest')
 const { jsonToGraphQLQuery } = require('json-to-graphql-query')
-const { createDecipher } = require('crypto')
+const { decrypt } = require('../data/crypto')
 const createApp = require('../app')
 const { createSetup, getAuthPassword } = require('./lib')
 const {
@@ -198,11 +198,7 @@ describe('Mutation create server', function () {
 
     const [ [ result ] ] = await pool.execute('SELECT * FROM bm_web_servers WHERE id = ?'
       , [ body.data.createServer.id ])
-
-    const decipher = createDecipher(process.env.ENCRYPTION_ALGORITHM, process.env.ENCRYPTION_KEY)
-    let decrypted = decipher.update(result.password, 'hex', 'utf8')
-
-    decrypted += decipher.final('utf8')
+    const decrypted = await decrypt(process.env.ENCRYPTION_KEY, result.password)
 
     assert.strictEqual(decrypted, 'password')
   })

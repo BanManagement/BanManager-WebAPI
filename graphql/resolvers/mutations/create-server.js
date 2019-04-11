@@ -1,4 +1,5 @@
-const { randomBytes, createCipher } = require('crypto')
+const { encrypt } = require('../../../data/crypto')
+const { generateServerId } = require('../../../data/generator')
 const { parse } = require('uuid-parse')
 const { createConnection } = require('mysql2/promise')
 const tables = require('../../../data/tables')
@@ -6,7 +7,7 @@ const udify = require('../../../data/udify')
 const ExposedError = require('../../../data/exposed-error')
 
 module.exports = async function createServer (obj, { input }, { state }) {
-  const id = randomBytes(4).toString('hex') // @TODO Use async randomBytes
+  const id = await generateServerId()
   const conn = await createConnection(input)
 
   const tablesMissing = await Promise.reduce(tables, async (missing, table) => {
@@ -35,12 +36,7 @@ module.exports = async function createServer (obj, { input }, { state }) {
   }
 
   if (input.password) {
-    const cipher = createCipher(process.env.ENCRYPTION_ALGORITHM, process.env.ENCRYPTION_KEY)
-    let encrypted = cipher.update(input.password, 'utf8', 'hex')
-
-    encrypted += cipher.final('hex')
-
-    input.password = encrypted
+    input.password = await encrypt(process.env.ENCRYPTION_KEY, input.password)
   } else {
     input.password = ''
   }

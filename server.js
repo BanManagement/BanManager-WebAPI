@@ -6,7 +6,6 @@ requireEnv(
   [ 'LOG_LEVEL',
     'PORT',
     'ENCRYPTION_KEY',
-    'ENCRYPTION_ALGORITHM',
     'SESSION_KEY',
     'SESSION_NAME',
     'SESSION_DOMAIN',

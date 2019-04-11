@@ -2,7 +2,8 @@ const { writeFileSync } = require('fs')
 const inquirer = require('inquirer')
 const { createConnection } = require('mysql2/promise')
 const DBMigrate = require('db-migrate')
-const { createCipher, randomBytes } = require('crypto')
+const crypto = require('../../data/crypto')
+const { generateServerId } = require('../../data/generator')
 const { parse } = require('uuid-parse')
 const { generateVAPIDKeys } = require('web-push')
 const { hash } = require('../../data/hash')
@@ -30,9 +31,8 @@ exports.handler = async function () {
       },
       { type: 'input', name: 'contactEmail', message: 'Contact Email Address' }
     ])
-  const encryptionAlg = 'aes-256-ctr'
-  const encryptionKey = randomBytes(32).toString('hex')
-  const sessionKey = randomBytes(32).toString('hex')
+  const encryptionKey = await crypto.createKey()
+  const sessionKey = await crypto.createKey().toString('hex')
   const { publicKey, privateKey } = generateVAPIDKeys()
   const dbQuestions =
     [ { type: 'input', name: 'host', message: 'Database Host', default: '127.0.0.1' },
@@ -64,8 +64,9 @@ exports.handler = async function () {
 
   const consoleId = await askPlayer('Console UUID (paste "uuid" value from BanManager/console.yml)', serverConn, serverTables.players)
   const { serverName } = await inquirer.prompt([ { name: 'serverName', message: 'Server Name' } ])
+  const idKey = await generateServerId()
   const server =
-    { id: randomBytes(4).toString('hex'),
+    { id: idKey.toString('hex'),
       name: serverName,
       tables: JSON.stringify(serverTables),
       console: consoleId,
@@ -77,12 +78,7 @@ exports.handler = async function () {
     }
 
   if (server.password) {
-    const cipher = createCipher(encryptionAlg, encryptionKey)
-    let encrypted = cipher.update(server.password, 'utf8', 'hex')
-
-    encrypted += cipher.final('hex')
-
-    server.password = encrypted
+    server.password = await crypto.encrypt(encryptionKey, server.password)
   }
 
   await udify.insert(conn, 'bm_web_servers', server)
@@ -106,8 +102,7 @@ LOG_LEVEL=debug
 
 PORT=${port}
 
-ENCRYPTION_KEY=${encryptionKey}
-ENCRYPTION_ALGORITHM=${encryptionAlg}
+ENCRYPTION_KEY=${encryptionKey.toString('hex')}
 
 SESSION_KEY=${sessionKey}
 SESSION_NAME=${sessionName}

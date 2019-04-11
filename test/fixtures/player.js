@@ -1,4 +1,4 @@
-const { date, name, internet, random } = require('faker')
+const { date, name, internet } = require('faker')
 const { parse } = require('uuid-parse')
 const { toLong } = require('ip')
 const generateUUID = require('uuid/v4')

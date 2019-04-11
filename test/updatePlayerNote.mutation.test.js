@@ -1,5 +1,4 @@
 const assert = require('assert')
-const { unparse } = require('uuid-parse')
 const supertest = require('supertest')
 const createApp = require('../app')
 const { createSetup, getAuthPassword } = require('./lib')
@@ -48,7 +47,6 @@ describe('Mutation update player note', function () {
 
   it('should error if server does not exist', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
-    const player = createPlayer()
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
@@ -70,7 +68,7 @@ describe('Mutation update player note', function () {
 
   it('should error if data does not exist', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
-    const { config: server, pool } = setup.serversPool.values().next().value
+    const { config: server } = setup.serversPool.values().next().value
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)

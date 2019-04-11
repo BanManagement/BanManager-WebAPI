@@ -171,7 +171,7 @@ describe('Mutation setRoles', function () {
     assert(body)
     assert(body.data)
 
-    assert.deepStrictEqual(body.data.setRoles.roles, [ { id: '3' }])
+    assert.deepStrictEqual(body.data.setRoles.roles, [ { id: '3' } ])
     assert.deepStrictEqual(body.data.setRoles.serverRoles, [ { role: { id: '2' }, server: { id: config.id } } ])
   })
 })
