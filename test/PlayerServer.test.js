@@ -1,9 +1,9 @@
 const assert = require('assert')
 const {
   GraphQLNonNull
-, GraphQLID
-, GraphQLInt
-, GraphQLList
+  , GraphQLID
+  , GraphQLInt
+  , GraphQLList
 } = require('graphql')
 const schema = require('../schema')()
 const Timestamp = require('../graphql/resolvers/scalars/timestamp')

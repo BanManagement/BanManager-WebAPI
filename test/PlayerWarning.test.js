@@ -1,11 +1,11 @@
 const assert = require('assert')
 const
-{ GraphQLBoolean
-, GraphQLFloat
-, GraphQLID
-, GraphQLNonNull
-, GraphQLString
-} = require('graphql')
+  { GraphQLBoolean
+    , GraphQLFloat
+    , GraphQLID
+    , GraphQLNonNull
+    , GraphQLString
+  } = require('graphql')
 const schema = require('../schema')()
 const Timestamp = require('../graphql/resolvers/scalars/timestamp')
 
@@ -69,17 +69,17 @@ describe('PlayerWarning', function () {
 
   it('should only expose certain fields', function () {
     assert.deepStrictEqual(Object.keys(fields)
-      , [ 'id'
-        , 'player'
-        , 'actor'
-        , 'reason'
-        , 'created'
-        , 'updated'
-        , 'expires'
-        , 'read'
-        , 'points'
-        , 'server'
-        , 'acl'
-        ])
+      , [ 'id',
+        'player',
+        'actor',
+        'reason',
+        'created',
+        'updated',
+        'expires',
+        'read',
+        'points',
+        'server',
+        'acl'
+      ])
   })
 })

@@ -29,9 +29,9 @@ describe('Query pageLayout', function () {
         pageLayout(pathname: "nope") {
           pathname
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Page Layout not found')
@@ -113,9 +113,9 @@ describe('Query pageLayout', function () {
             }
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.pageLayout.pathname, 'player')
@@ -170,8 +170,8 @@ describe('Query pageLayout', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }]
-      , unusedComponents: []
+        }],
+      unusedComponents: []
       },
       tablet: { components:
         [{
@@ -223,8 +223,8 @@ describe('Query pageLayout', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }]
-      , unusedComponents: []
+        }],
+      unusedComponents: []
       },
       desktop: { components:
         [{
@@ -276,8 +276,8 @@ describe('Query pageLayout', function () {
           colour: null,
           textAlign: null,
           meta: null
-        }]
-      , unusedComponents: []
+        }],
+      unusedComponents: []
       }
     })
   })

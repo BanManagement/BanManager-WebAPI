@@ -1,5 +1,4 @@
 const { parse } = require('uuid-parse')
-const { differenceWith } = require('lodash')
 const ExposedError = require('../../../data/exposed-error')
 const udify = require('../../../data/udify')
 
@@ -18,7 +17,7 @@ module.exports = async function setRoles (obj, { player, input: { roles, serverR
   })
 
   // @TODO Should we validate players exist?
-  const playerId = parse(player, new Buffer(16))
+  const playerId = parse(player, Buffer.alloc(16))
 
   const globalRoles = roles.map(role => ({ role_id: role.id, player_id: playerId }))
   const serverDataRoles = serverRoles.map(({ role, server }) => ({ role_id: role.id, server_id: server.id, player_id: playerId }))

@@ -1,7 +1,7 @@
 const { unparse } = require('uuid-parse')
 const ExposedError = require('../../../data/exposed-error')
 
-module.exports = async function server(obj, { id }, { state: { serversPool } }) {
+module.exports = async function server (obj, { id }, { state: { serversPool } }) {
   if (!serversPool.has(id)) throw new ExposedError('Server not found')
 
   const server = Object.assign({}, serversPool.get(id).config)

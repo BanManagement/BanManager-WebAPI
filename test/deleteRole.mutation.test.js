@@ -31,9 +31,9 @@ describe('Mutation delete role', function () {
         deleteRole(id: 1) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -51,9 +51,9 @@ describe('Mutation delete role', function () {
         deleteRole(id: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -71,9 +71,9 @@ describe('Mutation delete role', function () {
         deleteRole(id: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Role 123123 does not exist')
@@ -90,9 +90,9 @@ describe('Mutation delete role', function () {
         deleteRole(id: 1) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'You may not delete default roles')
@@ -109,9 +109,9 @@ describe('Mutation delete role', function () {
         deleteRole(id: 2) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'You may not delete default roles')
@@ -128,9 +128,9 @@ describe('Mutation delete role', function () {
         deleteRole(id: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'You may not delete default roles')
@@ -153,9 +153,9 @@ describe('Mutation delete role', function () {
           id
           name
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.deleteRole.id, '4')

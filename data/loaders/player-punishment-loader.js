@@ -24,16 +24,16 @@ module.exports = ({ state }, tableName, resource) => {
       rows = await Promise.map(rows, async row => {
         const actor = await state.loaders.player.ids.load(row.actor_id)
         const acl =
-          { update: state.acl.hasServerPermission(serverId, resource, 'update.any')
-            || (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id))
-            || (state.acl.hasServerPermission(serverId, resource, 'update.any'))
-            || (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id))
-          , delete: state.acl.hasServerPermission(serverId, resource, 'delete.any')
-            || (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id))
-            || (state.acl.hasServerPermission(serverId, resource, 'delete.any'))
-            || (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id))
-          , actor: state.acl.owns(row.actor_id)
-          , yours: state.acl.owns(row.player_id)
+          { update: state.acl.hasServerPermission(serverId, resource, 'update.any') ||
+            (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id)) ||
+            (state.acl.hasServerPermission(serverId, resource, 'update.any')) ||
+            (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id)),
+          delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
+            (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id)) ||
+            (state.acl.hasServerPermission(serverId, resource, 'delete.any')) ||
+            (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id)),
+          actor: state.acl.owns(row.actor_id),
+          yours: state.acl.owns(row.player_id)
           }
 
         return { actor, acl, ...row }
@@ -68,11 +68,11 @@ module.exports = ({ state }, tableName, resource) => {
         const player = await state.loaders.player.ids.load(row.player_id)
         const acl =
           { update: state.acl.hasServerPermission(serverId, resource, 'update.any') ||
-            (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id))
-          , delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
-            (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id))
-          , actor: state.acl.owns(row.actor_id)
-          , yours: state.acl.owns(row.player_id)
+            (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id)),
+          delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
+            (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id)),
+          actor: state.acl.owns(row.actor_id),
+          yours: state.acl.owns(row.player_id)
           }
 
         return { player, actor, acl, ...row }
@@ -81,7 +81,7 @@ module.exports = ({ state }, tableName, resource) => {
       data = data.concat(rows)
     }
 
-    return punishmentIds.map(id => data.find(row => row.id == id))
+    return punishmentIds.map(id => data.find(row => row.id === id))
   })
 
   return {

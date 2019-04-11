@@ -31,7 +31,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ email: 123, password: 'test' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid email type')
@@ -43,7 +43,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ email: 'asd', password: 'test' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid email address')
@@ -53,11 +53,12 @@ describe('/session', function () {
       const { body, statusCode } = await request
         .post('/session')
         .set('Accept', 'application/json')
-        .send({ password: 'test', email: // eslint-disable-next-line
+        .send({ password: 'test',
+          email: // eslint-disable-next-line
           'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
         })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid email address')
@@ -69,7 +70,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ email: 'asd@asd.com', password: 123 })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid password type')
@@ -81,7 +82,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ email: 'asd@asd.com', password: 'aaaaa' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid password, minimum length 6 characters')
@@ -91,11 +92,12 @@ describe('/session', function () {
       const { body, statusCode } = await request
         .post('/session')
         .set('Accept', 'application/json')
-        .send({ email: 'asd@asd.com', password: // eslint-disable-next-line
+        .send({ email: 'asd@asd.com',
+          password: // eslint-disable-next-line
           'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
         })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid password, minimum length 6 characters')
@@ -107,7 +109,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ email: 'asd@asd.com', password: 'testing' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Incorrect login details')
@@ -119,7 +121,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ email: 'admin@banmanagement.com', password: 'testiasd' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Incorrect login details')
@@ -132,7 +134,7 @@ describe('/session', function () {
         .expect('Set-Cookie', /bm-ui-sess/)
         .send({ email: 'admin@banmanagement.com', password: 'testing' })
 
-      assert.equal(statusCode, 204)
+      assert.strictEqual(statusCode, 204)
     })
   })
 
@@ -143,7 +145,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 1 })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid name')
@@ -155,7 +157,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: '#yar' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid name')
@@ -167,7 +169,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 'testinglotsofthings' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid name')
@@ -179,7 +181,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 'confuser', pin: 123 })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid pin type')
@@ -191,7 +193,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 'confuser', pin: '1234' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid pin, must be 6 characters')
@@ -203,7 +205,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 'confuser', pin: '123456789' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Invalid pin, must be 6 characters')
@@ -215,7 +217,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 'confuser', pin: '123456', serverId: 'a' })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Server does not exist')
@@ -228,7 +230,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: 'yargasd', pin: '123456', serverId: server.id })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Incorrect login details')
@@ -246,7 +248,7 @@ describe('/session', function () {
         .set('Accept', 'application/json')
         .send({ name: player.name, pin: '123459', serverId: server.id })
 
-      assert.equal(statusCode, 400)
+      assert.strictEqual(statusCode, 400)
 
       assert(body)
       assert.strictEqual(body.error, 'Incorrect login details')
@@ -265,7 +267,7 @@ describe('/session', function () {
         .expect('Set-Cookie', /bm-ui-sess/)
         .send({ name: player.name, pin: '123456', serverId: server.id })
 
-      assert.equal(statusCode, 200)
+      assert.strictEqual(statusCode, 200)
       assert.strictEqual(body.hasAccount, false)
     })
   })

@@ -2,7 +2,7 @@ const DataLoader = require('dataloader')
 
 module.exports = ({ state }) => {
   const ids = new DataLoader(async roleIds => {
-    return await Promise.map(roleIds, async id => {
+    return Promise.map(roleIds, async id => {
       const [ [ role ] ] = await state.dbPool.execute('SELECT role_id AS id, name, parent_role_id AS parent FROM bm_web_roles WHERE role_id = ?', [ id ])
 
       if (!role) return null
@@ -28,9 +28,9 @@ module.exports = ({ state }) => {
         if (!perms) resource.permissions = []
 
         resource.permissions = perms.map(perm => (
-          { id: perm.permission_id
-          , name: perm.name
-          , allowed: perm.allowed
+          { id: perm.permission_id,
+            name: perm.name,
+            allowed: perm.allowed
           }
         ))
       })

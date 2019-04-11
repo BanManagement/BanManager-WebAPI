@@ -2,7 +2,7 @@ const { insert, update } = require('../../../data/udify')
 const ExposedError = require('../../../data/exposed-error')
 const pageLayout = require('../queries/page-layout')
 
-module.exports = async function updatePageLayout(obj, { pathname, input }, { log, state }) {
+module.exports = async function updatePageLayout (obj, { pathname, input }, { log, state }) {
   // Find all component ids
   const [ results ] = await state.dbPool.execute('SELECT id FROM bm_web_page_layouts WHERE pathname = ? LIMIT 1',
     [ pathname ])
@@ -21,15 +21,15 @@ module.exports = async function updatePageLayout(obj, { pathname, input }, { log
       // @TODO Validate component is allowed in this pathname
       input[device].components.forEach(({ id, component, x, y, w, textAlign, colour, meta }) => {
         const data = {
-          pathname
-        , device
-        , component
-        , x
-        , y
-        , w
-        , textAlign: textAlign || null
-        , colour: colour || null
-        , meta: meta || null
+          pathname,
+          device,
+          component,
+          x,
+          y,
+          w,
+          textAlign: textAlign || null,
+          colour: colour || null,
+          meta: meta || null
         }
 
         if (id) data.id = id
@@ -39,15 +39,15 @@ module.exports = async function updatePageLayout(obj, { pathname, input }, { log
 
       input[device].unusedComponents.forEach(({ id, component, x, w, textAlign, colour, meta }) => {
         const data = {
-          pathname
-        , device
-        , component
-        , x
-        , y: -1
-        , w
-        , textAlign: textAlign || null
-        , colour: colour || null
-        , meta: meta || null
+          pathname,
+          device,
+          component,
+          x,
+          y: -1,
+          w,
+          textAlign: textAlign || null,
+          colour: colour || null,
+          meta: meta || null
         }
 
         if (id) data.id = id

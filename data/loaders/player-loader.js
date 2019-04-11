@@ -4,7 +4,7 @@ const { find } = require('lodash')
 
 module.exports = (ctx) => {
   const ids = new DataLoader(async (unparsedIds) => {
-    const parsedIds = unparsedIds.map(id => Buffer.isBuffer(id) ? id : parse(id, new Buffer(16)))
+    const parsedIds = unparsedIds.map(id => Buffer.isBuffer(id) ? id : parse(id, Buffer.alloc(16)))
     const players = {}
 
     // UUIDs could be sent without hyphens and in all caps, format them!
@@ -20,10 +20,10 @@ module.exports = (ctx) => {
 
         if (!cachedPlayer) {
           cachedPlayer = {
-            id: playerId
-          , name: player.name
-          , lastSeen: player.lastSeen
-          , servers: []
+            id: playerId,
+            name: player.name,
+            lastSeen: player.lastSeen,
+            servers: []
           }
 
           players[playerId] = cachedPlayer
@@ -41,11 +41,11 @@ module.exports = (ctx) => {
         const serverData = { ...server.config, timeOffset }
 
         cachedPlayer.servers.push(
-          { id: server.config.id
-          , ip: player.ip
-          , lastSeen: player.lastSeen
-          , server: serverData
-          , player
+          { id: server.config.id,
+            ip: player.ip,
+            lastSeen: player.lastSeen,
+            server: serverData,
+            player
           })
       }
     })

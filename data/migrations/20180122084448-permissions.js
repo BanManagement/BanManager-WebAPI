@@ -45,7 +45,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
   await addPermission('player.ips', 'view')
   await addPermission('player.history', 'view')
   await addPermission('player.kicks'
@@ -54,7 +54,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
   await addPermission('player.mutes'
     , 'create'
     , 'update.any'
@@ -62,7 +62,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
   await addPermission('player.notes'
     , 'create'
     , 'update.any'
@@ -70,7 +70,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
   await addPermission('player.warnings'
     , 'create'
     , 'update.any'
@@ -78,7 +78,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
   await addPermission('player.reports'
     , 'update.state.any'
     , 'update.state.own'
@@ -103,7 +103,7 @@ exports.up = async function (db) {
     , 'view.serverlogs'
     , 'view.comments'
     , 'view.commands'
-    )
+  )
 
   await attachPermission('servers', 1, 'view')
   await attachPermission('servers', 2, 'view')
@@ -117,10 +117,10 @@ exports.up = async function (db) {
 
   await attachPermission('player.bans', 1
     , 'view'
-    )
+  )
   await attachPermission('player.bans', 2
     , 'view'
-    )
+  )
   await attachPermission('player.bans', 3
     , 'create'
     , 'update.any'
@@ -128,7 +128,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
 
   await attachPermission('player.ips', 3, 'view')
 
@@ -140,14 +140,14 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
 
   await attachPermission('player.mutes', 1
     , 'view'
-    )
+  )
   await attachPermission('player.mutes', 2
     , 'view'
-    )
+  )
   await attachPermission('player.mutes', 3
     , 'create'
     , 'update.any'
@@ -155,7 +155,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
 
   await attachPermission('player.notes', 3
     , 'create'
@@ -164,14 +164,14 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
 
   await attachPermission('player.warnings', 1
     , 'view'
-    )
+  )
   await attachPermission('player.warnings', 2
     , 'view'
-    )
+  )
   await attachPermission('player.warnings', 3
     , 'create'
     , 'update.any'
@@ -179,7 +179,7 @@ exports.up = async function (db) {
     , 'delete.any'
     , 'delete.own'
     , 'view'
-    )
+  )
 
   await attachPermission('player.reports', 2
     , 'comment.own'
@@ -191,7 +191,7 @@ exports.up = async function (db) {
     , 'view.comments'
     , 'view.commands'
     , 'view.locations'
-    )
+  )
   await attachPermission('player.reports', 3
     , 'update.state.any'
     , 'update.state.own'
@@ -213,7 +213,7 @@ exports.up = async function (db) {
     , 'view.comments'
     , 'view.commands'
     , 'view.locations'
-    )
+  )
 }
 
 exports.down = async function (db) {

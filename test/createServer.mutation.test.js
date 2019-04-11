@@ -40,9 +40,9 @@ describe('Mutation create server', function () {
       mutation: {
         createServer:
           { __args: {
-              input: server
-            }
-            , id: true
+            input: server
+          },
+          id: true
           }
       }
     })
@@ -52,7 +52,7 @@ describe('Mutation create server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -71,9 +71,9 @@ describe('Mutation create server', function () {
       mutation: {
         createServer:
           { __args: {
-              input: server
-            }
-            , id: true
+            input: server
+          },
+          id: true
           }
       }
     })
@@ -83,7 +83,7 @@ describe('Mutation create server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -105,8 +105,8 @@ describe('Mutation create server', function () {
           {
             __args: {
               input: server
-            }
-            , id: true
+            },
+            id: true
           }
       }
     })
@@ -116,7 +116,7 @@ describe('Mutation create server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -137,8 +137,8 @@ describe('Mutation create server', function () {
           {
             __args: {
               input: server
-            }
-            , id: true
+            },
+            id: true
           }
       }
     })
@@ -148,7 +148,7 @@ describe('Mutation create server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -177,8 +177,8 @@ describe('Mutation create server', function () {
           {
             __args: {
               input: server
-            }
-            , id: true
+            },
+            id: true
           }
       }
     })
@@ -191,7 +191,7 @@ describe('Mutation create server', function () {
     // Delete custom user
     await pool.execute('DELETE FROM mysql.user WHERE user = "foobar";')
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data.createServer.id)
@@ -206,5 +206,4 @@ describe('Mutation create server', function () {
 
     assert.strictEqual(decrypted, 'password')
   })
-
 })

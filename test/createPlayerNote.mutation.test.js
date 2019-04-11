@@ -38,9 +38,9 @@ describe('Mutation create player note', function () {
         }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -80,9 +80,9 @@ describe('Mutation create player note', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -124,9 +124,9 @@ describe('Mutation create player note', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -135,5 +135,4 @@ describe('Mutation create player note', function () {
     assert.strictEqual(body.data.createPlayerNote.message, note.message)
     assert.deepStrictEqual(body.data.createPlayerNote.acl, { delete: true, update: true, yours: false })
   })
-
 })

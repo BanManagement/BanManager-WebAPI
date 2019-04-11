@@ -34,9 +34,9 @@ describe('Mutation updatePageLayout', function () {
         }) {
           pathname
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -57,9 +57,9 @@ describe('Mutation updatePageLayout', function () {
         }) {
           pathname
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -80,9 +80,9 @@ describe('Mutation updatePageLayout', function () {
         }) {
           pathname
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Page Layout does not exist')
@@ -98,29 +98,29 @@ describe('Mutation updatePageLayout', function () {
       mutation: {
         updatePageLayout:
           { __args:
-            { pathname: 'player'
-            , input:
-              { mobile: { components, unusedComponents }
-              , desktop: { components: [], unusedComponents: [] }
-              , tablet: { components: [], unusedComponents: [] }
+            { pathname: 'player',
+              input:
+              { mobile: { components, unusedComponents },
+                desktop: { components: [], unusedComponents: [] },
+                tablet: { components: [], unusedComponents: [] }
               }
-            }
-          , pathname: true
-          , devices:
+            },
+          pathname: true,
+          devices:
             { mobile:
               { components:
-                { id: true
-                , component: true
-                , x: true
-                , y: true
-                , w: true
-                }
-              , unusedComponents:
-                { id: true
-                , component: true
-                , x: true
-                , y: true
-                , w: true
+                { id: true,
+                  component: true,
+                  x: true,
+                  y: true,
+                  w: true
+                },
+              unusedComponents:
+                { id: true,
+                  component: true,
+                  x: true,
+                  y: true,
+                  w: true
                 }
               }
             }
@@ -134,7 +134,7 @@ describe('Mutation updatePageLayout', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.updatePageLayout.pathname, 'player')

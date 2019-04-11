@@ -1,7 +1,7 @@
 const udify = require('../../../data/udify')
 const ExposedError = require('../../../data/exposed-error')
 
-module.exports = async function reportState(obj, { serverId, state: stateId, report: id }, { state }) {
+module.exports = async function reportState (obj, { serverId, state: stateId, report: id }, { state }) {
   const server = state.serversPool.get(serverId)
 
   if (!server) throw new ExposedError('Server does not exist')

@@ -4,16 +4,16 @@ exports.up = async function (db) {
   const { addComponents } = createLayoutHelper(db)
 
   await db.createTable('bm_web_page_layouts', {
-    id: { type: 'int', primaryKey: true, autoIncrement: true }
-    , pathname: 'string'
-    , device: 'string'
-    , component: 'string'
-    , x: 'int'
-    , y: 'int'
-    , w: 'int'
-    , textAlign: 'string'
-    , colour: 'string'
-    , meta: 'longtext'
+    id: { type: 'int', primaryKey: true, autoIncrement: true },
+    pathname: 'string',
+    device: 'string',
+    component: 'string',
+    x: 'int',
+    y: 'int',
+    w: 'int',
+    textAlign: 'string',
+    colour: 'string',
+    meta: 'longtext'
   })
   await db.addIndex('bm_web_page_layouts', 'bm_web_page_layouts_pathname_idx', [ 'pathname' ])
 

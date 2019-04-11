@@ -10,7 +10,7 @@ module.exports = async function (request, server, player) {
     .set('Accept', 'application/json')
     .send({ name: player.name, pin: '123456', serverId: server.config.id })
 
-  assert.equal(statusCode, 200)
+  assert.strictEqual(statusCode, 200)
 
   const cookie = header['set-cookie'].join(';')
 

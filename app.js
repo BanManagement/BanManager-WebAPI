@@ -17,20 +17,20 @@ module.exports = async (dbPool, logger, serversPool) => {
   const router = new Router()
 
   const sessionConfig =
-    { key: process.env.SESSION_NAME
-    , renew: true
-    , httpOnly: true
-    , decode(str) {
-        const body = new Buffer(str, 'base64').toString('utf8')
+    { key: process.env.SESSION_NAME,
+      renew: true,
+      httpOnly: true,
+      decode (str) {
+        const body = Buffer.from(str, 'base64').toString('utf8')
         const json = JSON.parse(body)
 
         if (json.playerId && json.playerId.type === 'Buffer') json.playerId = Buffer.from(json.playerId.data)
 
         return json
-      }
-    , sameSite: 'lax'
-    , domain: process.env.SESSION_DOMAIN
-    , valid(session, data) {
+      },
+      sameSite: 'lax',
+      domain: process.env.SESSION_DOMAIN,
+      valid (session, data) {
         return valid(data)
       }
     }
@@ -65,10 +65,10 @@ module.exports = async (dbPool, logger, serversPool) => {
 
   const graphqlOpts = async ({ state, session, log }) => {
     return {
-      schema
-    , context: { state, session, log }
-    , cacheControl: true
-    , formatError(error) {
+      schema,
+      context: { state, session, log },
+      cacheControl: true,
+      formatError (error) {
         if (error.originalError && error.originalError.exposed) {
           return error
         }
@@ -82,8 +82,8 @@ module.exports = async (dbPool, logger, serversPool) => {
         logger.error(error)
 
         return { message: 'Internal Server Error' }
-      }
-    , validationRules: [ depthLimit(10) ]
+      },
+      validationRules: [ depthLimit(10) ]
     }
   }
 

@@ -42,9 +42,9 @@ describe('Query searchPlayers', function () {
           name
           lastSeen
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -54,5 +54,4 @@ describe('Query searchPlayers', function () {
     assert.strictEqual(body.data.searchPlayers[0].name, player.name)
     assert.strictEqual(body.data.searchPlayers[0].lastSeen, player.lastSeen)
   })
-
 })

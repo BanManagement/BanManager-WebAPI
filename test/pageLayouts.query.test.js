@@ -30,9 +30,9 @@ describe('Query pageLayouts', function () {
         pageLayouts {
           pathname
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -50,9 +50,9 @@ describe('Query pageLayouts', function () {
         pageLayouts {
           pathname
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -107,9 +107,9 @@ describe('Query pageLayouts', function () {
             }
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.pageLayouts[0].pathname, 'player')

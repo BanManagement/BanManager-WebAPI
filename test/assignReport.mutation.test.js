@@ -39,9 +39,9 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -68,15 +68,15 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }`})
+      }` })
 
     await role.reset()
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
-    assert.strictEqual(body.data.assignReport.id, ''+ insertId)
+    assert.strictEqual(body.data.assignReport.id, '' + insertId)
   })
 
   it('should allow update.assign.own', async function () {
@@ -99,15 +99,15 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }`})
+      }` })
 
     await role.reset()
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
-    assert.strictEqual(body.data.assignReport.id, ''+ insertId)
+    assert.strictEqual(body.data.assignReport.id, '' + insertId)
   })
 
   it('should allow update.assign.assigned', async function () {
@@ -132,15 +132,15 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }`})
+      }` })
 
     await role.reset()
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
-    assert.strictEqual(body.data.assignReport.id, ''+ insertId)
+    assert.strictEqual(body.data.assignReport.id, '' + insertId)
   })
 
   it('should allow update.assign.reported', async function () {
@@ -163,15 +163,15 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }`})
+      }` })
 
     await role.reset()
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
-    assert.strictEqual(body.data.assignReport.id, ''+ insertId)
+    assert.strictEqual(body.data.assignReport.id, '' + insertId)
   })
 
   it('should error if report does not exist', async function () {
@@ -189,9 +189,9 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Report 123123 does not exist')
@@ -212,9 +212,9 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "3", report: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Server 3 does not exist')
@@ -222,7 +222,7 @@ describe('Mutation assignReport', function () {
 
   it('should error if player does not exist', async function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
-    const { config, pool } = setup.serversPool.values().next().value
+    const { config } = setup.serversPool.values().next().value
     const player = createPlayer()
 
     const { body, statusCode } = await request
@@ -233,9 +233,9 @@ describe('Mutation assignReport', function () {
         assignReport(player: "${unparse(player.id)}", serverId: "${config.id}", report: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, `Player ${unparse(player.id)} does not exist`)
@@ -259,9 +259,9 @@ describe('Mutation assignReport', function () {
             id
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)

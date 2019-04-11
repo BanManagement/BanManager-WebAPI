@@ -5,7 +5,7 @@ const createApp = require('../app')
 const { createSetup } = require('./lib')
 const {
   createPlayer
-, createBan
+  , createBan
 } = require('./fixtures')
 const { insert } = require('../data/udify')
 
@@ -56,20 +56,19 @@ describe('Query player ban', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerBan,
-      { id: '1'
-      , reason: ban.reason
-      , created: ban.created
-      , expires: 0
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: false, update: false, yours: false }
+      { id: '1',
+        reason: ban.reason,
+        created: ban.created,
+        expires: 0,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: false, update: false, yours: false }
       })
   })
-
 })

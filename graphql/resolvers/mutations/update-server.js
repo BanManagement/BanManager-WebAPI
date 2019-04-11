@@ -5,7 +5,7 @@ const udify = require('../../../data/udify')
 const ExposedError = require('../../../data/exposed-error')
 const tables = require('../../../data/tables')
 
-module.exports = async function updateServer(obj, { id, input }, { state }) {
+module.exports = async function updateServer (obj, { id, input }, { state }) {
   if (!state.serversPool.has(id)) throw new ExposedError('Server not found')
 
   // @TODO Check if connection details changed to avoid needing password to change server name
@@ -28,7 +28,7 @@ module.exports = async function updateServer(obj, { id, input }, { state }) {
 
   const [ [ exists ] ] = await conn.query(
     'SELECT id FROM ?? WHERE id = ?'
-    , [ input.tables.players, parse(input.console, new Buffer(16)) ])
+    , [ input.tables.players, parse(input.console, Buffer.alloc(16)) ])
 
   conn.end()
 
@@ -48,7 +48,7 @@ module.exports = async function updateServer(obj, { id, input }, { state }) {
   }
 
   // Clean up
-  input.console = parse(input.console, new Buffer(16))
+  input.console = parse(input.console, Buffer.alloc(16))
   input.tables = JSON.stringify(input.tables)
 
   await udify.update(state.dbPool, 'bm_web_servers', input, { id })

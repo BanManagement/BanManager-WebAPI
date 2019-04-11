@@ -5,7 +5,7 @@ const createApp = require('../app')
 const { createSetup, getAuthPassword } = require('./lib')
 const {
   createPlayer
-, createKick
+  , createKick
 } = require('./fixtures')
 const { insert } = require('../data/udify')
 
@@ -57,19 +57,18 @@ describe('Query player kick', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerKick,
-      { id: '1'
-      , reason: kick.reason
-      , created: kick.created
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: true, update: true, yours: false }
+      { id: '1',
+        reason: kick.reason,
+        created: kick.created,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: true, update: true, yours: false }
       })
   })
-
 })

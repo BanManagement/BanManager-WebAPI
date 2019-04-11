@@ -16,12 +16,12 @@ module.exports = async function (request, cookie) {
           type
         }
       }
-    }`})
+    }` })
 
   assert.strictEqual(statusCode, 200)
   assert(body)
   assert(body.data)
   assert(body.data.me)
 
-  return { ...body.data.me, id: parse(body.data.me.id, new Buffer(16)) }
+  return { ...body.data.me, id: parse(body.data.me.id, Buffer.alloc(16)) }
 }

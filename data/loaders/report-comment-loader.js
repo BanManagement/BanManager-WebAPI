@@ -5,7 +5,7 @@ module.exports = ({ state }) => {
   const serverDataId = new DataLoader(async reportIds => {
     const { serversPool } = state
 
-    return await Promise.map(reportIds, async ({ serverId, id }) => {
+    return Promise.map(reportIds, async ({ serverId, id }) => {
       const server = serversPool.get(serverId)
       const tables = server.config.tables
       const query = `
@@ -30,8 +30,8 @@ module.exports = ({ state }) => {
         },
         message: result.comment,
         acl: {
-          delete: state.acl.hasServerPermission(serverId, 'player.reports', 'comment.delete.any')
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.delete.own') && state.acl.owns(result.actor_id))
+          delete: state.acl.hasServerPermission(serverId, 'player.reports', 'comment.delete.any') ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.delete.own') && state.acl.owns(result.actor_id))
         }
       }
 

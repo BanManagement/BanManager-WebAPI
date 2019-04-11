@@ -38,9 +38,9 @@ describe('Mutation create player warning', function () {
         }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -87,9 +87,9 @@ describe('Mutation create player warning', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -99,5 +99,4 @@ describe('Mutation create player warning', function () {
     assert.strictEqual(body.data.createPlayerWarning.expires, 1000000000)
     assert.deepStrictEqual(body.data.createPlayerWarning.acl, { delete: true, update: true, yours: false })
   })
-
 })

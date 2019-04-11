@@ -1,7 +1,7 @@
 const recordToTable = require('../../../data/record-to-table')
 const recordToResource = require('../../../data/record-to-resource')
 
-module.exports = async function deletePunishmentRecord(obj, { id, serverId, type }, { state: { acl, serversPool } }) {
+module.exports = async function deletePunishmentRecord (obj, { id, serverId, type }, { state: { acl, serversPool } }) {
   const server = serversPool.get(serverId)
   const table = server.config.tables[recordToTable(type)]
   const resource = recordToResource(type)

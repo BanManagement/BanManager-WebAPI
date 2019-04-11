@@ -36,17 +36,16 @@ describe('Query adminNavigation', function () {
             href
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
 
     assert.deepStrictEqual(body.data.adminNavigation.left,
-      [ { id: '1', name: 'Roles', label: 3, href: '/admin/roles' }
-      , { id: '2', name: 'Servers', label: 1, href: '/admin/servers' }
-      , { id: '3', name: 'Page Layouts', label: 1, href: '/admin/page-layouts' }
+      [ { id: '1', name: 'Roles', label: 3, href: '/admin/roles' },
+        { id: '2', name: 'Servers', label: 1, href: '/admin/servers' },
+        { id: '3', name: 'Page Layouts', label: 1, href: '/admin/page-layouts' }
       ])
   })
-
 })

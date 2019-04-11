@@ -43,13 +43,13 @@ describe('PlayerNote', function () {
 
   it('should only expose certain fields', function () {
     assert.deepStrictEqual(Object.keys(fields)
-      , [ 'id'
-        , 'player'
-        , 'actor'
-        , 'message'
-        , 'created'
-        , 'server'
-        , 'acl'
-        ])
+      , [ 'id',
+        'player',
+        'actor',
+        'message',
+        'created',
+        'server',
+        'acl'
+      ])
   })
 })

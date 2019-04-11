@@ -5,7 +5,7 @@ const createApp = require('../app')
 const { createSetup, getAuthPassword } = require('./lib')
 const {
   createPlayer
-, createMute
+  , createMute
 } = require('./fixtures')
 const { insert } = require('../data/udify')
 
@@ -59,21 +59,20 @@ describe('Query player mute', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerMute,
-      { id: '1'
-      , reason: mute.reason
-      , created: mute.created
-      , expires: 0
-      , soft: false
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: true, update: true, yours: false }
+      { id: '1',
+        reason: mute.reason,
+        created: mute.created,
+        expires: 0,
+        soft: false,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: true, update: true, yours: false }
       })
   })
-
 })

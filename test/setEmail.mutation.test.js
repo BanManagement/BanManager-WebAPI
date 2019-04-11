@@ -32,9 +32,9 @@ describe('Mutation set email', function () {
         setEmail(currentPassword: "test", email: "test") {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -52,9 +52,9 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "notCorrect", email: "testing@test.com") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -72,9 +72,9 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "notCorrect", email: "testing.com") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -92,9 +92,9 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "test", email: "test") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -112,9 +112,9 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "testing", email: "admin@banmanagement.com") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'You already have an account')
@@ -131,9 +131,9 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "testing", email: "test@test.com") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
     assert(body)
 
     const { body: body2, statusCode: statusCode2 } = await request
@@ -146,9 +146,9 @@ describe('Mutation set email', function () {
             id
             email
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode2, 200)
+    assert.strictEqual(statusCode2, 200)
 
     assert(body2)
     assert.strictEqual(body2.data.me.email, 'test@test.com')
@@ -165,5 +165,4 @@ describe('Mutation set email', function () {
       assert(errorThrown)
     }
   })
-
 })

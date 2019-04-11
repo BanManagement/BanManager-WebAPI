@@ -1,12 +1,12 @@
-module.exports = async function pageLayouts(obj, info, { state: { dbPool } }) {
+module.exports = async function pageLayouts (obj, info, { state: { dbPool } }) {
   const [ results ] = await dbPool.execute('SELECT * FROM bm_web_page_layouts')
   // @TODO Clean up
   const pageLayouts = {}
 
   results.forEach(result => {
-    if (!pageLayouts[result.pathname]) pageLayouts[result.pathname] = {};
+    if (!pageLayouts[result.pathname]) pageLayouts[result.pathname] = {}
 
-    const devices = pageLayouts[result.pathname];
+    const devices = pageLayouts[result.pathname]
     const { device, y } = result
 
     if (!devices[device]) devices[device] = {}
@@ -22,8 +22,8 @@ module.exports = async function pageLayouts(obj, info, { state: { dbPool } }) {
 
   return Object.keys(pageLayouts).map(pathname => {
     return {
-      pathname: pathname
-    , devices: pageLayouts[pathname]
+      pathname: pathname,
+      devices: pageLayouts[pathname]
     }
   })
 }

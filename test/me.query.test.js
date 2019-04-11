@@ -33,9 +33,9 @@ describe('Query me', function () {
           name
           hasAccount
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -53,14 +53,13 @@ describe('Query me', function () {
           id
           name
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
 
     assert.strictEqual(body.data.me, null)
     assert.strictEqual(body.errors[0].message, 'Invalid session')
   })
-
 })

@@ -8,7 +8,7 @@ module.exports = async function (ctx) {
   return handlePinLogin(ctx)
 }
 
-async function handlePasswordLogin(ctx) {
+async function handlePasswordLogin (ctx) {
   const { response, throw: throwError, request, state } = ctx
 
   if (typeof request.body.email !== 'string') return throwError(400, 'Invalid email type')
@@ -33,7 +33,7 @@ async function handlePasswordLogin(ctx) {
   response.body = null
 }
 
-async function handlePinLogin(ctx) {
+async function handlePinLogin (ctx) {
   const { response, throw: throwError, request, state } = ctx
 
   if (!/^[a-z0-9_]{2,16}$/i.test(request.body.name)) return throwError(400, 'Invalid name')

@@ -3,7 +3,7 @@ const { isLength, isEmail } = require('validator')
 const ExposedError = require('../../../data/exposed-error')
 const Me = require('../queries/me')
 
-module.exports = async function setEmail(obj, { currentPassword, email }, { session, state }) {
+module.exports = async function setEmail (obj, { currentPassword, email }, { session, state }) {
   if (!isLength(currentPassword, { min: 6, max: 255 })) {
     throw new ExposedError('Invalid password, minimum length 6 characters')
   }
@@ -26,5 +26,5 @@ module.exports = async function setEmail(obj, { currentPassword, email }, { sess
 
   await state.dbPool.execute('UPDATE bm_web_users SET email = ? WHERE player_id = ?', [ email, session.playerId ])
 
-  return await Me(obj, {}, { session, state })
+  return Me(obj, {}, { session, state })
 }

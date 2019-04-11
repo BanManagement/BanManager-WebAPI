@@ -1,15 +1,16 @@
 const { parse, unparse } = require('uuid-parse')
+const ExposedError = require('../../../data/exposed-error')
 
 // eslint-disable-next-line complexity
-module.exports = async function listReports(obj, { actor, assigned, player, state: stateId, limit, offset }, { state }) {
+module.exports = async function listReports (obj, { actor, assigned, player, state: stateId, limit, offset }, { state }) {
   const filter = {}
 
   if (limit > 50) throw new ExposedError('Limit too large')
   if (!limit) limit = 10
 
-  if (actor) filter['r.actor_id'] = parse(actor, new Buffer(16))
-  if (assigned) filter['r.assignee_id'] = parse(assigned, new Buffer(16))
-  if (player) filter['r.player_id'] = parse(player, new Buffer(16))
+  if (actor) filter['r.actor_id'] = parse(actor, Buffer.alloc(16))
+  if (assigned) filter['r.assignee_id'] = parse(assigned, Buffer.alloc(16))
+  if (player) filter['r.player_id'] = parse(player, Buffer.alloc(16))
   if (stateId) filter['r.state_id'] = stateId
 
   let totalQuery = `SELECT COUNT(*) AS total FROM

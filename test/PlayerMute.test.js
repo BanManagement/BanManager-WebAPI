@@ -51,18 +51,18 @@ describe('PlayerMute', function () {
     assert.deepStrictEqual(fields.acl.type, GraphQLNonNull(schema.getType('EntityACL')))
   })
 
-  it('should only expose certain fields', function() {
+  it('should only expose certain fields', function () {
     assert.deepStrictEqual(Object.keys(fields)
-      , [ 'id'
-        , 'player'
-        , 'actor'
-        , 'reason'
-        , 'created'
-        , 'updated'
-        , 'expires'
-        , 'soft'
-        , 'server'
-        , 'acl'
-        ])
+      , [ 'id',
+        'player',
+        'actor',
+        'reason',
+        'created',
+        'updated',
+        'expires',
+        'soft',
+        'server',
+        'acl'
+      ])
   })
 })

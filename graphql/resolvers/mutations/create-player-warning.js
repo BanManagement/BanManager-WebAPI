@@ -1,9 +1,9 @@
 const { parse } = require('uuid-parse')
 
-module.exports = async function createPlayerWarning(obj, { input }, { session, state }) {
+module.exports = async function createPlayerWarning (obj, { input }, { session, state }) {
   const server = state.serversPool.get(input.server)
   const table = server.config.tables.playerWarnings
-  const player = parse(input.player, new Buffer(16))
+  const player = parse(input.player, Buffer.alloc(16))
   const actor = session.playerId
 
   const [ { insertId } ] = await server.execute(

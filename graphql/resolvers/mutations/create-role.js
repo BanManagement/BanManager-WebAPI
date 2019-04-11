@@ -1,8 +1,9 @@
+const { find } = require('lodash')
 const udify = require('../../../data/udify')
 
-module.exports = async function createRole(obj
-, { input: { name, parent, resources } }
-, { log, state: { dbPool, loaders } }) {
+module.exports = async function createRole (obj
+  , { input: { name, parent, resources } }
+  , { log, state: { dbPool, loaders } }) {
   const conn = await dbPool.getConnection()
   let id
 

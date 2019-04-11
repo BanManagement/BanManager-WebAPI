@@ -1,8 +1,8 @@
 const udify = require('../../../data/udify')
 
-module.exports = async function updateRole(obj
-, { id, input: { name, parent, resources } }
-, { state: { dbPool, loaders } }) {
+module.exports = async function updateRole (obj
+  , { id, input: { name, parent, resources } }
+  , { state: { dbPool, loaders } }) {
   if (id < 4 && parent) throw new Error('Default roles can not have a parent')
 
   await udify.update(dbPool, 'bm_web_roles', { name, 'parent_role_id': parent || null }, { 'role_id': id })

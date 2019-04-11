@@ -1,10 +1,10 @@
 const { parse } = require('uuid-parse')
 const ExposedError = require('../../../data/exposed-error')
 
-module.exports = async function createPlayerMute(obj, { input }, { session, state }) {
+module.exports = async function createPlayerMute (obj, { input }, { session, state }) {
   const server = state.serversPool.get(input.server)
   const table = server.config.tables.playerMutes
-  const player = parse(input.player, new Buffer(16))
+  const player = parse(input.player, Buffer.alloc(16))
   const actor = session.playerId
   const soft = input.soft ? 1 : 0
   let id

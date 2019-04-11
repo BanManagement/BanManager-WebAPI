@@ -26,7 +26,7 @@ describe('/register', function () {
       .post('/logout')
       .set('Accept', 'application/json')
 
-    assert.equal(statusCode, 204)
+    assert.strictEqual(statusCode, 204)
   })
 
   it('should logout', async function () {
@@ -37,6 +37,6 @@ describe('/register', function () {
       .expect('Set-Cookie', /bm-ui-sess/)
       .set('Accept', 'application/json')
 
-    assert.equal(statusCode, 204)
+    assert.strictEqual(statusCode, 204)
   })
 })

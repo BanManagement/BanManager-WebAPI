@@ -37,9 +37,9 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -61,9 +61,9 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -85,9 +85,9 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Role 123123 does not exist')
@@ -108,9 +108,9 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "3", role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Server 3 does not exist')
@@ -131,9 +131,9 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -156,9 +156,9 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -174,14 +174,13 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode2, 200)
+    assert.strictEqual(statusCode2, 200)
 
     assert(body2)
     assert(body2.data)
 
     assert.strictEqual(body2.data.assignServerRole.id, '3')
   })
-
 })

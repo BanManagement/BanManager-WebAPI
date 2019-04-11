@@ -2,9 +2,9 @@ const { isNullableType } = require('graphql/type')
 const { get } = require('lodash')
 const ExposedError = require('../../data/exposed-error')
 
-module.exports = async function allowIf(next, src
-, { resource, permission, serverSrc, serverVar }
-, { state: { acl } }, info) {
+module.exports = async function allowIf (next, src
+  , { resource, permission, serverSrc, serverVar }
+  , { state: { acl } }, info) {
   const serverId = get(info.variableValues, serverVar) || get(src, serverSrc)
   let allowed = acl.hasPermission(resource, permission)
 

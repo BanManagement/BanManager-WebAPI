@@ -3,13 +3,13 @@ const { differenceWith } = require('lodash')
 const ExposedError = require('../../../data/exposed-error')
 const udify = require('../../../data/udify')
 
-module.exports = async function assignRole(obj, { players, role: id }, { state }) {
+module.exports = async function assignRole (obj, { players, role: id }, { state }) {
   const role = await state.loaders.role.ids.load(id)
 
   if (!role) throw new ExposedError(`Role ${id} does not exist`)
 
   // @TODO Should we validate players exist?
-  let playerIds = players.map(id => parse(id, new Buffer(16)))
+  let playerIds = players.map(id => parse(id, Buffer.alloc(16)))
 
   // Check if players are alraedy in this role, and if so, ignore, making this mutation idempotent
   const [ results ] = await state.dbPool.query(

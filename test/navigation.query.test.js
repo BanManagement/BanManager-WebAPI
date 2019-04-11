@@ -33,18 +33,18 @@ describe('Query navigation', function () {
             href
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.navigation.left,
-    [ { id: '1', name: 'Home', href: '/' }
-    , { id: '2', name: 'Appeal', href: null }
-    , { id: '3', name: 'Reports', href: '/reports' }
-    , { id: '4', name: 'Statistics', href: '/statistics' }
-    ])
+      [ { id: '1', name: 'Home', href: '/' },
+        { id: '2', name: 'Appeal', href: null },
+        { id: '3', name: 'Reports', href: '/reports' },
+        { id: '4', name: 'Statistics', href: '/statistics' }
+      ])
   })
 
   it('should show admin link if user has servers.manage permission', async function () {
@@ -61,19 +61,18 @@ describe('Query navigation', function () {
             href
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
 
     assert.deepStrictEqual(body.data.navigation.left,
-      [ { id: '1', name: 'Home', href: '/' }
-      , { id: '2', name: 'Appeal', href: null }
-      , { id: '3', name: 'Reports', href: '/reports' }
-      , { id: '4', name: 'Statistics', href: '/statistics' }
-      , { id: '5', name: 'Admin', 'href': '/admin' }
+      [ { id: '1', name: 'Home', href: '/' },
+        { id: '2', name: 'Appeal', href: null },
+        { id: '3', name: 'Reports', href: '/reports' },
+        { id: '4', name: 'Statistics', href: '/statistics' },
+        { id: '5', name: 'Admin', 'href': '/admin' }
       ])
   })
-
 })

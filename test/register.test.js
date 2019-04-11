@@ -30,7 +30,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 123, password: 'test' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'You are not logged in')
@@ -44,7 +44,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 123, password: 'test' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'Invalid email type')
@@ -58,7 +58,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'asd', password: 'test' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'Invalid email address')
@@ -70,11 +70,12 @@ describe('/register', function () {
       .post('/register')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ password: 'test', email: // eslint-disable-next-line
+      .send({ password: 'test',
+        email: // eslint-disable-next-line
         'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
       })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'Invalid email address')
@@ -88,7 +89,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'asd@asd.com', password: 123 })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'Invalid password type')
@@ -102,7 +103,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'asd@asd.com', password: 'aaaaa' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'Invalid password, minimum length 6 characters')
@@ -114,11 +115,12 @@ describe('/register', function () {
       .post('/register')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ email: 'asd@asd.com', password: // eslint-disable-next-line
+      .send({ email: 'asd@asd.com',
+        password: // eslint-disable-next-line
         'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
       })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(body)
     assert.strictEqual(body.error, 'Invalid password, minimum length 6 characters')
@@ -136,7 +138,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'asd@asd.com', password: 'foobar' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(nock.isDone())
     assert(body)
@@ -155,7 +157,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'admin@banmanagement.com', password: 'testiasd' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(nock.isDone())
     assert(body)
@@ -179,7 +181,7 @@ describe('/register', function () {
       .set('Accept', 'application/json')
       .send({ email: 'admin@banmanagement.com', password: 'testing' })
 
-    assert.equal(statusCode, 400)
+    assert.strictEqual(statusCode, 400)
 
     assert(nock.isDone())
     assert(body)
@@ -204,6 +206,6 @@ describe('/register', function () {
       .send({ email: 'asd@asda123.com', password: 'testing' })
 
     assert(nock.isDone())
-    assert.equal(statusCode, 204)
+    assert.strictEqual(statusCode, 204)
   })
 })

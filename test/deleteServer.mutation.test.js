@@ -35,8 +35,8 @@ describe('Mutation delete server', function () {
       mutation: {
         deleteServer:
           { __args: {
-              id
-            }
+            id
+          }
           }
       }
     })
@@ -45,7 +45,7 @@ describe('Mutation delete server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -61,8 +61,8 @@ describe('Mutation delete server', function () {
       mutation: {
         deleteServer:
           { __args: {
-              id
-            }
+            id
+          }
           }
       }
     })
@@ -72,7 +72,7 @@ describe('Mutation delete server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -100,7 +100,7 @@ describe('Mutation delete server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -126,7 +126,7 @@ describe('Mutation delete server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.deleteServer, config.id)

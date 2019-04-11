@@ -6,7 +6,7 @@ module.exports = async function (request, email, password) {
     .set('Accept', 'application/json')
     .send({ email, password: password || 'testing' })
 
-  assert.equal(statusCode, 204)
+  assert.strictEqual(statusCode, 204)
 
   const cookie = header['set-cookie'].join(';')
 

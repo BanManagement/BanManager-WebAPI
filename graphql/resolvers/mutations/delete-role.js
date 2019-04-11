@@ -1,6 +1,6 @@
 const ExposedError = require('../../../data/exposed-error')
 
-module.exports = async function deleteRole(obj, { id }, { state }) {
+module.exports = async function deleteRole (obj, { id }, { state }) {
   if (id < 4) throw new ExposedError('You may not delete default roles')
 
   const role = await state.loaders.role.ids.load(id)

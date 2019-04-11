@@ -40,8 +40,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server }
-          , id: true
+          { __args: { id: serverId, input: server },
+            id: true
           }
       }
     })
@@ -51,7 +51,7 @@ describe('Mutation update server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -70,8 +70,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server }
-          , id: true
+          { __args: { id: serverId, input: server },
+            id: true
           }
       }
     })
@@ -81,7 +81,7 @@ describe('Mutation update server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -101,8 +101,8 @@ describe('Mutation update server', function () {
       mutation: {
         updateServer:
           {
-            __args: { id: serverId, input: server }
-            , id: true
+            __args: { id: serverId, input: server },
+            id: true
           }
       }
     })
@@ -112,7 +112,7 @@ describe('Mutation update server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -133,8 +133,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server }
-          , id: true
+          { __args: { id: serverId, input: server },
+            id: true
           }
       }
     })
@@ -144,7 +144,7 @@ describe('Mutation update server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -164,8 +164,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server }
-          , id: true
+          { __args: { id: serverId, input: server },
+            id: true
           }
       }
     })
@@ -175,7 +175,7 @@ describe('Mutation update server', function () {
       .set('Accept', 'application/json')
       .send({ query })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -203,8 +203,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server }
-          , id: true
+          { __args: { id: serverId, input: server },
+            id: true
           }
       }
     })
@@ -217,7 +217,7 @@ describe('Mutation update server', function () {
     // Delete custom user
     await pool.execute('DELETE FROM mysql.user WHERE user = "foobar";')
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data.updateServer.id)
@@ -232,5 +232,4 @@ describe('Mutation update server', function () {
 
     assert.strictEqual(decrypted, 'password')
   })
-
 })

@@ -37,9 +37,9 @@ describe('Mutation setRoles', function () {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [] }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -61,9 +61,9 @@ describe('Mutation setRoles', function () {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [] }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -85,9 +85,9 @@ describe('Mutation setRoles', function () {
         setRoles(player:"${unparse(player.id)}", input: { roles: [ { id: 123123 } ], serverRoles: [] }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Invalid role provided')
@@ -108,9 +108,9 @@ describe('Mutation setRoles', function () {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [ { role: { id: 123123 }, server: { id: "${config.id}" } } ] }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Invalid role provided')
@@ -131,9 +131,9 @@ describe('Mutation setRoles', function () {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [ { role: { id: 1 }, server: { id: "123" } } ] }) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Server 123 does not exist')
@@ -164,9 +164,9 @@ describe('Mutation setRoles', function () {
             }
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)

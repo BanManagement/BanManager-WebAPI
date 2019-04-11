@@ -5,7 +5,7 @@ const udify = require('../../data/udify')
 module.exports = async (dbPool, player, resourceName, ...permissionNames) => {
   const conn = await dbPool.getConnection()
   const roleName = name.firstName()
-  const playerId = Buffer.isBuffer(player.id) ? player.id : parse(player.id, new Buffer(16))
+  const playerId = Buffer.isBuffer(player.id) ? player.id : parse(player.id, Buffer.alloc(16))
   let roleId
 
   try {
@@ -37,7 +37,7 @@ module.exports = async (dbPool, player, resourceName, ...permissionNames) => {
   if (!roleId) throw new Error('Failed to create role')
 
   return {
-    async reset() {
+    async reset () {
       await udify.delete(dbPool, 'bm_web_role_resources', { role_id: roleId })
       await udify.delete(dbPool, 'bm_web_player_roles', { player_id: playerId, role_id: roleId })
       await udify.delete(dbPool, 'bm_web_roles', { role_id: roleId })

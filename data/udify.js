@@ -3,9 +3,9 @@
 
 // @TODO Replace with knex or a lighter query builder
 module.exports =
-{ update
-, delete: deleteData
-, insert
+{ update,
+  delete: deleteData,
+  insert
 }
 
 async function deleteData (pool, table, where) {
@@ -18,10 +18,10 @@ async function deleteData (pool, table, where) {
 
   query = query.slice(0, -5)
 
-  return await pool.execute(query, values)
+  return pool.execute(query, values)
 }
 
-async function insert(pool, table, entity) {
+async function insert (pool, table, entity) {
   if (Array.isArray(entity)) {
     return Promise
       .each(entity, entity => insert(pool, table, entity))
@@ -33,10 +33,10 @@ async function insert(pool, table, entity) {
     (${columns.join()})
     VALUES (${buildParams(values)})` // @TODO Escape column names
 
-    return await pool.execute(query, values)
+  return pool.execute(query, values)
 }
 
-async function update(pool, table, entity, where) {
+async function update (pool, table, entity, where) {
   let values = []
   let query = `UPDATE \`${table}\` SET `
 
@@ -63,9 +63,9 @@ async function update(pool, table, entity, where) {
     values = [ ...values, ...Object.values(where) ]
   }
 
-  return await pool.execute(query, values)
+  return pool.execute(query, values)
 }
 
-function buildParams(columns) {
+function buildParams (columns) {
   return columns.map(() => '?').join(', ')
 }

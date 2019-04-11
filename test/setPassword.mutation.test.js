@@ -33,9 +33,9 @@ describe('Mutation set password', function () {
         setPassword(newPassword: "test") {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -53,9 +53,9 @@ describe('Mutation set password', function () {
           setPassword(newPassword: "testing") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Invalid password, minimum length 6 characters')
@@ -72,9 +72,9 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "notCorrect", newPassword: "testing") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -92,9 +92,9 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "notCorrect", newPassword: "test") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -116,9 +116,9 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "testing", newPassword: "foobar") {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
     assert(nock.isDone())
 
     assert(body)
@@ -147,10 +147,10 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "testing", newPassword: "foobar") {
             id
           }
-      }`})
+      }` })
 
     assert(nock.isDone())
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
     assert(body)
 
     MockDate.reset()
@@ -167,9 +167,9 @@ describe('Mutation set password', function () {
           me {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode2, 200)
+    assert.strictEqual(statusCode2, 200)
 
     assert(body2)
 
@@ -186,13 +186,12 @@ describe('Mutation set password', function () {
           me {
             id
           }
-      }`})
+      }` })
 
-    assert.equal(statusCode3, 200)
+    assert.strictEqual(statusCode3, 200)
 
     assert(body3)
     assert(body3.data)
     assert(body3.data.me.id)
   })
-
 })

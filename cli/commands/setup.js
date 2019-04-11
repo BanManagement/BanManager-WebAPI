@@ -228,7 +228,7 @@ async function askPlayer (question, conn, table) {
 
   const [ [ result ] ] = await conn.query(
     'SELECT name FROM ?? WHERE id = ?'
-    , [ table, parse(id, new Buffer(16)) ])
+    , [ table, parse(id, Buffer.alloc(16)) ])
 
   if (!result) {
     console.log(`Could not find Player ${id}`)
@@ -237,5 +237,5 @@ async function askPlayer (question, conn, table) {
 
   console.log(`Found player ${result.name}`)
 
-  return parse(id, new Buffer(16))
+  return parse(id, Buffer.alloc(16))
 }

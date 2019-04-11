@@ -17,9 +17,9 @@ module.exports = async (ctx, next) => {
   if (valid(ctx.session)) {
     // Check if session requires invalidating due to password change
     const [ [ checkResult ] ] = await state.dbPool.execute(
-        'SELECT updated FROM bm_web_users WHERE player_id = ? AND updated < ?'
+      'SELECT updated FROM bm_web_users WHERE player_id = ? AND updated < ?'
       , [ ctx.session.playerId, ctx.session.updated ]
-      )
+    )
 
     if (checkResult) {
       // Password has changed recently, invalidate ctx.session
@@ -105,8 +105,8 @@ module.exports = async (ctx, next) => {
   }
 
   state.acl =
-    { hasServerPermission
-    , hasPermission(resource, permission) {
+    { hasServerPermission,
+      hasPermission (resource, permission) {
         let value = get(state.permissionValues, [ resource, permission ], 0)
 
         if (permission === '*') { // Support wildcards @TODO Test
@@ -114,15 +114,15 @@ module.exports = async (ctx, next) => {
         }
 
         return !!(resourceValues[resource] & value)
-      }
-    , owns(actorId) {
+      },
+      owns (actorId) {
         if (!actorId) return false
 
         const playerId = get(ctx.session, 'playerId', null)
 
         if (!playerId) return false
 
-        if (!Buffer.isBuffer(actorId)) actorId = parse(actorId, new Buffer(16))
+        if (!Buffer.isBuffer(actorId)) actorId = parse(actorId, Buffer.alloc(16))
 
         return actorId.equals(playerId)
       }
@@ -131,7 +131,7 @@ module.exports = async (ctx, next) => {
   return next()
 }
 
-async function loadRoleResourceValues(dbPool, roleId) {
+async function loadRoleResourceValues (dbPool, roleId) {
   const [ results ] = await dbPool.execute(`
     SELECT
       r.name, rr.value
@@ -150,7 +150,7 @@ async function loadRoleResourceValues(dbPool, roleId) {
   return resourceValues
 }
 
-async function loadPermissionValues(dbPool) {
+async function loadPermissionValues (dbPool) {
   const load = async () => {
     const [ results ] = await dbPool.execute(`
       SELECT

@@ -5,11 +5,11 @@ const createApp = require('../app')
 const { createSetup } = require('./lib')
 const {
   createPlayer
-, createBan
-, createKick
-, createMute
-, createNote
-, createWarning
+  , createBan
+  , createKick
+  , createMute
+  , createNote
+  , createWarning
 } = require('./fixtures')
 const { insert } = require('../data/udify')
 
@@ -137,9 +137,9 @@ describe('Query player', function () {
             }
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -157,34 +157,34 @@ describe('Query player', function () {
 
     assert.strictEqual(actServer.bans.length, 1)
     assert.deepStrictEqual(actServer.bans[0],
-      { id: '1'
-      , reason: ban.reason
-      , created: ban.created
-      , expires: 0
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: false, update: false, yours: false }
+      { id: '1',
+        reason: ban.reason,
+        created: ban.created,
+        expires: 0,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: false, update: false, yours: false }
       })
 
     assert.strictEqual(actServer.mutes.length, 1)
     assert.deepStrictEqual(actServer.mutes[0],
-      { id: '1'
-      , reason: mute.reason
-      , created: mute.created
-      , expires: 0
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: false, update: false, yours: false }
+      { id: '1',
+        reason: mute.reason,
+        created: mute.created,
+        expires: 0,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: false, update: false, yours: false }
       })
 
     assert.strictEqual(actServer.notes, null)
 
     assert.strictEqual(actServer.warnings.length, 1)
     assert.deepStrictEqual(actServer.warnings[0],
-      { id: '1'
-      , reason: warning.reason
-      , created: warning.created
-      , expires: 0
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: false, update: false, yours: false }
+      { id: '1',
+        reason: warning.reason,
+        created: warning.created,
+        expires: 0,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: false, update: false, yours: false }
       })
 
     assert.strictEqual(actServer.acl.bans.create, false)
@@ -192,5 +192,4 @@ describe('Query player', function () {
     assert.strictEqual(actServer.acl.notes.create, false)
     assert.strictEqual(actServer.acl.warnings.create, false)
   })
-
 })

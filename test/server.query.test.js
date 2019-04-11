@@ -47,9 +47,9 @@ describe('Query server', function () {
           }
           timeOffset
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -76,9 +76,9 @@ describe('Query server', function () {
         server(id:"1") {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -86,5 +86,4 @@ describe('Query server', function () {
     assert.strictEqual(body.data.server, null)
     assert.strictEqual(body.errors[0].message, 'Server not found')
   })
-
 })

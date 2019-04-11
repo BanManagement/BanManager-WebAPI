@@ -27,36 +27,36 @@ describe('Query serverTables', function () {
       .set('Accept', 'application/json')
       .send({ query: `query serverTables {
         serverTables
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.serverTables,
-      [ 'players'
-      , 'playerBans'
-      , 'playerBanRecords'
-      , 'playerMutes'
-      , 'playerMuteRecords'
-      , 'playerKicks'
-      , 'playerNotes'
-      , 'playerHistory'
-      , 'playerPins'
-      , 'playerReports'
-      , 'playerReportCommands'
-      , 'playerReportComments'
-      , 'playerReportLocations'
-      , 'playerReportStates'
-      , 'playerReportLogs'
-      , 'serverLogs'
-      , 'playerWarnings'
-      , 'ipBans'
-      , 'ipBanRecords'
-      , 'ipMutes'
-      , 'ipMuteRecords'
-      , 'ipRangeBans'
-      , 'ipRangeBanRecords'
+      [ 'players',
+        'playerBans',
+        'playerBanRecords',
+        'playerMutes',
+        'playerMuteRecords',
+        'playerKicks',
+        'playerNotes',
+        'playerHistory',
+        'playerPins',
+        'playerReports',
+        'playerReportCommands',
+        'playerReportComments',
+        'playerReportLocations',
+        'playerReportStates',
+        'playerReportLogs',
+        'serverLogs',
+        'playerWarnings',
+        'ipBans',
+        'ipBanRecords',
+        'ipMutes',
+        'ipMuteRecords',
+        'ipRangeBans',
+        'ipRangeBanRecords'
       ])
   })
 })

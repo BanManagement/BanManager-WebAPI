@@ -5,7 +5,7 @@ module.exports = ({ state }) => {
   const serverDataId = new DataLoader(async reportIds => {
     const { serversPool } = state
 
-    return await Promise.map(reportIds, async ({ server: serverId, id }) => {
+    return Promise.map(reportIds, async ({ server: serverId, id }) => {
       const server = serversPool.get(serverId)
       const tables = server.config.tables
       const query = `SELECT
@@ -56,20 +56,20 @@ module.exports = ({ state }) => {
         },
         server: server.config,
         acl: {
-          comment: state.acl.hasServerPermission(serverId, 'player.reports', 'comment.any')
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.own') && state.acl.owns(result.actor_id))
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.assigned') && state.acl.owns(result.assignee_id))
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.reported') && state.acl.owns(result.player_id)),
-          assign: state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.any')
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.own') && state.acl.owns(result.actor_id))
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.assigned') && state.acl.owns(result.assignee_id))
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.reported') && state.acl.owns(result.player_id)),
-          state: state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.any')
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.own') && state.acl.owns(result.actor_id))
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.assigned') && state.acl.owns(result.assignee_id))
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.reported') && state.acl.owns(result.player_id)),
-          delete: state.acl.hasServerPermission(serverId, 'player.reports', 'delete.any')
-            || (state.acl.hasServerPermission(serverId, 'player.reports', 'delete.assigned') && state.acl.owns(result.assignee_id))
+          comment: state.acl.hasServerPermission(serverId, 'player.reports', 'comment.any') ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.own') && state.acl.owns(result.actor_id)) ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.assigned') && state.acl.owns(result.assignee_id)) ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'comment.reported') && state.acl.owns(result.player_id)),
+          assign: state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.any') ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.own') && state.acl.owns(result.actor_id)) ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.assigned') && state.acl.owns(result.assignee_id)) ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'update.assign.reported') && state.acl.owns(result.player_id)),
+          state: state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.any') ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.own') && state.acl.owns(result.actor_id)) ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.assigned') && state.acl.owns(result.assignee_id)) ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'update.state.reported') && state.acl.owns(result.player_id)),
+          delete: state.acl.hasServerPermission(serverId, 'player.reports', 'delete.any') ||
+            (state.acl.hasServerPermission(serverId, 'player.reports', 'delete.assigned') && state.acl.owns(result.assignee_id))
         }
       }
 

@@ -5,7 +5,7 @@ const createApp = require('../app')
 const { createSetup, getAuthPassword } = require('./lib')
 const {
   createPlayer
-, createWarning
+  , createWarning
 } = require('./fixtures')
 const { insert } = require('../data/udify')
 
@@ -59,21 +59,20 @@ describe('Query player warning', function () {
             yours
           }
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerWarning,
-      { id: '1'
-      , reason: warning.reason
-      , created: warning.created
-      , expires: 0
-      , points: 1
-      , actor: { id: unparse(actor.id), name: actor.name }
-      , acl: { delete: true, update: true, yours: false }
+      { id: '1',
+        reason: warning.reason,
+        created: warning.created,
+        expires: 0,
+        points: 1,
+        actor: { id: unparse(actor.id), name: actor.name },
+        acl: { delete: true, update: true, yours: false }
       })
   })
-
 })

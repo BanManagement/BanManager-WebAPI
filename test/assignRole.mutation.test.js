@@ -38,9 +38,9 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -63,9 +63,9 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message,
@@ -88,9 +88,9 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 123123) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.errors[0].message, 'Role 123123 does not exist')
@@ -111,9 +111,9 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -137,9 +137,9 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode, 200)
+    assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
@@ -155,14 +155,13 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }`})
+      }` })
 
-    assert.equal(statusCode2, 200)
+    assert.strictEqual(statusCode2, 200)
 
     assert(body2)
     assert(body2.data)
 
     assert.strictEqual(body2.data.assignRole.id, '3')
   })
-
 })

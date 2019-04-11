@@ -5,7 +5,7 @@ const tables = require('../../../data/tables')
 const udify = require('../../../data/udify')
 const ExposedError = require('../../../data/exposed-error')
 
-module.exports = async function createServer(obj, { input }, { state }) {
+module.exports = async function createServer (obj, { input }, { state }) {
   const id = randomBytes(4).toString('hex') // @TODO Use async randomBytes
   const conn = await createConnection(input)
 
@@ -26,7 +26,7 @@ module.exports = async function createServer(obj, { input }, { state }) {
 
   const [ [ exists ] ] = await conn.query(
     'SELECT id FROM ?? WHERE id = ?'
-    , [ input.tables.players, parse(input.console, new Buffer(16)) ])
+    , [ input.tables.players, parse(input.console, Buffer.alloc(16)) ])
 
   conn.end()
 
@@ -46,7 +46,7 @@ module.exports = async function createServer(obj, { input }, { state }) {
   }
 
   // Clean up
-  input.console = parse(input.console, new Buffer(16))
+  input.console = parse(input.console, Buffer.alloc(16))
   input.tables = JSON.stringify(input.tables)
 
   await udify.insert(state.dbPool, 'bm_web_servers', { ...input, id })
