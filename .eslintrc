@@ -1,13 +1,1 @@
-{ "root": true
-  , "parserOptions":
-      { "ecmaVersion": 8
-      , "sourceType": "module"
-      , "ecmaFeatures": {
-        "experimentalObjectRestSpread": true
-        }
-      }
-  , "extends": "@confuser/eslint-config"
-  , "env":
-    { "browser": true
-    }
-}
+{ "extends": [ "standard" ] }
