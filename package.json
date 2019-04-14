@@ -4,13 +4,13 @@
   "description": "",
   "main": "server.js",
   "bin": {
-    "bm-cli": "bin/bm-cli"
+    "bm-cli": "./bin/bm-cli"
   },
   "scripts": {
     "lint": "standard",
     "test": "npm run lint && nyc --reporter=html --reporter=text mocha --timeout=10000 test/**/*.test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "setup": "./bin/bm-cli setup",
+    "setup": "bm-cli setup",
     "heroku-postbuild": "bm-cli update"
   },
   "author": "James Mortemore (jamesmortemore@gmail.com)",
