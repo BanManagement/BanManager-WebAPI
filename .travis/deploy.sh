@@ -1,5 +1,5 @@
 #!/bin/bash
-- openssl aes-256-cbc -K $encrypted_651df60c2689_key -iv $encrypted_651df60c2689_iv -in deploy.key.enc -out .travis/deploy.key -d
+- openssl aes-256-cbc -K $encrypted_651df60c2689_key -iv $encrypted_651df60c2689_iv -in .travis/deploy.key.enc -out .travis/deploy.key -d
 chmod +x ./.travis/deploy.sh
 eval "$(ssh-agent -s)"
 chmod 600 .travis/deploy.key
