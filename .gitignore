@@ -6,3 +6,5 @@ typings*
 .sync
 .env
 .nyc_output/
+.travis/*.key
+.travis/*.key.pub
