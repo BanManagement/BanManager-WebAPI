@@ -50,7 +50,7 @@ module.exports = ({ state }, tableName, resource) => {
     let punishmentIds = []
     // Get all server ids
     const serverIds = ids.map(id => {
-      punishmentIds.push(id.id)
+      punishmentIds.push(parseInt(id.id, 10))
 
       return id.server
     })
