@@ -23,11 +23,14 @@ env:
   - DB_CONNECTION_LIMIT=5
 jobs:
   include:
-    - stage: deploy
-      node_js: 11
-      deploy:
-        provider: script
-        script: bash ./.travis/deploy.sh
-        on:
-          branch: master
-          node: '11'
+  - stage: deploy
+    node_js: 11
+    deploy:
+      provider: script
+      script: bash ./.travis/deploy.sh
+      on:
+        branch: master
+        node: '11'
+before_install:
+- openssl aes-256-cbc -K $encrypted_651df60c2689_key -iv $encrypted_651df60c2689_iv
+  -in deploy.key.enc -out .travis/deploy.key -d
