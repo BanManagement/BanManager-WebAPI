@@ -1,6 +1,7 @@
 {
   "name": "bm-api",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "server.js",
   "bin": {
