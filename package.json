@@ -22,7 +22,7 @@
   "dependencies": {
     "@koa/cors": "3.0.0",
     "apollo-server-koa": "1.4.0",
-    "argon2-ffi": "1.1.0",
+    "argon2-ffi": "1.1.2",
     "bluebird": "3.5.4",
     "dataloader": "1.4.0",
     "db-migrate": "0.11.1",
