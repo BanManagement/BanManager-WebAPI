@@ -46,7 +46,7 @@
     "memoizee": "0.4.14",
     "mysql2": "1.5.3",
     "pino": "5.12.2",
-    "require-environment-variables": "1.1.2",
+    "require-environment-variables": "1.2.0",
     "uuid-parse": "1.0.0",
     "validator": "10.2.0",
     "web-push": "3.3.1",
