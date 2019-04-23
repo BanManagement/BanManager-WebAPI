@@ -45,7 +45,7 @@
     "lodash": "4.17.11",
     "memoizee": "0.4.14",
     "mysql2": "1.5.3",
-    "pino": "5.0.0",
+    "pino": "5.12.2",
     "require-environment-variables": "1.1.2",
     "uuid-parse": "1.0.0",
     "validator": "10.2.0",
