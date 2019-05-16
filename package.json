@@ -49,7 +49,7 @@
     "require-environment-variables": "1.2.0",
     "uuid-parse": "1.1.0",
     "validator": "10.11.0",
-    "web-push": "3.3.4",
+    "web-push": "3.3.5",
     "yargs": "13.2.4"
   },
   "devDependencies": {
