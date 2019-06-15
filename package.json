@@ -25,7 +25,7 @@
     "argon2-ffi": "1.1.2",
     "bluebird": "3.5.5",
     "dataloader": "1.4.0",
-    "db-migrate": "0.11.5",
+    "db-migrate": "0.11.6",
     "db-migrate-mysql": "1.1.10",
     "dotenv": "8.0.0",
     "graphql": "0.13.2",
