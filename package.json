@@ -34,7 +34,7 @@
     "graphql-list-fields": "2.0.2",
     "graphql-tools": "4.0.5",
     "hibp": "7.5.1",
-    "inquirer": "6.4.0",
+    "inquirer": "6.4.1",
     "ip": "1.1.5",
     "js-yaml": "3.13.1",
     "koa": "2.7.0",
