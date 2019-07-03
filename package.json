@@ -12,7 +12,9 @@
     "test": "npm run lint && nyc --reporter=html --reporter=text mocha --timeout=10000 test/**/*.test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "setup": "node bin/bm-cli setup",
-    "heroku-postbuild": "node bin/bm-cli update"
+    "heroku-postbuild": "node bin/bm-cli update",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "James Mortemore (jamesmortemore@gmail.com)",
   "license": "MIT",
@@ -50,7 +52,8 @@
     "uuid-parse": "1.1.0",
     "validator": "10.11.0",
     "web-push": "3.3.5",
-    "yargs": "13.2.4"
+    "yargs": "13.2.4",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "coveralls": "3.0.4",
@@ -71,5 +74,6 @@
       "before",
       "after"
     ]
-  }
+  },
+  "snyk": true
 }
