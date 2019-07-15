@@ -50,7 +50,7 @@
     "uuid-parse": "1.1.0",
     "validator": "10.11.0",
     "web-push": "3.3.5",
-    "yargs": "13.2.4"
+    "yargs": "13.3.0"
   },
   "devDependencies": {
     "coveralls": "3.0.5",
