@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@koa/cors": "3.0.0",
-    "apollo-server-koa": "1.4.0",
+    "apollo-server-koa": "2.7.0",
     "argon2-ffi": "1.1.2",
     "bluebird": "3.5.5",
     "dataloader": "1.4.0",
