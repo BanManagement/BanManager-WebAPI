@@ -238,7 +238,7 @@ async function askPlayerAccount (question, conn, serverConn, table) {
   const id = await askPlayer(question, serverConn, table)
 
   const [ [ { exists } ] ] = await conn.execute(
-    'SELECT player_id AS `exists` FROM bm_web_users WHERE player_id = ?'
+    'SELECT COUNT(*) AS `exists` FROM bm_web_users WHERE player_id = ?'
     , [ id ])
 
   if (exists) {
