@@ -7,7 +7,6 @@ const { generateServerId } = require('../../data/generator')
 const { parse } = require('uuid-parse')
 const { generateVAPIDKeys } = require('web-push')
 const { hash } = require('../../data/hash')
-const { safeLoad } = require('js-yaml')
 const tables = require('../../data/tables')
 const udify = require('../../data/udify')
 
@@ -87,7 +86,7 @@ exports.handler = async function () {
 
   const { email } = await inquirer.prompt([ { name: 'email', message: 'Your email address' } ])
   const password = await askPassword()
-  const playerId = await askPlayer('Your Minecraft Player UUID', conn, serverTables.players)
+  const playerId = await askPlayerAccount('Your Minecraft Player UUID', conn, serverConn, serverTables.players)
   const user = {
     email, password, 'player_id': playerId, updated: Math.floor(Date.now() / 1000)
   }
@@ -151,59 +150,58 @@ async function askPassword () {
 }
 
 async function promptServerDetails () {
-  const questions = [ { type: 'editor', name: 'yaml', message: 'Paste BanManager/config.yml' } ]
-  const { yaml } = await inquirer.prompt(questions)
-  let config
-
-  try {
-    config = safeLoad(yaml)
-  } catch (e) {
-    console.error(e)
-    console.log('Invalid yaml')
-
-    return promptServerDetails()
-  }
-
-  if (!config || typeof config === 'string' || typeof config === 'number') {
-    console.log('Invalid config')
-    return promptServerDetails()
-  }
-
+  const questions = [
+    { name: 'host', message: 'BanManager databases.local host', default: '127.0.0.1' },
+    { name: 'port', message: 'BanManager databases.local port', default: 3306 },
+    { name: 'user', message: 'BanManager databases.local user' },
+    { type: 'password', name: 'password', message: 'BanManager databases.local password' },
+    { name: 'database', message: 'BanManager databases.local name' }
+  ]
+  const { host, port, user, password, database } = await inquirer.prompt(questions)
   let db
+  let conn
 
   try {
     db =
-      { host: config.databases.local.host,
-        port: config.databases.local.port,
-        user: config.databases.local.user,
-        password: config.databases.local.password,
-        database: config.databases.local.name
+      { host,
+        port,
+        user,
+        password,
+        database
       }
-    const conn = await createConnection(db)
-
-    console.log(`Connected to ${db.user}@${db.host}:${db.port}/${db.database} successfully`)
-    const serverTables = {}
-
-    for (let table of tables) {
-      let tableName = config.databases.local.tables[table]
-
-      if (table === 'playerReportLogs' || table === 'serverLogs' || table === 'playerPins') {
-        const answer = await inquirer.prompt([ { name: 'tableName', message: `${table} table name` } ])
-
-        tableName = answer.tableName
-      }
-
-      await checkTable(conn, tableName)
-
-      serverTables[table] = tableName
-    }
-
-    return { connection: conn, serverTables }
+    conn = await createConnection(db)
   } catch (e) {
     console.error(e)
     console.log(`Failed to connect to ${db.user}@${db.host}:${db.port}/${db.database}`)
     return promptServerDetails()
   }
+
+  console.log(`Connected to ${db.user}@${db.host}:${db.port}/${db.database} successfully`)
+
+  const serverTables = {}
+
+  for (let table of tables) {
+    const tableName = await promptTable(conn, table)
+
+    serverTables[table] = tableName
+  }
+
+  return { connection: conn, serverTables }
+}
+
+async function promptTable(conn, table) {
+  const { tableName } = await inquirer.prompt([ { name: 'tableName', message: `${table} table name` } ])
+
+  try {
+    await checkTable(conn, tableName)
+  } catch (e) {
+    console.error(e)
+    console.log(`Failed to find ${tableName} table in database, please try again`)
+
+    return promptTable(conn, table)
+  }
+
+  return tableName
 }
 
 async function checkTable (conn, table) {
@@ -220,10 +218,11 @@ async function checkTable (conn, table) {
 async function askPlayer (question, conn, table) {
   const questions = [ { name: 'id', message: question } ]
   const { id } = await inquirer.prompt(questions)
+  const parsedId = parse(id, Buffer.alloc(16))
 
   const [ [ result ] ] = await conn.query(
     'SELECT name FROM ?? WHERE id = ?'
-    , [ table, parse(id, Buffer.alloc(16)) ])
+    , [ table, parsedId ])
 
   if (!result) {
     console.log(`Could not find Player ${id}`)
@@ -232,5 +231,18 @@ async function askPlayer (question, conn, table) {
 
   console.log(`Found player ${result.name}`)
 
-  return parse(id, Buffer.alloc(16))
+  return parsedId
+}
+
+async function askPlayerAccount (question, conn, serverConn, table) {
+  const id = await askPlayer(question, serverConn, table)
+
+  const [ [ { exists } ] ] = await conn.execute(
+    'SELECT player_id AS `exists` FROM bm_web_users WHERE player_id = ?'
+    , [ id ])
+
+  if (exists) {
+    console.error('An account already exists for that player')
+    return askPlayerAccount(question, conn, serverConn, table)
+  }
 }

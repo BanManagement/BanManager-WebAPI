@@ -36,7 +36,6 @@
     "hibp": "7.5.2",
     "inquirer": "6.5.0",
     "ip": "1.1.5",
-    "js-yaml": "3.13.1",
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
     "koa-pino-logger": "2.1.3",
