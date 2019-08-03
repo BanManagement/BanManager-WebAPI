@@ -189,7 +189,7 @@ async function promptServerDetails () {
   return { connection: conn, serverTables }
 }
 
-async function promptTable(conn, table) {
+async function promptTable (conn, table) {
   const { tableName } = await inquirer.prompt([ { name: 'tableName', message: `${table} table name` } ])
 
   try {
