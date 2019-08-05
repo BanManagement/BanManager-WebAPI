@@ -57,30 +57,36 @@ exports.handler = async function () {
 
   await dbm.up()
 
-  console.log('Add BanManager server')
+  const [ [ { exists } ] ] = await conn.execute('SELECT COUNT(*) AS `exists` FROM bm_web_servers')
 
-  const { connection: serverConn, serverTables } = await promptServerDetails()
+  if (!exists) {
+    console.log('Add BanManager server')
 
-  const consoleId = await askPlayer('Console UUID (paste "uuid" value from BanManager/console.yml)', serverConn, serverTables.players)
-  const { serverName } = await inquirer.prompt([ { name: 'serverName', message: 'Server Name' } ])
-  const idKey = await generateServerId()
-  const server =
-    { id: idKey.toString('hex'),
-      name: serverName,
-      tables: JSON.stringify(serverTables),
-      console: consoleId,
-      host: serverConn.connection.config.host,
-      port: serverConn.connection.config.port,
-      user: serverConn.connection.config.user,
-      password: serverConn.connection.config.password || '',
-      database: serverConn.connection.config.database
+    const { connection: serverConn, serverTables } = await promptServerDetails()
+
+    const consoleId = await askPlayer('Console UUID (paste "uuid" value from BanManager/console.yml)', serverConn, serverTables.players)
+    const { serverName } = await inquirer.prompt([ { name: 'serverName', message: 'Server Name' } ])
+    const idKey = await generateServerId()
+    const server =
+      { id: idKey.toString('hex'),
+        name: serverName,
+        tables: JSON.stringify(serverTables),
+        console: consoleId,
+        host: serverConn.connection.config.host,
+        port: serverConn.connection.config.port,
+        user: serverConn.connection.config.user,
+        password: serverConn.connection.config.password || '',
+        database: serverConn.connection.config.database
+      }
+
+    if (server.password) {
+      server.password = await crypto.encrypt(encryptionKey, server.password)
     }
 
-  if (server.password) {
-    server.password = await crypto.encrypt(encryptionKey, server.password)
+    await udify.insert(conn, 'bm_web_servers', server)
+  } else {
+    console.log('BanManager Servers detected, skipping server setup')
   }
-
-  await udify.insert(conn, 'bm_web_servers', server)
 
   console.log('Setup your admin user')
 
