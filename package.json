@@ -61,7 +61,7 @@
     "nyc": "14.1.1",
     "standard": "12.0.1",
     "supertest": "4.0.2",
-    "uuid": "3.3.2"
+    "uuid": "3.3.3"
   },
   "standard": {
     "globals": [
