@@ -30,13 +30,15 @@ describe('Mutation update player note', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerNote {
+      .send({
+        query: `mutation updatePlayerNote {
         updatePlayerNote(id: "1", serverId: "1", input: {
           message: "test"
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -51,13 +53,15 @@ describe('Mutation update player note', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerNote {
+      .send({
+        query: `mutation updatePlayerNote {
         updatePlayerNote(id: "1", serverId: "a", input: {
           message: "test"
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -73,13 +77,15 @@ describe('Mutation update player note', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerNote {
+      .send({
+        query: `mutation updatePlayerNote {
         updatePlayerNote(id: "999999999", serverId: "${server.id}", input: {
           message: "test"
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -96,14 +102,15 @@ describe('Mutation update player note', function () {
     const actor = createPlayer()
     const note = createNote(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
-    const [ { insertId } ] = await insert(pool, 'bm_player_notes', note)
+    await insert(pool, 'bm_players', [player, actor])
+    const [{ insertId }] = await insert(pool, 'bm_player_notes', note)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerNote {
+      .send({
+        query: `mutation updatePlayerNote {
         updatePlayerNote(id: "${insertId}", serverId: "${server.id}", input: {
           message: "testing updates"
         }) {
@@ -124,7 +131,8 @@ describe('Mutation update player note', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

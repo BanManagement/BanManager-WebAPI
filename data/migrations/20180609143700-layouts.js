@@ -15,7 +15,7 @@ exports.up = async function (db) {
     colour: 'string',
     meta: 'longtext'
   })
-  await db.addIndex('bm_web_page_layouts', 'bm_web_page_layouts_pathname_idx', [ 'pathname' ])
+  await db.addIndex('bm_web_page_layouts', 'bm_web_page_layouts_pathname_idx', ['pathname'])
 
   await addComponents('player', [
     { component: 'PlayerHeader', x: 0, y: 0, w: 16, textAlign: 'center', colour: 'blue' },
@@ -31,5 +31,5 @@ exports.down = async function (db) {
 }
 
 exports._meta = {
-  'version': 1
+  version: 1
 }

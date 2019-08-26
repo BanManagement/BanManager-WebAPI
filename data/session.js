@@ -1,4 +1,4 @@
-const keys = [ 'playerId', 'created', 'updated', 'type' ]
+const keys = ['playerId', 'created', 'updated', 'type']
 
 module.exports = {
   create (playerId, updated, type) {

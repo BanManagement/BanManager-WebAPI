@@ -35,14 +35,15 @@ describe('Query player mute', function () {
     const actor = createPlayer()
     const mute = createMute(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
     await insert(pool, 'bm_player_mutes', mute)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query playerMute {
+      .send({
+        query: `query playerMute {
         playerMute(id:"1", serverId: "${server.id}") {
           id
           reason
@@ -59,14 +60,16 @@ describe('Query player mute', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerMute,
-      { id: '1',
+      {
+        id: '1',
         reason: mute.reason,
         created: mute.created,
         expires: 0,

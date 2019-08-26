@@ -35,14 +35,15 @@ describe('Query player note', function () {
     const actor = createPlayer()
     const note = createNote(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
     await insert(pool, 'bm_player_notes', note)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query playerBan {
+      .send({
+        query: `query playerBan {
         playerNote(id:"1", serverId: "${server.id}") {
           id
           message
@@ -57,14 +58,16 @@ describe('Query player note', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerNote,
-      { id: '1',
+      {
+        id: '1',
         message: note.message,
         created: note.created,
         actor: { id: unparse(actor.id), name: actor.name },

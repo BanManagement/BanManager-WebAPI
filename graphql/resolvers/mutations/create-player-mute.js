@@ -10,12 +10,12 @@ module.exports = async function createPlayerMute (obj, { input }, { session, sta
   let id
 
   try {
-    const [ result ] = await server.execute(
+    const [result] = await server.execute(
       `INSERT INTO ${table}
         (player_id, actor_id, reason, created, updated, expires, soft)
           VALUES
         (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), ?, ?)`
-      , [ player, actor, input.reason, input.expires, soft ])
+      , [player, actor, input.reason, input.expires, soft])
 
     id = result.insertId
   } catch (e) {

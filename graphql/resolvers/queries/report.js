@@ -32,7 +32,7 @@ module.exports = async function report (obj, { id, serverId }, { state }) {
     ${tables.players} ap ON r.assignee_id = ap.id
   WHERE r.id = ?`
 
-  const [ [ result ] ] = await server.execute(query, [ id ])
+  const [[result]] = await server.execute(query, [id])
 
   if (!result) throw new ExposedError('Report not found')
 

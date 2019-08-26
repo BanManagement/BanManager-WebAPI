@@ -35,14 +35,15 @@ describe('Query player kick', function () {
     const actor = createPlayer()
     const kick = createKick(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
     await insert(pool, 'bm_player_kicks', kick)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query playerKick {
+      .send({
+        query: `query playerKick {
         playerKick(id:"1", serverId: "${server.id}") {
           id
           reason
@@ -57,14 +58,16 @@ describe('Query player kick', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerKick,
-      { id: '1',
+      {
+        id: '1',
         reason: kick.reason,
         created: kick.created,
         actor: { id: unparse(actor.id), name: actor.name },

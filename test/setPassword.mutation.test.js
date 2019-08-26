@@ -29,11 +29,13 @@ describe('Mutation set password', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation setPassword {
+      .send({
+        query: `mutation setPassword {
         setPassword(newPassword: "test") {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -53,7 +55,8 @@ describe('Mutation set password', function () {
           setPassword(newPassword: "testing") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -72,7 +75,8 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "notCorrect", newPassword: "testing") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -92,7 +96,8 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "notCorrect", newPassword: "test") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -116,7 +121,8 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "testing", newPassword: "foobar") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
     assert(nock.isDone())
@@ -147,7 +153,8 @@ describe('Mutation set password', function () {
           setPassword(currentPassword: "testing", newPassword: "foobar") {
             id
           }
-      }` })
+      }`
+      })
 
     assert(nock.isDone())
     assert.strictEqual(statusCode, 200)
@@ -167,7 +174,8 @@ describe('Mutation set password', function () {
           me {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode2, 200)
 
@@ -186,7 +194,8 @@ describe('Mutation set password', function () {
           me {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode3, 200)
 

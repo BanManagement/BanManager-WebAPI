@@ -24,7 +24,7 @@ module.exports = async function assignReport (obj, { serverId, player, report: i
   if (!playerData) throw new ExposedError(`Player ${player} does not exist`)
 
   await udify.update(server, table,
-    { updated: 'UNIX_TIMESTAMP()', 'state_id': 2, 'assignee_id': parse(player, Buffer.alloc(16)) }, { id })
+    { updated: 'UNIX_TIMESTAMP()', state_id: 2, assignee_id: parse(player, Buffer.alloc(16)) }, { id })
 
   report.assignee = playerData
 

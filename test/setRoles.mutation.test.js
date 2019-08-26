@@ -33,11 +33,13 @@ describe('Mutation setRoles', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation setRoles {
+      .send({
+        query: `mutation setRoles {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [] }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -57,11 +59,13 @@ describe('Mutation setRoles', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation setRoles {
+      .send({
+        query: `mutation setRoles {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [] }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -81,11 +85,13 @@ describe('Mutation setRoles', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignRole {
+      .send({
+        query: `mutation assignRole {
         setRoles(player:"${unparse(player.id)}", input: { roles: [ { id: 123123 } ], serverRoles: [] }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -104,11 +110,13 @@ describe('Mutation setRoles', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignRole {
+      .send({
+        query: `mutation assignRole {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [ { role: { id: 123123 }, server: { id: "${config.id}" } } ] }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -127,11 +135,13 @@ describe('Mutation setRoles', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignRole {
+      .send({
+        query: `mutation assignRole {
         setRoles(player:"${unparse(player.id)}", input: { roles: [], serverRoles: [ { role: { id: 1 }, server: { id: "123" } } ] }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -150,7 +160,8 @@ describe('Mutation setRoles', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignRole {
+      .send({
+        query: `mutation assignRole {
         setRoles(player:"${unparse(player.id)}", input: { roles: [ { id: 3 } ], serverRoles: [ { role: { id: 2 }, server: { id: "${config.id}" } } ] }) {
           roles {
             id
@@ -164,14 +175,15 @@ describe('Mutation setRoles', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
 
-    assert.deepStrictEqual(body.data.setRoles.roles, [ { id: '3' } ])
-    assert.deepStrictEqual(body.data.setRoles.serverRoles, [ { role: { id: '2' }, server: { id: config.id } } ])
+    assert.deepStrictEqual(body.data.setRoles.roles, [{ id: '3' }])
+    assert.deepStrictEqual(body.data.setRoles.serverRoles, [{ role: { id: '2' }, server: { id: config.id } }])
   })
 })

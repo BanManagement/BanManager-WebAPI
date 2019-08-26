@@ -33,11 +33,13 @@ describe('Mutation assignServerRole', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignServerRole {
+      .send({
+        query: `mutation assignServerRole {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -57,11 +59,13 @@ describe('Mutation assignServerRole', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignServerRole {
+      .send({
+        query: `mutation assignServerRole {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -81,11 +85,13 @@ describe('Mutation assignServerRole', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignServerRole {
+      .send({
+        query: `mutation assignServerRole {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -104,11 +110,13 @@ describe('Mutation assignServerRole', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignServerRole {
+      .send({
+        query: `mutation assignServerRole {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "3", role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -127,11 +135,13 @@ describe('Mutation assignServerRole', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignServerRole {
+      .send({
+        query: `mutation assignServerRole {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -152,11 +162,13 @@ describe('Mutation assignServerRole', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignServerRole {
+      .send({
+        query: `mutation assignServerRole {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -174,7 +186,8 @@ describe('Mutation assignServerRole', function () {
         assignServerRole(players:["${unparse(player.id)}"], serverId: "${server.id}", role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode2, 200)
 

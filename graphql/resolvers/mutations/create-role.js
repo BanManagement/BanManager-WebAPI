@@ -9,16 +9,16 @@ module.exports = async function createRole (obj
 
   try {
     await conn.beginTransaction()
-    const [ { insertId } ] = await udify.insert(conn, 'bm_web_roles', { name, 'parent_role_id': parent })
-    const [ allResources ] = await conn.execute('SELECT resource_id AS id FROM bm_web_resources')
+    const [{ insertId }] = await udify.insert(conn, 'bm_web_roles', { name, parent_role_id: parent })
+    const [allResources] = await conn.execute('SELECT resource_id AS id FROM bm_web_resources')
 
     id = insertId
 
-    for (let allResource of allResources) {
+    for (const allResource of allResources) {
       const resource = find(resources, { id: allResource.id })
 
       if (!resource) {
-        await udify.insert(conn, 'bm_web_role_resources', { value: 0, 'role_id': id, 'resource_id': allResource.id })
+        await udify.insert(conn, 'bm_web_role_resources', { value: 0, role_id: id, resource_id: allResource.id })
         continue
       }
 
@@ -27,7 +27,7 @@ module.exports = async function createRole (obj
         .map(perm => perm.id)
 
       if (!ids.length) {
-        await udify.insert(conn, 'bm_web_role_resources', { value: 0, 'role_id': id, 'resource_id': allResource.id })
+        await udify.insert(conn, 'bm_web_role_resources', { value: 0, role_id: id, resource_id: allResource.id })
         continue
       }
 
@@ -41,7 +41,7 @@ module.exports = async function createRole (obj
           WHERE
             permission_id IN (?)
         ))
-      `, [ id, resource.id, ids ])
+      `, [id, resource.id, ids])
     }
 
     await conn.commit()

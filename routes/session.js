@@ -19,8 +19,8 @@ async function handlePasswordLogin (ctx) {
     return throwError(400, 'Invalid password, minimum length 6 characters')
   }
 
-  const [ [ result ] ] = await state.dbPool.execute(
-    'SELECT player_id AS playerId, password, updated FROM bm_web_users WHERE email = ?', [ request.body.email ])
+  const [[result]] = await state.dbPool.execute(
+    'SELECT player_id AS playerId, password, updated FROM bm_web_users WHERE email = ?', [request.body.email])
 
   if (!result) return throwError(400, 'Incorrect login details')
 
@@ -46,7 +46,7 @@ async function handlePinLogin (ctx) {
   if (!server) return throwError(400, 'Server does not exist')
 
   const table = server.config.tables.playerPins
-  const [ [ result ] ] = await server.execute(`
+  const [[result]] = await server.execute(`
     SELECT
       pins.id AS id, p.id AS playerId, pins.pin AS pin
     FROM
@@ -55,7 +55,7 @@ async function handlePinLogin (ctx) {
       bm_player_pins pins ON pins.player_id = p.id
     WHERE
       p.name = ?
-    LIMIT 1`, [ request.body.name ])
+    LIMIT 1`, [request.body.name])
 
   if (!result) return throwError(400, 'Incorrect login details')
 
@@ -63,10 +63,10 @@ async function handlePinLogin (ctx) {
 
   if (!match) return throwError(400, 'Incorrect login details')
 
-  await server.execute(`DELETE FROM ${table} WHERE id = ?`, [ result.id ])
+  await server.execute(`DELETE FROM ${table} WHERE id = ?`, [result.id])
 
-  const [ [ checkResult ] ] = await state.dbPool.execute(
-    'SELECT updated FROM bm_web_users WHERE player_id = ?', [ result.playerId ])
+  const [[checkResult]] = await state.dbPool.execute(
+    'SELECT updated FROM bm_web_users WHERE player_id = ?', [result.playerId])
 
   ctx.session = create(result.playerId, checkResult ? checkResult.updated : null, 'pin')
 

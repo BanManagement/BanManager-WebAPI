@@ -1,5 +1,6 @@
 const enums =
-{ PlayerBan: 'playerBans',
+{
+  PlayerBan: 'playerBans',
   PlayerKick: 'playerKicks',
   PlayerMute: 'playerMutes',
   PlayerNote: 'playerNotes',

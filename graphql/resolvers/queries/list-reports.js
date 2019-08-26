@@ -58,12 +58,12 @@ module.exports = async function listReports (obj, { actor, assigned, player, sta
     query += whereQuery
   }
 
-  query += ` LIMIT ?, ?`
+  query += ' LIMIT ?, ?'
 
   const data = { total: 0, reports: [] }
 
   // @TODO Clean up
-  for (let server of state.serversPool.values()) {
+  for (const server of state.serversPool.values()) {
     const tables = server.config.tables
     const actualQuery = query
       .replace('??', tables.playerReports)
@@ -78,10 +78,10 @@ module.exports = async function listReports (obj, { actor, assigned, player, sta
       .replace('??', tables.players)
       .replace('??', tables.players)
 
-    const [ [ { total } ] ] = await state.dbPool.execute(actualTotalQuery, filterValues)
-    const [ results ] = await server.execute(actualQuery, [ ...filterValues, offset, limit ])
+    const [[{ total }]] = await state.dbPool.execute(actualTotalQuery, filterValues)
+    const [results] = await server.execute(actualQuery, [...filterValues, offset, limit])
 
-    console.log([ ...filterValues, offset, limit ])
+    console.log([...filterValues, offset, limit])
 
     data.total += total
 

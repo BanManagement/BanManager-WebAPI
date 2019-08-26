@@ -25,7 +25,8 @@ describe('Query navigation', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query navigation {
+      .send({
+        query: `query navigation {
         navigation {
           left {
             id
@@ -33,14 +34,15 @@ describe('Query navigation', function () {
             href
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.navigation.left,
-      [ { id: '1', name: 'Home', href: '/' },
+      [{ id: '1', name: 'Home', href: '/' },
         { id: '2', name: 'Appeal', href: null },
         { id: '3', name: 'Reports', href: '/reports' },
         { id: '4', name: 'Statistics', href: '/statistics' }
@@ -53,7 +55,8 @@ describe('Query navigation', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query navigation {
+      .send({
+        query: `query navigation {
         navigation {
           left {
             id
@@ -61,18 +64,19 @@ describe('Query navigation', function () {
             href
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
 
     assert.deepStrictEqual(body.data.navigation.left,
-      [ { id: '1', name: 'Home', href: '/' },
+      [{ id: '1', name: 'Home', href: '/' },
         { id: '2', name: 'Appeal', href: null },
         { id: '3', name: 'Reports', href: '/reports' },
         { id: '4', name: 'Statistics', href: '/statistics' },
-        { id: '5', name: 'Admin', 'href': '/admin' }
+        { id: '5', name: 'Admin', href: '/admin' }
       ])
   })
 })

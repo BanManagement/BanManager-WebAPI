@@ -6,7 +6,7 @@ module.exports = async function deletePunishmentRecord (obj, { id, serverId, typ
   const table = server.config.tables[recordToTable(type)]
   const resource = recordToResource(type)
 
-  const [ results ] = await server.query('SELECT actor_id FROM ?? WHERE id = ?', [ table, id ])
+  const [results] = await server.query('SELECT actor_id FROM ?? WHERE id = ?', [table, id])
 
   if (!results.length) throw new Error('Record does not exist')
 
@@ -20,7 +20,7 @@ module.exports = async function deletePunishmentRecord (obj, { id, serverId, typ
     throw new Error('You do not have permission to perform this action, please contact your server administrator')
   }
 
-  await server.query('DELETE FROM ?? WHERE id = ?', [ table, id ])
+  await server.query('DELETE FROM ?? WHERE id = ?', [table, id])
 
   return id
 }

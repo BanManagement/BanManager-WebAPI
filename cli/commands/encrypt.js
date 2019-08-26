@@ -9,7 +9,7 @@ exports.builder = { value: { type: 'string' } }
 
 // eslint-disable-next-line max-statements
 exports.handler = async function () {
-  const { value } = await inquirer.prompt([ { type: 'password', name: 'value', message: 'Value' } ])
+  const { value } = await inquirer.prompt([{ type: 'password', name: 'value', message: 'Value' }])
   const encValue = await crypto.encrypt(process.env.ENCRYPTION_KEY, value)
 
   console.log(`Encrypted Value: ${encValue}`)

@@ -16,7 +16,7 @@ module.exports = ({ state }) => {
             LEFT JOIN
           ${tables.players} a ON c.actor_id = a.id
         WHERE c.id = ?`
-      const [ [ result ] ] = await server.execute(query, [ id ])
+      const [[result]] = await server.execute(query, [id])
 
       if (!result) return null
 

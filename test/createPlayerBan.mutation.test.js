@@ -32,13 +32,15 @@ describe('Mutation create player ban', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation createPlayerBan {
+      .send({
+        query: `mutation createPlayerBan {
         createPlayerBan(input: {
           player: "${unparse(player.id)}", reason: "test", expires: 1000000000, server: "${server.id}"
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -55,13 +57,14 @@ describe('Mutation create player ban', function () {
     const actor = createPlayer()
     const ban = createBan(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation createPlayerBan {
+      .send({
+        query: `mutation createPlayerBan {
         createPlayerBan(input: {
           player: "${unparse(player.id)}", reason: "${ban.reason}", expires: 1000000000, server: "${server.id}"
         }) {
@@ -84,7 +87,8 @@ describe('Mutation create player ban', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -119,7 +123,8 @@ describe('Mutation create player ban', function () {
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

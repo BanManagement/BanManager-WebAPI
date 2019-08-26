@@ -18,13 +18,13 @@ module.exports = async function ({ log, request: { body }, throw: throwError, re
     return throwError(400, 'Commonly used password, please choose another')
   }
 
-  const [ [ checkResult ] ] = await state.dbPool.execute(
-    'SELECT player_id FROM bm_web_users WHERE player_id = ?', [ session.playerId ])
+  const [[checkResult]] = await state.dbPool.execute(
+    'SELECT player_id FROM bm_web_users WHERE player_id = ?', [session.playerId])
 
   if (checkResult) return throwError(400, 'You already have an account')
 
-  const [ [ emailResult ] ] = await state.dbPool.execute(
-    'SELECT email FROM bm_web_users WHERE email = ?', [ body.email ])
+  const [[emailResult]] = await state.dbPool.execute(
+    'SELECT email FROM bm_web_users WHERE email = ?', [body.email])
 
   if (emailResult) return throwError(400, 'You already have an account')
 
@@ -36,10 +36,10 @@ module.exports = async function ({ log, request: { body }, throw: throwError, re
 
     await conn.execute(
       'INSERT INTO bm_web_users (player_id, email, password, updated) VALUES(?, ?, ?, UNIX_TIMESTAMP())',
-      [ session.playerId, body.email, encodedHash ])
+      [session.playerId, body.email, encodedHash])
 
     await conn.execute(
-      'INSERT INTO bm_web_player_roles (player_id, role_id) VALUES(?, ?)', [ session.playerId, 2 ])
+      'INSERT INTO bm_web_player_roles (player_id, role_id) VALUES(?, ?)', [session.playerId, 2])
 
     await conn.commit()
   } catch (e) {

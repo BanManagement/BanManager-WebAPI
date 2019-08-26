@@ -15,25 +15,26 @@ module.exports = ({ state }, tableName, resource) => {
 
     playerIds = uniq(playerIds)
 
-    for (let serverId of serverIds) {
+    for (const serverId of serverIds) {
       const server = serversPool.get(serverId)
       const table = server.config.tables[tableName]
 
-      let [ rows ] = await server.query('SELECT * FROM ?? WHERE player_id IN(?)', [ table, playerIds ])
+      let [rows] = await server.query('SELECT * FROM ?? WHERE player_id IN(?)', [table, playerIds])
 
       rows = await Promise.map(rows, async row => {
         const actor = await state.loaders.player.ids.load(row.actor_id)
         const acl =
-          { update: state.acl.hasServerPermission(serverId, resource, 'update.any') ||
+          {
+            update: state.acl.hasServerPermission(serverId, resource, 'update.any') ||
             (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id)) ||
             (state.acl.hasServerPermission(serverId, resource, 'update.any')) ||
             (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id)),
-          delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
+            delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
             (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id)) ||
             (state.acl.hasServerPermission(serverId, resource, 'delete.any')) ||
             (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id)),
-          actor: state.acl.owns(row.actor_id),
-          yours: state.acl.owns(row.player_id)
+            actor: state.acl.owns(row.actor_id),
+            yours: state.acl.owns(row.player_id)
           }
 
         return { actor, acl, ...row }
@@ -57,22 +58,23 @@ module.exports = ({ state }, tableName, resource) => {
 
     punishmentIds = uniq(punishmentIds)
 
-    for (let serverId of serverIds) {
+    for (const serverId of serverIds) {
       const server = serversPool.get(serverId)
       const table = server.config.tables[tableName]
 
-      let [ rows ] = await server.query('SELECT * FROM ?? WHERE id IN(?)', [ table, punishmentIds ])
+      let [rows] = await server.query('SELECT * FROM ?? WHERE id IN(?)', [table, punishmentIds])
 
       rows = await Promise.map(rows, async row => {
         const actor = await state.loaders.player.ids.load(row.actor_id)
         const player = await state.loaders.player.ids.load(row.player_id)
         const acl =
-          { update: state.acl.hasServerPermission(serverId, resource, 'update.any') ||
+          {
+            update: state.acl.hasServerPermission(serverId, resource, 'update.any') ||
             (state.acl.hasServerPermission(serverId, resource, 'update.own') && state.acl.owns(row.actor_id)),
-          delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
+            delete: state.acl.hasServerPermission(serverId, resource, 'delete.any') ||
             (state.acl.hasServerPermission(serverId, resource, 'delete.own') && state.acl.owns(row.actor_id)),
-          actor: state.acl.owns(row.actor_id),
-          yours: state.acl.owns(row.player_id)
+            actor: state.acl.owns(row.actor_id),
+            yours: state.acl.owns(row.player_id)
           }
 
         return { player, actor, acl, ...row }

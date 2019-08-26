@@ -8,7 +8,7 @@ module.exports = async function deleteReportComment (obj, { comment: id, serverI
   if (!comment) throw new ExposedError(`Comment ${id} does not exist`)
   if (!comment.acl.delete) throw new ExposedError('You do not have permission to perform this action')
 
-  await state.dbPool.execute(`DELETE FROM ${tables.playerReportComments} WHERE id = ?`, [ id ])
+  await state.dbPool.execute(`DELETE FROM ${tables.playerReportComments} WHERE id = ?`, [id])
 
   return comment
 }

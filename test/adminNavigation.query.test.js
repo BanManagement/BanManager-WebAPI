@@ -27,7 +27,8 @@ describe('Query adminNavigation', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query adminNavigation {
+      .send({
+        query: `query adminNavigation {
         adminNavigation {
           left {
             id
@@ -36,14 +37,15 @@ describe('Query adminNavigation', function () {
             href
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
 
     assert.deepStrictEqual(body.data.adminNavigation.left,
-      [ { id: '1', name: 'Roles', label: 3, href: '/admin/roles' },
+      [{ id: '1', name: 'Roles', label: 3, href: '/admin/roles' },
         { id: '2', name: 'Servers', label: 1, href: '/admin/servers' },
         { id: '3', name: 'Page Layouts', label: 1, href: '/admin/page-layouts' }
       ])

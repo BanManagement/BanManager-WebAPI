@@ -17,7 +17,8 @@ module.exports = async (dbPool, logger, serversPool) => {
   const router = new Router()
 
   const sessionConfig =
-    { key: process.env.SESSION_NAME,
+    {
+      key: process.env.SESSION_NAME,
       renew: true,
       httpOnly: true,
       decode (str) {
@@ -35,7 +36,7 @@ module.exports = async (dbPool, logger, serversPool) => {
       }
     }
 
-  app.keys = [ process.env.SESSION_KEY ]
+  app.keys = [process.env.SESSION_KEY]
 
   app.use(async (ctx, next) => {
     try {
@@ -83,7 +84,7 @@ module.exports = async (dbPool, logger, serversPool) => {
 
         return { message: 'Internal Server Error' }
       },
-      validationRules: [ depthLimit(10) ]
+      validationRules: [depthLimit(10)]
     }
   }
 

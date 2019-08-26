@@ -53,7 +53,8 @@ describe('/session', function () {
       const { body, statusCode } = await request
         .post('/session')
         .set('Accept', 'application/json')
-        .send({ password: 'test',
+        .send({
+          password: 'test',
           email: // eslint-disable-next-line
           'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
         })
@@ -92,7 +93,8 @@ describe('/session', function () {
       const { body, statusCode } = await request
         .post('/session')
         .set('Accept', 'application/json')
-        .send({ email: 'asd@asd.com',
+        .send({
+          email: 'asd@asd.com',
           password: // eslint-disable-next-line
           'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
         })
@@ -241,7 +243,7 @@ describe('/session', function () {
       const player = createPlayer()
 
       await insert(pool, 'bm_players', player)
-      await insert(pool, 'bm_player_pins', { 'player_id': player.id, pin: await hash('123456'), expires: 0 })
+      await insert(pool, 'bm_player_pins', { player_id: player.id, pin: await hash('123456'), expires: 0 })
 
       const { body, statusCode } = await request
         .post('/session')
@@ -259,7 +261,7 @@ describe('/session', function () {
       const player = createPlayer()
 
       await insert(pool, 'bm_players', player)
-      await insert(pool, 'bm_player_pins', { 'player_id': player.id, pin: await hash('123456'), expires: 0 })
+      await insert(pool, 'bm_player_pins', { player_id: player.id, pin: await hash('123456'), expires: 0 })
 
       const { body, statusCode } = await request
         .post('/session')

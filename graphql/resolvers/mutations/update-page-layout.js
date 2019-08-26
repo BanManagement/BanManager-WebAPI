@@ -4,8 +4,8 @@ const pageLayout = require('../queries/page-layout')
 
 module.exports = async function updatePageLayout (obj, { pathname, input }, { log, state }) {
   // Find all component ids
-  const [ results ] = await state.dbPool.execute('SELECT id FROM bm_web_page_layouts WHERE pathname = ? LIMIT 1',
-    [ pathname ])
+  const [results] = await state.dbPool.execute('SELECT id FROM bm_web_page_layouts WHERE pathname = ? LIMIT 1',
+    [pathname])
 
   if (!results.length) throw new ExposedError('Page Layout does not exist')
 

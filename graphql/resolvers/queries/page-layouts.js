@@ -1,5 +1,5 @@
 module.exports = async function pageLayouts (obj, info, { state: { dbPool } }) {
-  const [ results ] = await dbPool.execute('SELECT * FROM bm_web_page_layouts')
+  const [results] = await dbPool.execute('SELECT * FROM bm_web_page_layouts')
   // @TODO Clean up
   const pageLayouts = {}
 

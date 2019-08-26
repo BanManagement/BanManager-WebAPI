@@ -7,7 +7,7 @@ module.exports = async (ctx, next) => {
   const { state } = ctx
   const { dbPool } = state
   let resourceValues = {}
-  let serverResourceValues = {}
+  const serverResourceValues = {}
   let hasServerPermission = (serverId, resource, permission) => {
     return state.acl.hasPermission(resource, permission)
   }
@@ -16,9 +16,9 @@ module.exports = async (ctx, next) => {
 
   if (valid(ctx.session)) {
     // Check if session requires invalidating due to password change
-    const [ [ checkResult ] ] = await state.dbPool.execute(
+    const [[checkResult]] = await state.dbPool.execute(
       'SELECT updated FROM bm_web_users WHERE player_id = ? AND updated < ?'
-      , [ ctx.session.playerId, ctx.session.updated ]
+      , [ctx.session.playerId, ctx.session.updated]
     )
 
     if (checkResult) {
@@ -31,7 +31,7 @@ module.exports = async (ctx, next) => {
     // They're a guest, load Guest role permissions
     resourceValues = await loadRoleResourceValues(dbPool, 1)
   } else {
-    const [ playerRoleResults ] = await dbPool.execute(`
+    const [playerRoleResults] = await dbPool.execute(`
       SELECT
         r.name, rr.value
       FROM
@@ -41,7 +41,7 @@ module.exports = async (ctx, next) => {
           LEFT JOIN
         bm_web_player_roles pr ON pr.role_id = rr.role_id
       WHERE
-        pr.player_id = ?`, [ ctx.session.playerId ])
+        pr.player_id = ?`, [ctx.session.playerId])
 
     if (!playerRoleResults.length) {
       // They're a guest, load Guest role permissions
@@ -61,7 +61,7 @@ module.exports = async (ctx, next) => {
     }
 
     // Check server specific roles
-    const [ serverRoleResults ] = await dbPool.execute(`
+    const [serverRoleResults] = await dbPool.execute(`
       SELECT
         r.name, rr.value, psr.server_id
       FROM
@@ -71,7 +71,7 @@ module.exports = async (ctx, next) => {
           LEFT JOIN
         bm_web_player_server_roles psr ON psr.role_id = rr.role_id
       WHERE
-        psr.player_id = ?`, [ ctx.session.playerId ])
+        psr.player_id = ?`, [ctx.session.playerId])
 
     if (serverRoleResults.length) {
       serverRoleResults.forEach((row) => {
@@ -93,7 +93,7 @@ module.exports = async (ctx, next) => {
         // Check if they have global permission
         if (state.acl.hasPermission(resource, permission)) return true
 
-        let value = get(state.permissionValues, [ resource, permission ], 0)
+        let value = get(state.permissionValues, [resource, permission], 0)
 
         if (permission === '*') { // Support wildcards @TODO Test
           value = Number.MAX_SAFE_INTEGER
@@ -105,9 +105,10 @@ module.exports = async (ctx, next) => {
   }
 
   state.acl =
-    { hasServerPermission,
+    {
+      hasServerPermission,
       hasPermission (resource, permission) {
-        let value = get(state.permissionValues, [ resource, permission ], 0)
+        let value = get(state.permissionValues, [resource, permission], 0)
 
         if (permission === '*') { // Support wildcards @TODO Test
           value = Number.MAX_SAFE_INTEGER
@@ -132,7 +133,7 @@ module.exports = async (ctx, next) => {
 }
 
 async function loadRoleResourceValues (dbPool, roleId) {
-  const [ results ] = await dbPool.execute(`
+  const [results] = await dbPool.execute(`
     SELECT
       r.name, rr.value
     FROM
@@ -140,7 +141,7 @@ async function loadRoleResourceValues (dbPool, roleId) {
         INNER JOIN
       bm_web_resources r ON rr.resource_id = r.resource_id
     WHERE
-      rr.role_id = ?`, [ roleId ])
+      rr.role_id = ?`, [roleId])
   const resourceValues = {}
 
   results.forEach((row) => {
@@ -152,7 +153,7 @@ async function loadRoleResourceValues (dbPool, roleId) {
 
 async function loadPermissionValues (dbPool) {
   const load = async () => {
-    const [ results ] = await dbPool.execute(`
+    const [results] = await dbPool.execute(`
       SELECT
         rp.resource_id, r.name AS resource_name, rp.name, rp.value
       FROM

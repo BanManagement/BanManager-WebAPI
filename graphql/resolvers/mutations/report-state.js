@@ -11,13 +11,13 @@ module.exports = async function reportState (obj, { serverId, state: stateId, re
 
   if (!report) throw new ExposedError(`Report ${id} does not exist`)
 
-  const [ [ row ] ] = server.query(`SELECT id FROM ${server.config.tables.playerReportStates} WHERE id = ?`
-    , [ stateId ])
+  const [[row]] = server.query(`SELECT id FROM ${server.config.tables.playerReportStates} WHERE id = ?`
+    , [stateId])
 
   if (!row) throw new ExposedError(`Report State ${stateId} does not exist`)
 
   await udify.update(server, table,
-    { updated: 'UNIX_TIMESTAMP()', 'state_id': stateId }, { id })
+    { updated: 'UNIX_TIMESTAMP()', state_id: stateId }, { id })
 
   report = await state.loaders.report.serverDataId.load({ server: serverId, id })
 

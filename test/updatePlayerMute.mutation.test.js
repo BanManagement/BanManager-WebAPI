@@ -30,13 +30,15 @@ describe('Mutation update player mute', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerMute {
+      .send({
+        query: `mutation updatePlayerMute {
         updatePlayerMute(id: "1", serverId: "1", input: {
           reason: "test", expires: 1000000000, soft: false
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -51,13 +53,15 @@ describe('Mutation update player mute', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerMute {
+      .send({
+        query: `mutation updatePlayerMute {
         updatePlayerMute(id: "1", serverId: "a", input: {
           reason: "test", expires: 1000000000, soft: false
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -73,13 +77,15 @@ describe('Mutation update player mute', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerMute {
+      .send({
+        query: `mutation updatePlayerMute {
         updatePlayerMute(id: "999999999", serverId: "${server.id}", input: {
           reason: "test", expires: 1000000000, soft: false
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -96,14 +102,15 @@ describe('Mutation update player mute', function () {
     const actor = createPlayer()
     const mute = createMute(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
-    const [ { insertId } ] = await insert(pool, 'bm_player_mutes', mute)
+    await insert(pool, 'bm_players', [player, actor])
+    const [{ insertId }] = await insert(pool, 'bm_player_mutes', mute)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerMute {
+      .send({
+        query: `mutation updatePlayerMute {
         updatePlayerMute(id: "${insertId}", serverId: "${server.id}", input: {
           reason: "testing updates",
           expires: 1000000000,
@@ -129,7 +136,8 @@ describe('Mutation update player mute', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

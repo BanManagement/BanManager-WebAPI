@@ -9,12 +9,12 @@ module.exports = async function createReportComment (obj, { report: reportId, se
 
   if (!report) throw new ExposedError('Report does not exist')
 
-  const [ result ] = await server.query(
+  const [result] = await server.query(
     `INSERT INTO ${table}
       (report_id, actor_id, comment, created, updated)
         VALUES
       (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())`
-    , [ reportId, actor, input.message ])
+    , [reportId, actor, input.message])
   const id = result.insertId
 
   const data = await state.loaders.reportComment.serverDataId.load({ serverId, id })

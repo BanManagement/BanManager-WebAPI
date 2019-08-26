@@ -34,13 +34,14 @@ describe('Query player ban', function () {
     const actor = createPlayer()
     const ban = createBan(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
     await insert(pool, 'bm_player_bans', ban)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query playerBan {
+      .send({
+        query: `query playerBan {
         playerBan(id:"1", serverId: "${server.id}") {
           id
           reason
@@ -56,14 +57,16 @@ describe('Query player ban', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerBan,
-      { id: '1',
+      {
+        id: '1',
         reason: ban.reason,
         created: ban.created,
         expires: 0,

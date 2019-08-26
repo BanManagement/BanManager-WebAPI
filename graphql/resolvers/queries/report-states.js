@@ -6,7 +6,7 @@ module.exports = async function reportStates (obj, { serverId }, { state }) {
   const server = state.serversPool.get(serverId)
   const query = `SELECT id, name FROM ${server.config.tables.playerReportStates}`
 
-  const [ results ] = await server.execute(query)
+  const [results] = await server.execute(query)
 
   return results
 }

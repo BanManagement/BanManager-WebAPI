@@ -12,9 +12,9 @@ module.exports = (ctx) => {
 
     await Promise.all(Array.from(ctx.state.serversPool.values())).each(async server => {
       const table = server.config.tables.players
-      const [ rows ] = await server.query('SELECT * FROM ?? WHERE id IN(?)', [ table, parsedIds ])
+      const [rows] = await server.query('SELECT * FROM ?? WHERE id IN(?)', [table, parsedIds])
 
-      for (let player of rows) {
+      for (const player of rows) {
         const playerId = unparse(player.id)
         let cachedPlayer = players[playerId]
 
@@ -35,13 +35,14 @@ module.exports = (ctx) => {
         }
 
         const now = Math.floor(Date.now() / 1000)
-        const [ [ { mysqlTime } ] ] = await server.execute(`SELECT (${now} - UNIX_TIMESTAMP()) AS mysqlTime`)
+        const [[{ mysqlTime }]] = await server.execute(`SELECT (${now} - UNIX_TIMESTAMP()) AS mysqlTime`)
         const offset = mysqlTime > 0 ? Math.floor(mysqlTime) : Math.ceil(mysqlTime)
         const timeOffset = offset * 1000
         const serverData = { ...server.config, timeOffset }
 
         cachedPlayer.servers.push(
-          { id: server.config.id,
+          {
+            id: server.config.id,
             ip: player.ip,
             lastSeen: player.lastSeen,
             server: serverData,

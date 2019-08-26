@@ -16,14 +16,16 @@ const { hash } = require('../../data/hash')
 module.exports = async () => { // eslint-disable-line max-statements
   const dbName = 'bm_web_tests_' + randomBytes(4).toString('hex')
   const dbConfig =
-    { driver: 'mysql',
+    {
+      driver: 'mysql',
       connectionLimit: 1,
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       multipleStatements: true
     }
   const logger = pino(
-    { name: 'banmanager-api-test',
+    {
+      name: 'banmanager-api-test',
       level: 'error'
     })
   let dbPool = await setupPool(dbConfig)
@@ -57,18 +59,18 @@ module.exports = async () => { // eslint-disable-line max-statements
   const loggedInUser = createPlayer()
   const adminUser = createPlayer()
 
-  await insert(dbPool, 'bm_players', [ playerConsole, loggedInUser, adminUser ])
+  await insert(dbPool, 'bm_players', [playerConsole, loggedInUser, adminUser])
 
   await insert(dbPool, 'bm_web_player_roles',
-    [ { 'player_id': loggedInUser.id, 'role_id': 2 },
-      { 'player_id': adminUser.id, 'role_id': 3 }
+    [{ player_id: loggedInUser.id, role_id: 2 },
+      { player_id: adminUser.id, role_id: 3 }
     ])
 
   const updated = Math.floor(Date.now() / 1000)
 
   await insert(dbPool, 'bm_web_users',
-    [ { 'player_id': loggedInUser.id, email: 'user@banmanagement.com', password: await hash('testing'), updated },
-      { 'player_id': adminUser.id, email: 'admin@banmanagement.com', password: await hash('testing'), updated }
+    [{ player_id: loggedInUser.id, email: 'user@banmanagement.com', password: await hash('testing'), updated },
+      { player_id: adminUser.id, email: 'admin@banmanagement.com', password: await hash('testing'), updated }
     ])
 
   // Create a server
@@ -78,7 +80,7 @@ module.exports = async () => { // eslint-disable-line max-statements
 
   const serversPool = await setupServersPool(dbPool, logger, true)
   const teardown = async () => {
-    for (let server of serversPool.values()) {
+    for (const server of serversPool.values()) {
       await server.pool.end()
     }
 

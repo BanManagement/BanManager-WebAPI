@@ -39,10 +39,11 @@ describe('Mutation create server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         createServer:
-          { __args: {
-            input: server
-          },
-          id: true
+          {
+            __args: {
+              input: server
+            },
+            id: true
           }
       }
     })
@@ -70,10 +71,11 @@ describe('Mutation create server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         createServer:
-          { __args: {
-            input: server
-          },
-          id: true
+          {
+            __args: {
+              input: server
+            },
+            id: true
           }
       }
     })
@@ -196,8 +198,8 @@ describe('Mutation create server', function () {
     assert(body)
     assert(body.data.createServer.id)
 
-    const [ [ result ] ] = await pool.execute('SELECT * FROM bm_web_servers WHERE id = ?'
-      , [ body.data.createServer.id ])
+    const [[result]] = await pool.execute('SELECT * FROM bm_web_servers WHERE id = ?'
+      , [body.data.createServer.id])
     const decrypted = await decrypt(process.env.ENCRYPTION_KEY, result.password)
 
     assert.strictEqual(decrypted, 'password')

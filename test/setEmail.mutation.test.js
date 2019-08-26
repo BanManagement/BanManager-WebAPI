@@ -28,11 +28,13 @@ describe('Mutation set email', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation setEmail {
+      .send({
+        query: `mutation setEmail {
         setEmail(currentPassword: "test", email: "test") {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -52,7 +54,8 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "notCorrect", email: "testing@test.com") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -72,7 +75,8 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "notCorrect", email: "testing.com") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -92,7 +96,8 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "test", email: "test") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -112,7 +117,8 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "testing", email: "admin@banmanagement.com") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -131,7 +137,8 @@ describe('Mutation set email', function () {
           setEmail(currentPassword: "testing", email: "test@test.com") {
             id
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
     assert(body)
@@ -146,7 +153,8 @@ describe('Mutation set email', function () {
             id
             email
           }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode2, 200)
 

@@ -25,11 +25,13 @@ describe('Query pageLayout', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query pageLayout {
+      .send({
+        query: `query pageLayout {
         pageLayout(pathname: "nope") {
           pathname
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -41,7 +43,8 @@ describe('Query pageLayout', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query pageLayout {
+      .send({
+        query: `query pageLayout {
         pageLayout(pathname: "player") {
           pathname
           devices {
@@ -113,14 +116,16 @@ describe('Query pageLayout', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.pageLayout.pathname, 'player')
     assert.deepStrictEqual(body.data.pageLayout.devices, {
-      mobile: { components:
+      mobile: {
+        components:
         [{
           id: '1',
           component: 'PlayerHeader',
@@ -171,9 +176,10 @@ describe('Query pageLayout', function () {
           textAlign: null,
           meta: null
         }],
-      unusedComponents: []
+        unusedComponents: []
       },
-      tablet: { components:
+      tablet: {
+        components:
         [{
           id: '2',
           component: 'PlayerHeader',
@@ -224,9 +230,10 @@ describe('Query pageLayout', function () {
           textAlign: null,
           meta: null
         }],
-      unusedComponents: []
+        unusedComponents: []
       },
-      desktop: { components:
+      desktop: {
+        components:
         [{
           id: '3',
           component: 'PlayerHeader',
@@ -277,7 +284,7 @@ describe('Query pageLayout', function () {
           textAlign: null,
           meta: null
         }],
-      unusedComponents: []
+        unusedComponents: []
       }
     })
   })

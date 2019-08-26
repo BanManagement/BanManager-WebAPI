@@ -26,7 +26,8 @@ describe('Mutation updatePageLayout', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePageLayout {
+      .send({
+        query: `mutation updatePageLayout {
         updatePageLayout(pathname: "player", input: {
           mobile: { components: [], unusedComponents: [] },
           tablet: { components: [], unusedComponents: [] },
@@ -34,7 +35,8 @@ describe('Mutation updatePageLayout', function () {
         }) {
           pathname
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -49,7 +51,8 @@ describe('Mutation updatePageLayout', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePageLayout {
+      .send({
+        query: `mutation updatePageLayout {
         updatePageLayout(pathname: "player", input: {
           mobile: { components: [], unusedComponents: [] },
           tablet: { components: [], unusedComponents: [] },
@@ -57,7 +60,8 @@ describe('Mutation updatePageLayout', function () {
         }) {
           pathname
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -72,7 +76,8 @@ describe('Mutation updatePageLayout', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePageLayout {
+      .send({
+        query: `mutation updatePageLayout {
         updatePageLayout(pathname: "foo", input: {
           mobile: { components: [], unusedComponents: [] },
           tablet: { components: [], unusedComponents: [] },
@@ -80,7 +85,8 @@ describe('Mutation updatePageLayout', function () {
         }) {
           pathname
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -97,26 +103,33 @@ describe('Mutation updatePageLayout', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updatePageLayout:
-          { __args:
-            { pathname: 'player',
+          {
+            __args:
+            {
+              pathname: 'player',
               input:
-              { mobile: { components, unusedComponents },
+              {
+                mobile: { components, unusedComponents },
                 desktop: { components: [], unusedComponents: [] },
                 tablet: { components: [], unusedComponents: [] }
               }
             },
-          pathname: true,
-          devices:
-            { mobile:
-              { components:
-                { id: true,
+            pathname: true,
+            devices:
+            {
+              mobile:
+              {
+                components:
+                {
+                  id: true,
                   component: true,
                   x: true,
                   y: true,
                   w: true
                 },
-              unusedComponents:
-                { id: true,
+                unusedComponents:
+                {
+                  id: true,
                   component: true,
                   x: true,
                   y: true,
