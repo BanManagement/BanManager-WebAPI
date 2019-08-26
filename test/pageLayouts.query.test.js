@@ -30,7 +30,8 @@ describe('Query pageLayouts', function () {
         pageLayouts {
           pathname
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -50,7 +51,8 @@ describe('Query pageLayouts', function () {
         pageLayouts {
           pathname
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -65,7 +67,8 @@ describe('Query pageLayouts', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query pageLayouts {
+      .send({
+        query: `query pageLayouts {
         pageLayouts {
           pathname
           devices {
@@ -107,14 +110,16 @@ describe('Query pageLayouts', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert.strictEqual(body.data.pageLayouts[0].pathname, 'player')
     assert.deepStrictEqual(body.data.pageLayouts[0].devices, {
-      mobile: { components:
+      mobile: {
+        components:
         [{
           id: '1',
           component: 'PlayerHeader',
@@ -166,7 +171,8 @@ describe('Query pageLayouts', function () {
           meta: null
         }]
       },
-      tablet: { components:
+      tablet: {
+        components:
         [{
           id: '2',
           component: 'PlayerHeader',
@@ -218,7 +224,8 @@ describe('Query pageLayouts', function () {
           meta: null
         }]
       },
-      desktop: { components:
+      desktop: {
+        components:
         [{
           id: '3',
           component: 'PlayerHeader',

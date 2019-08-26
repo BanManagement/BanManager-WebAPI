@@ -1,5 +1,5 @@
 module.exports =
-[ 'players',
+['players',
   'playerBans',
   'playerBanRecords',
   'playerMutes',

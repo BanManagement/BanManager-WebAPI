@@ -27,11 +27,13 @@ describe('Mutation delete role', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation deleteRole {
+      .send({
+        query: `mutation deleteRole {
         deleteRole(id: 1) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -51,7 +53,8 @@ describe('Mutation delete role', function () {
         deleteRole(id: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -71,7 +74,8 @@ describe('Mutation delete role', function () {
         deleteRole(id: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -90,7 +94,8 @@ describe('Mutation delete role', function () {
         deleteRole(id: 1) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -109,7 +114,8 @@ describe('Mutation delete role', function () {
         deleteRole(id: 2) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -128,7 +134,8 @@ describe('Mutation delete role', function () {
         deleteRole(id: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -140,8 +147,8 @@ describe('Mutation delete role', function () {
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const player = createPlayer()
 
-    await insert(setup.dbPool, 'bm_web_roles', { name: 'Test', 'parent_role_id': 2 })
-    await insert(setup.dbPool, 'bm_web_player_roles', { 'player_id': player.id, 'role_id': 4 })
+    await insert(setup.dbPool, 'bm_web_roles', { name: 'Test', parent_role_id: 2 })
+    await insert(setup.dbPool, 'bm_web_player_roles', { player_id: player.id, role_id: 4 })
 
     const { body, statusCode } = await request
       .post('/graphql')
@@ -153,7 +160,8 @@ describe('Mutation delete role', function () {
           id
           name
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -161,8 +169,8 @@ describe('Mutation delete role', function () {
     assert.strictEqual(body.data.deleteRole.id, '4')
     assert.strictEqual(body.data.deleteRole.name, 'Test')
 
-    const [ results ] = await setup.dbPool.execute('SELECT * FROM bm_web_player_roles WHERE player_id = ?'
-      , [ player.id ])
+    const [results] = await setup.dbPool.execute('SELECT * FROM bm_web_player_roles WHERE player_id = ?'
+      , [player.id])
 
     assert.strictEqual(results.length, 0)
   })

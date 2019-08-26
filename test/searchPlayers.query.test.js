@@ -36,13 +36,15 @@ describe('Query searchPlayers', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query players {
+      .send({
+        query: `query players {
         searchPlayers(name:"${player.name.substr(0, 3)}") {
           id
           name
           lastSeen
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

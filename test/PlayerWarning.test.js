@@ -1,6 +1,7 @@
 const assert = require('assert')
 const
-  { GraphQLBoolean
+  {
+    GraphQLBoolean
     , GraphQLFloat
     , GraphQLID
     , GraphQLNonNull
@@ -69,7 +70,7 @@ describe('PlayerWarning', function () {
 
   it('should only expose certain fields', function () {
     assert.deepStrictEqual(Object.keys(fields)
-      , [ 'id',
+      , ['id',
         'player',
         'actor',
         'reason',

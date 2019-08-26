@@ -43,7 +43,7 @@ describe('PlayerKick', function () {
 
   it('should only expose certain fields', function () {
     assert.deepStrictEqual(Object.keys(fields)
-      , [ 'id',
+      , ['id',
         'player',
         'actor',
         'reason',

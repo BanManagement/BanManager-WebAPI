@@ -70,7 +70,8 @@ describe('/register', function () {
       .post('/register')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ password: 'test',
+      .send({
+        password: 'test',
         email: // eslint-disable-next-line
         'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
       })
@@ -115,7 +116,8 @@ describe('/register', function () {
       .post('/register')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ email: 'asd@asd.com',
+      .send({
+        email: 'asd@asd.com',
         password: // eslint-disable-next-line
         'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd@asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd.com'
       })

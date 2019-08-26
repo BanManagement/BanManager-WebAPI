@@ -7,7 +7,7 @@ module.exports = async function deleteRole (obj, { id }, { state }) {
 
   if (!role) throw new ExposedError(`Role ${id} does not exist`)
 
-  await state.dbPool.execute('DELETE FROM bm_web_roles WHERE role_id = ?', [ id ])
+  await state.dbPool.execute('DELETE FROM bm_web_roles WHERE role_id = ?', [id])
 
   return role
 }

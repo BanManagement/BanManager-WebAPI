@@ -31,7 +31,8 @@ describe('Query server', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query player {
+      .send({
+        query: `query player {
         server(id:"${server.id}") {
           id
           name
@@ -47,7 +48,8 @@ describe('Query server', function () {
           }
           timeOffset
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -76,7 +78,8 @@ describe('Query server', function () {
         server(id:"1") {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

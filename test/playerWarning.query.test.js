@@ -35,14 +35,15 @@ describe('Query player warning', function () {
     const actor = createPlayer()
     const warning = createWarning(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
     await insert(pool, 'bm_player_warnings', warning)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query playerWarning {
+      .send({
+        query: `query playerWarning {
         playerWarning(id:"1", serverId: "${server.id}") {
           id
           reason
@@ -59,14 +60,16 @@ describe('Query player warning', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.playerWarning,
-      { id: '1',
+      {
+        id: '1',
         reason: warning.reason,
         created: warning.created,
         expires: 0,

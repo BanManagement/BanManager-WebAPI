@@ -5,7 +5,8 @@ const { Kind } = require('graphql/language')
 const regex = /^([[{(]?)([0-9A-F]{8})([:-]?)([0-9A-F]{4})([:-]?)([0-9A-F]{4})([:-]?)([0-9A-F]{4})([:-]?)([0-9A-F]{12})([\]})]?)$/i
 
 module.exports = new GraphQLScalarType(
-  { name: 'UUID',
+  {
+    name: 'UUID',
     serialize: value => {
       return value
     },
@@ -18,11 +19,11 @@ module.exports = new GraphQLScalarType(
     },
     parseLiteral: ast => {
       if (ast.kind !== Kind.STRING) {
-        throw new GraphQLError('Query error: Can only parse strings got a: ' + ast.kind, [ ast ])
+        throw new GraphQLError('Query error: Can only parse strings got a: ' + ast.kind, [ast])
       }
 
       if (!regex.test(ast.value)) {
-        throw new GraphQLError('Query error: Not a valid UUID: ', [ ast ])
+        throw new GraphQLError('Query error: Not a valid UUID: ', [ast])
       }
 
       return ast.value

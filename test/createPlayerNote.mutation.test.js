@@ -32,13 +32,15 @@ describe('Mutation create player note', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation createPlayerNote {
+      .send({
+        query: `mutation createPlayerNote {
         createPlayerNote(input: {
           player: "${unparse(player.id)}", message: "test", server: "${server.id}"
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -80,7 +82,8 @@ describe('Mutation create player note', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 400)
 
@@ -97,13 +100,14 @@ describe('Mutation create player note', function () {
     const actor = createPlayer()
     const note = createNote(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation createPlayerNote {
+      .send({
+        query: `mutation createPlayerNote {
         createPlayerNote(input: {
           player: "${unparse(player.id)}", message: "${note.message}", server: "${server.id}"
         }) {
@@ -124,7 +128,8 @@ describe('Mutation create player note', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

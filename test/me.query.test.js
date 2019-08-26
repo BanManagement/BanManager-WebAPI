@@ -27,13 +27,15 @@ describe('Query me', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query me {
+      .send({
+        query: `query me {
         me {
           id
           name
           hasAccount
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -48,12 +50,14 @@ describe('Query me', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query me {
+      .send({
+        query: `query me {
         me {
           id
           name
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

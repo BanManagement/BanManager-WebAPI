@@ -12,9 +12,9 @@ module.exports = async function updateServer (obj, { id, input }, { state }) {
   const conn = await createConnection(input)
 
   const tablesMissing = await Promise.reduce(tables, async (missing, table) => {
-    const [ [ { exists } ] ] = await conn.execute(
+    const [[{ exists }]] = await conn.execute(
       'SELECT COUNT(*) AS `exists` FROM information_schema.tables WHERE table_schema = ? AND table_name = ?'
-      , [ input.database, input.tables[table] ])
+      , [input.database, input.tables[table]])
 
     if (!exists) missing.push(table)
 
@@ -26,9 +26,9 @@ module.exports = async function updateServer (obj, { id, input }, { state }) {
     throw new ExposedError(`Tables do not exist in the database: ${tablesMissing.join(', ')}`)
   }
 
-  const [ [ exists ] ] = await conn.query(
+  const [[exists]] = await conn.query(
     'SELECT id FROM ?? WHERE id = ?'
-    , [ input.tables.players, parse(input.console, Buffer.alloc(16)) ])
+    , [input.tables.players, parse(input.console, Buffer.alloc(16))])
 
   conn.end()
 

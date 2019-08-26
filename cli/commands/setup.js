@@ -20,10 +20,11 @@ exports.handler = async function () {
   console.log('Starting setup')
   console.log('If unsure, use default')
   const { siteHost, port, sessionName, sessionDomain, contactEmail } = await inquirer.prompt(
-    [ { type: 'input', name: 'siteHost', message: 'BanManager UI Site Hostname', default: 'http://localhost:3000' },
+    [{ type: 'input', name: 'siteHost', message: 'BanManager UI Site Hostname', default: 'http://localhost:3000' },
       { type: 'input', name: 'port', message: 'Port to run API', default: 3001 },
       { type: 'input', name: 'sessionName', message: 'Cookie session name', default: 'bm-ui-sess' },
-      { type: 'input',
+      {
+        type: 'input',
         name: 'sessionDomain',
         message: 'Top level cookie session domain e.g. frostcast.net',
         default: 'localhost'
@@ -34,7 +35,7 @@ exports.handler = async function () {
   const sessionKey = await crypto.createKey().toString('hex')
   const { publicKey, privateKey } = generateVAPIDKeys()
   const dbQuestions =
-    [ { type: 'input', name: 'host', message: 'Database Host', default: '127.0.0.1' },
+    [{ type: 'input', name: 'host', message: 'Database Host', default: '127.0.0.1' },
       { type: 'input', name: 'port', message: 'Database Port', default: 3306 },
       { type: 'input', name: 'user', message: 'Database User' },
       { type: 'password', name: 'password', message: 'Database Password' },
@@ -47,7 +48,8 @@ exports.handler = async function () {
   console.log('Setting up database...')
 
   const dbConfig =
-    { ...dbAnswers,
+    {
+      ...dbAnswers,
       driver: 'mysql',
       connectionLimit: 1,
       multipleStatements: true
@@ -90,15 +92,15 @@ exports.handler = async function () {
 
   console.log('Setup your admin user')
 
-  const { email } = await inquirer.prompt([ { name: 'email', message: 'Your email address' } ])
+  const { email } = await inquirer.prompt([{ name: 'email', message: 'Your email address' }])
   const password = await askPassword()
   const playerId = await askPlayerAccount('Your Minecraft Player UUID', conn, serverConn, serverTables.players)
   const user = {
-    email, password, 'player_id': playerId, updated: Math.floor(Date.now() / 1000)
+    email, password, player_id: playerId, updated: Math.floor(Date.now() / 1000)
   }
 
   await udify.insert(conn, 'bm_web_users', user)
-  await udify.insert(conn, 'bm_web_player_roles', { 'player_id': playerId, 'role_id': 3 })
+  await udify.insert(conn, 'bm_web_player_roles', { player_id: playerId, role_id: 3 })
 
   console.log(`Account created, start the application and login via ${siteHost}/login`)
 
@@ -143,7 +145,7 @@ DB_CONNECTION_LIMIT=5
 
 async function askPassword () {
   const { password, vPass } = await inquirer.prompt(
-    [ { type: 'password', name: 'password', message: 'Password' },
+    [{ type: 'password', name: 'password', message: 'Password' },
       { type: 'password', name: 'vPass', message: 'Confirm Password' }
     ])
 
@@ -169,7 +171,8 @@ async function promptServerDetails () {
 
   try {
     db =
-      { host,
+      {
+        host,
         port,
         user,
         password,
@@ -186,7 +189,7 @@ async function promptServerDetails () {
 
   const serverTables = {}
 
-  for (let table of tables) {
+  for (const table of tables) {
     const tableName = await promptTable(conn, table)
 
     serverTables[table] = tableName
@@ -196,7 +199,7 @@ async function promptServerDetails () {
 }
 
 async function promptTable (conn, table) {
-  const { tableName } = await inquirer.prompt([ { name: 'tableName', message: `${table} table name` } ])
+  const { tableName } = await inquirer.prompt([{ name: 'tableName', message: `${table} table name` }])
 
   try {
     await checkTable(conn, tableName)
@@ -211,9 +214,9 @@ async function promptTable (conn, table) {
 }
 
 async function checkTable (conn, table) {
-  const [ [ { exists } ] ] = await conn.execute(
+  const [[{ exists }]] = await conn.execute(
     'SELECT COUNT(*) AS `exists` FROM information_schema.tables WHERE table_schema = ? AND table_name = ?'
-    , [ conn.connection.config.database, table ])
+    , [conn.connection.config.database, table])
 
   if (!exists) {
     throw new Error('Could not find table ' + table)
@@ -222,13 +225,13 @@ async function checkTable (conn, table) {
 
 // { type: 'input', name: 'name', message: 'Server Name', default: 'Frostcast' }
 async function askPlayer (question, conn, table) {
-  const questions = [ { name: 'id', message: question } ]
+  const questions = [{ name: 'id', message: question }]
   const { id } = await inquirer.prompt(questions)
   const parsedId = parse(id, Buffer.alloc(16))
 
-  const [ [ result ] ] = await conn.query(
+  const [[result]] = await conn.query(
     'SELECT name FROM ?? WHERE id = ?'
-    , [ table, parsedId ])
+    , [table, parsedId])
 
   if (!result) {
     console.log(`Could not find Player ${id}`)
@@ -243,9 +246,9 @@ async function askPlayer (question, conn, table) {
 async function askPlayerAccount (question, conn, serverConn, table) {
   const id = await askPlayer(question, serverConn, table)
 
-  const [ [ { exists } ] ] = await conn.execute(
+  const [[{ exists }]] = await conn.execute(
     'SELECT COUNT(*) AS `exists` FROM bm_web_users WHERE player_id = ?'
-    , [ id ])
+    , [id])
 
   if (exists) {
     console.error('An account already exists for that player')

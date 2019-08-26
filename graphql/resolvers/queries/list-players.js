@@ -20,28 +20,28 @@ module.exports = async function listPlayers (obj, { name, email, role, serverRol
     // }
 
     if (email) {
-      filters.push(`SELECT player_id FROM bm_web_users WHERE email LIKE ?`)
+      filters.push('SELECT player_id FROM bm_web_users WHERE email LIKE ?')
       args.push(email + '%')
     }
 
     if (role) {
       const roleName = role + '%'
-      const [ results ] = await state.dbPool.execute('SELECT role_id FROM bm_web_roles WHERE name LIKE ?', [ roleName ])
+      const [results] = await state.dbPool.execute('SELECT role_id FROM bm_web_roles WHERE name LIKE ?', [roleName])
       const roleIds = results.map(row => row.role_id)
 
       if (roleIds.length) {
-        filters.push(`SELECT player_id FROM bm_web_player_roles WHERE role_id IN(?)`)
+        filters.push('SELECT player_id FROM bm_web_player_roles WHERE role_id IN(?)')
         args.push(roleIds.join())
       }
     }
 
     if (serverRole) {
       const roleName = serverRole + '%'
-      const [ results ] = await state.dbPool.execute('SELECT role_id FROM bm_web_roles WHERE name LIKE ?', [ roleName ])
+      const [results] = await state.dbPool.execute('SELECT role_id FROM bm_web_roles WHERE name LIKE ?', [roleName])
       const roleIds = results.map(row => row.role_id)
 
       if (roleIds.length) {
-        filters.push(`SELECT player_id FROM bm_web_player_server_roles WHERE role_id IN(?)`)
+        filters.push('SELECT player_id FROM bm_web_player_server_roles WHERE role_id IN(?)')
         args.push(roleIds.join())
       }
     }
@@ -73,13 +73,13 @@ module.exports = async function listPlayers (obj, { name, email, role, serverRol
 
   if (totalQuery === 'SELECT COUNT(*) AS total FROM () x') return { total: 0, players: [] } // No results
 
-  const [ [ { total } ] ] = await state.dbPool.execute(totalQuery, args)
+  const [[{ total }]] = await state.dbPool.execute(totalQuery, args)
 
   if (offset > total) throw new ExposedError('Offset greater than total')
 
   args.push(offset, limit)
 
-  const [ results ] = await state.dbPool.execute(query, args)
+  const [results] = await state.dbPool.execute(query, args)
 
   const players = results.map(row => ({ id: unparse(row.player_id) }))
 

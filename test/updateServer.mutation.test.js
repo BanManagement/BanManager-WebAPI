@@ -40,7 +40,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server },
+          {
+            __args: { id: serverId, input: server },
             id: true
           }
       }
@@ -70,7 +71,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server },
+          {
+            __args: { id: serverId, input: server },
             id: true
           }
       }
@@ -133,7 +135,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server },
+          {
+            __args: { id: serverId, input: server },
             id: true
           }
       }
@@ -164,7 +167,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server },
+          {
+            __args: { id: serverId, input: server },
             id: true
           }
       }
@@ -203,7 +207,8 @@ describe('Mutation update server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         updateServer:
-          { __args: { id: serverId, input: server },
+          {
+            __args: { id: serverId, input: server },
             id: true
           }
       }
@@ -222,8 +227,8 @@ describe('Mutation update server', function () {
     assert(body)
     assert(body.data.updateServer.id)
 
-    const [ [ result ] ] = await pool.execute('SELECT * FROM bm_web_servers WHERE id = ?'
-      , [ body.data.updateServer.id ])
+    const [[result]] = await pool.execute('SELECT * FROM bm_web_servers WHERE id = ?'
+      , [body.data.updateServer.id])
     const decrypted = await decrypt(process.env.ENCRYPTION_KEY, result.password)
 
     assert.strictEqual(decrypted, 'password')

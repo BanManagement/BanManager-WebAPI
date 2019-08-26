@@ -6,7 +6,8 @@ module.exports = async function (request, cookie) {
     .post('/graphql')
     .set('Accept', 'application/json')
     .set('Cookie', cookie)
-    .send({ query: `query me {
+    .send({
+      query: `query me {
       me {
         id
         name
@@ -16,7 +17,8 @@ module.exports = async function (request, cookie) {
           type
         }
       }
-    }` })
+    }`
+    })
 
   assert.strictEqual(statusCode, 200)
   assert(body)

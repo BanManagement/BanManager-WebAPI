@@ -10,8 +10,8 @@ module.exports = (db) => {
       ])
     }
 
-    return db.insert('bm_web_page_layouts', [ 'pathname', 'device', 'component', 'x', 'y', 'w', 'colour', 'textAlign' ]
-      , [ pathname,
+    return db.insert('bm_web_page_layouts', ['pathname', 'device', 'component', 'x', 'y', 'w', 'colour', 'textAlign']
+      , [pathname,
         component.device,
         component.component,
         component.x,

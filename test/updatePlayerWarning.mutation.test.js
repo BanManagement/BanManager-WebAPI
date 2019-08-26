@@ -30,13 +30,15 @@ describe('Mutation update player warning', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerWarning {
+      .send({
+        query: `mutation updatePlayerWarning {
         updatePlayerWarning(id: "1", serverId: "1", input: {
           reason: "test", expires: 1000000000, points: 1
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -51,13 +53,15 @@ describe('Mutation update player warning', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerWarning {
+      .send({
+        query: `mutation updatePlayerWarning {
         updatePlayerWarning(id: "1", serverId: "a", input: {
           reason: "test", expires: 1000000000, points: 1
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -73,13 +77,15 @@ describe('Mutation update player warning', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerWarning {
+      .send({
+        query: `mutation updatePlayerWarning {
         updatePlayerWarning(id: "999999999", serverId: "${server.id}", input: {
           reason: "test", expires: 1000000000, points: 1
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -96,14 +102,15 @@ describe('Mutation update player warning', function () {
     const actor = createPlayer()
     const warning = createWarning(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
-    const [ { insertId } ] = await insert(pool, 'bm_player_warnings', warning)
+    await insert(pool, 'bm_players', [player, actor])
+    const [{ insertId }] = await insert(pool, 'bm_player_warnings', warning)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerWarning {
+      .send({
+        query: `mutation updatePlayerWarning {
         updatePlayerWarning(id: "${insertId}", serverId: "${server.id}", input: {
           reason: "testing updates",
           expires: 1000000000,
@@ -128,7 +135,8 @@ describe('Mutation update player warning', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

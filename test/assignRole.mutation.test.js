@@ -38,7 +38,8 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -63,7 +64,8 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -88,7 +90,8 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -107,11 +110,13 @@ describe('Mutation assignRole', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignRole {
+      .send({
+        query: `mutation assignRole {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -137,7 +142,8 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -155,7 +161,8 @@ describe('Mutation assignRole', function () {
         assignRole(players:["${unparse(player.id)}"], role: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode2, 200)
 

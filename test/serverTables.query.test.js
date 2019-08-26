@@ -25,16 +25,18 @@ describe('Query serverTables', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query serverTables {
+      .send({
+        query: `query serverTables {
         serverTables
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
     assert(body)
     assert(body.data)
     assert.deepStrictEqual(body.data.serverTables,
-      [ 'players',
+      ['players',
         'playerBans',
         'playerBanRecords',
         'playerMutes',

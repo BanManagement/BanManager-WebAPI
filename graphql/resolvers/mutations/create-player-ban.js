@@ -9,12 +9,12 @@ module.exports = async function createPlayerBan (obj, { input }, { session, stat
   let id
 
   try {
-    const [ result ] = await server.execute(
+    const [result] = await server.execute(
       `INSERT INTO ${table}
         (player_id, actor_id, reason, created, updated, expires)
           VALUES
         (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), ?)`
-      , [ player, actor, input.reason, input.expires ])
+      , [player, actor, input.reason, input.expires])
 
     id = result.insertId
   } catch (e) {

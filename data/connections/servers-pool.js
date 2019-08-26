@@ -3,7 +3,7 @@ const setupPool = require('./setup-db-pool')
 const { decrypt } = require('../crypto')
 
 async function interval (servers, dbPool, logger) {
-  const [ rows ] = await dbPool.query('SELECT * FROM bm_web_servers')
+  const [rows] = await dbPool.query('SELECT * FROM bm_web_servers')
   const newIds = await Promise.all(rows.map(async (server) => {
     server.tables = JSON.parse(server.tables)
 
@@ -25,7 +25,8 @@ async function interval (servers, dbPool, logger) {
     }
 
     const poolConfig =
-      { connectionLimit: 5,
+      {
+        connectionLimit: 5,
         host: server.host,
         port: server.port,
         user: server.user,
@@ -34,7 +35,8 @@ async function interval (servers, dbPool, logger) {
       }
     const pool = setupPool(poolConfig, logger)
     const serverDetails =
-      { config: server,
+      {
+        config: server,
         pool,
         execute: pool.execute.bind(pool),
         query: pool.query.bind(pool)

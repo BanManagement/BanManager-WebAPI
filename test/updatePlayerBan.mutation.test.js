@@ -30,13 +30,15 @@ describe('Mutation update player ban', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerBan {
+      .send({
+        query: `mutation updatePlayerBan {
         updatePlayerBan(id: "1", serverId: "1", input: {
           reason: "test", expires: 1000000000
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -51,13 +53,15 @@ describe('Mutation update player ban', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerBan {
+      .send({
+        query: `mutation updatePlayerBan {
         updatePlayerBan(id: "1", serverId: "a", input: {
           reason: "test", expires: 1000000000
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -73,13 +77,15 @@ describe('Mutation update player ban', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerBan {
+      .send({
+        query: `mutation updatePlayerBan {
         updatePlayerBan(id: "999999999", serverId: "${server.id}", input: {
           reason: "test", expires: 1000000000
         }) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -96,14 +102,15 @@ describe('Mutation update player ban', function () {
     const actor = createPlayer()
     const ban = createBan(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
-    const [ { insertId } ] = await insert(pool, 'bm_player_bans', ban)
+    await insert(pool, 'bm_players', [player, actor])
+    const [{ insertId }] = await insert(pool, 'bm_player_bans', ban)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation updatePlayerBan {
+      .send({
+        query: `mutation updatePlayerBan {
         updatePlayerBan(id: "${insertId}", serverId: "${server.id}", input: {
           reason: "testing updates",
           expires: 1000000000
@@ -127,7 +134,8 @@ describe('Mutation update player ban', function () {
             yours
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

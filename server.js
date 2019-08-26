@@ -3,7 +3,7 @@ require('dotenv').config()
 const requireEnv = require('require-environment-variables')
 
 requireEnv(
-  [ 'LOG_LEVEL',
+  ['LOG_LEVEL',
     'PORT',
     'ENCRYPTION_KEY',
     'SESSION_KEY',
@@ -18,7 +18,8 @@ requireEnv(
   ])
 
 const logger = require('pino')(
-  { name: 'banmanager-api',
+  {
+    name: 'banmanager-api',
     level: process.env.LOG_LEVEL
   })
 const createApp = require('./app')
@@ -26,7 +27,8 @@ const setupPool = require('./data/connections/setup-db-pool')
 const setupServersPool = require('./data/connections/servers-pool')
 const port = process.env.PORT
 const dbConfig =
-{ connectionLimit: process.env.DB_CONNECTION_LIMIT,
+{
+  connectionLimit: process.env.DB_CONNECTION_LIMIT,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   user: process.env.DB_USER,

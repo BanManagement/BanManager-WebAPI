@@ -34,9 +34,10 @@ describe('Mutation delete server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         deleteServer:
-          { __args: {
-            id
-          }
+          {
+            __args: {
+              id
+            }
           }
       }
     })
@@ -60,9 +61,10 @@ describe('Mutation delete server', function () {
     const query = jsonToGraphQLQuery({
       mutation: {
         deleteServer:
-          { __args: {
-            id
-          }
+          {
+            __args: {
+              id
+            }
           }
       }
     })

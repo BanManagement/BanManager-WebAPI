@@ -29,7 +29,8 @@ describe('Query listPlayers', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers {
           total
           players {
@@ -38,7 +39,8 @@ describe('Query listPlayers', function () {
             lastSeen
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -53,7 +55,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(limit: 51) {
           total
           players {
@@ -76,7 +79,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -91,7 +95,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(offset: 51) {
           total
           players {
@@ -114,7 +119,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -129,16 +135,17 @@ describe('Query listPlayers', function () {
     const player = createPlayer()
 
     await insert(pool, 'bm_players', player)
-    await insert(setup.dbPool, 'bm_web_player_roles', { 'role_id': 2, 'player_id': player.id })
+    await insert(setup.dbPool, 'bm_web_player_roles', { role_id: 2, player_id: player.id })
     await insert(setup.dbPool, 'bm_web_player_server_roles',
-      { 'server_Id': server.id, 'role_id': 1, 'player_id': player.id })
+      { server_Id: server.id, role_id: 1, player_id: player.id })
 
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers {
           total
           players {
@@ -161,7 +168,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -196,7 +204,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(role: "adm") {
           total
           players {
@@ -219,7 +228,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -248,7 +258,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(role: "asd") {
           total
           players {
@@ -271,7 +282,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -287,7 +299,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(email: "admin") {
           total
           players {
@@ -310,7 +323,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -339,7 +353,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(email: "asd") {
           total
           players {
@@ -362,7 +377,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -379,16 +395,17 @@ describe('Query listPlayers', function () {
 
     await insert(pool, 'bm_players', player)
     await insert(setup.dbPool, 'bm_web_roles', { role_id: 4, name: 'Test', parent_role_id: 2 })
-    await insert(setup.dbPool, 'bm_web_player_roles', { 'role_id': 2, 'player_id': player.id })
+    await insert(setup.dbPool, 'bm_web_player_roles', { role_id: 2, player_id: player.id })
     await insert(setup.dbPool, 'bm_web_player_server_roles',
-      { 'server_Id': server.id, 'role_id': 4, 'player_id': player.id })
+      { server_Id: server.id, role_id: 4, player_id: player.id })
 
     const cookie = await getAuthPassword(request, 'admin@banmanagement.com')
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(serverRole: "tes") {
           total
           players {
@@ -411,7 +428,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -447,7 +465,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(serverRole: "asd") {
           total
           players {
@@ -470,7 +489,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -486,7 +506,8 @@ describe('Query listPlayers', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `query listPlayers {
+      .send({
+        query: `query listPlayers {
         listPlayers(email: "admin", role: "admin", serverRole: "admin") {
           total
           players {
@@ -509,7 +530,8 @@ describe('Query listPlayers', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 

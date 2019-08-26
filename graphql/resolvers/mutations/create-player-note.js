@@ -6,9 +6,9 @@ module.exports = async function createPlayerNote (obj, { input }, { session, sta
   const player = parse(input.player, Buffer.alloc(16))
   const actor = session.playerId
 
-  const [ { insertId } ] = await server.execute(
+  const [{ insertId }] = await server.execute(
     `INSERT INTO ${table} (player_id, actor_id, message, created) VALUES(?, ?, ?, UNIX_TIMESTAMP())`
-    , [ player, actor, input.message ])
+    , [player, actor, input.message])
   const data = await state.loaders.playerNote.serverDataId.load({ server: input.server, id: insertId })
 
   return data

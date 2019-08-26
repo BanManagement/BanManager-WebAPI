@@ -17,9 +17,9 @@ const noop = () => {}
 
 // eslint-disable-next-line max-statements
 exports.up = async function (db) {
-  await db.insert('bm_web_roles', [ 'role_id', 'name' ], [ 1, 'Guest' ], noop)
-  await db.insert('bm_web_roles', [ 'role_id', 'name' ], [ 2, 'Logged In' ], noop)
-  await db.insert('bm_web_roles', [ 'role_id', 'name' ], [ 3, 'Admin' ], noop)
+  await db.insert('bm_web_roles', ['role_id', 'name'], [1, 'Guest'], noop)
+  await db.insert('bm_web_roles', ['role_id', 'name'], [2, 'Logged In'], noop)
+  await db.insert('bm_web_roles', ['role_id', 'name'], [3, 'Admin'], noop)
 
   const { addResource, addPermission, attachPermission } = aclHelper(db)
 
@@ -226,5 +226,5 @@ exports.down = async function (db) {
 }
 
 exports._meta = {
-  'version': 1
+  version: 1
 }

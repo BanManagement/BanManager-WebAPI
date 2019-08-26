@@ -1,6 +1,7 @@
 const { randomBytes } = require('crypto')
 const tables = JSON.stringify(
-  { players: 'bm_players',
+  {
+    players: 'bm_players',
     playerBans: 'bm_player_bans',
     playerBanRecords: 'bm_player_ban_records',
     playerMutes: 'bm_player_mutes',

@@ -3,7 +3,8 @@
 
 // @TODO Replace with knex or a lighter query builder
 module.exports =
-{ update,
+{
+  update,
   delete: deleteData,
   insert
 }
@@ -60,7 +61,7 @@ async function update (pool, table, entity, where) {
       query += `\`${col}\` = ? ` // @TODO Escape column names
     })
 
-    values = [ ...values, ...Object.values(where) ]
+    values = [...values, ...Object.values(where)]
   }
 
   return pool.execute(query, values)

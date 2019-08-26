@@ -9,7 +9,7 @@ module.exports = async function setRoles (obj, { player, input: { roles, serverR
   const dataRoles = await state.loaders.role.ids.loadMany(roleIds).filter(Boolean)
 
   if (dataRoles.length !== roleIds.length) {
-    throw new ExposedError(`Invalid role provided`)
+    throw new ExposedError('Invalid role provided')
   }
 
   serverRoles.forEach(role => {

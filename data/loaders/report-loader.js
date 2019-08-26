@@ -33,7 +33,7 @@ module.exports = ({ state }) => {
         ${tables.players} ap ON r.assignee_id = ap.id
       WHERE r.id = ?`
 
-      const [ [ result ] ] = await server.execute(query, [ id ])
+      const [[result]] = await server.execute(query, [id])
 
       if (!result) return null
 

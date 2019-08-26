@@ -42,7 +42,7 @@ describe('Query player', function () {
     const note = createNote(player, actor)
     const warning = createWarning(player, actor)
 
-    await insert(pool, 'bm_players', [ player, actor ])
+    await insert(pool, 'bm_players', [player, actor])
     await insert(pool, 'bm_player_bans', ban)
     await insert(pool, 'bm_player_kicks', kick)
     await insert(pool, 'bm_player_mutes', mute)
@@ -52,7 +52,8 @@ describe('Query player', function () {
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `query player {
+      .send({
+        query: `query player {
         player(id:"${unparse(player.id)}") {
           id
           name
@@ -137,7 +138,8 @@ describe('Query player', function () {
             }
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -157,7 +159,8 @@ describe('Query player', function () {
 
     assert.strictEqual(actServer.bans.length, 1)
     assert.deepStrictEqual(actServer.bans[0],
-      { id: '1',
+      {
+        id: '1',
         reason: ban.reason,
         created: ban.created,
         expires: 0,
@@ -167,7 +170,8 @@ describe('Query player', function () {
 
     assert.strictEqual(actServer.mutes.length, 1)
     assert.deepStrictEqual(actServer.mutes[0],
-      { id: '1',
+      {
+        id: '1',
         reason: mute.reason,
         created: mute.created,
         expires: 0,
@@ -179,7 +183,8 @@ describe('Query player', function () {
 
     assert.strictEqual(actServer.warnings.length, 1)
     assert.deepStrictEqual(actServer.warnings[0],
-      { id: '1',
+      {
+        id: '1',
         reason: warning.reason,
         created: warning.created,
         expires: 0,

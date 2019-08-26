@@ -30,16 +30,18 @@ describe('Mutation assignReport', function () {
     const report = createReport(player, player)
 
     await insert(pool, 'bm_players', player)
-    const [ { insertId } ] = await insert(pool, 'bm_player_reports', report)
+    const [{ insertId }] = await insert(pool, 'bm_player_reports', report)
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -57,18 +59,20 @@ describe('Mutation assignReport', function () {
 
     await insert(pool, 'bm_players', player)
 
-    const [ { insertId } ] = await insert(pool, 'bm_player_reports', report)
+    const [{ insertId }] = await insert(pool, 'bm_player_reports', report)
     const role = await setTempRole(setup.dbPool, account, 'player.reports', 'update.assign.any')
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }` })
+      }`
+      })
 
     await role.reset()
 
@@ -88,18 +92,20 @@ describe('Mutation assignReport', function () {
 
     await insert(pool, 'bm_players', player)
 
-    const [ { insertId } ] = await insert(pool, 'bm_player_reports', report)
+    const [{ insertId }] = await insert(pool, 'bm_player_reports', report)
     const role = await setTempRole(setup.dbPool, account, 'player.reports', 'update.assign.own')
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }` })
+      }`
+      })
 
     await role.reset()
 
@@ -121,18 +127,20 @@ describe('Mutation assignReport', function () {
 
     await insert(pool, 'bm_players', player)
 
-    const [ { insertId } ] = await insert(pool, 'bm_player_reports', report)
+    const [{ insertId }] = await insert(pool, 'bm_player_reports', report)
     const role = await setTempRole(setup.dbPool, account, 'player.reports', 'update.assign.assigned')
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }` })
+      }`
+      })
 
     await role.reset()
 
@@ -152,18 +160,20 @@ describe('Mutation assignReport', function () {
 
     await insert(pool, 'bm_players', player)
 
-    const [ { insertId } ] = await insert(pool, 'bm_player_reports', report)
+    const [{ insertId }] = await insert(pool, 'bm_player_reports', report)
     const role = await setTempRole(setup.dbPool, account, 'player.reports', 'update.assign.reported')
 
     const { body, statusCode } = await request
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: ${insertId}) {
           id
         }
-      }` })
+      }`
+      })
 
     await role.reset()
 
@@ -185,11 +195,13 @@ describe('Mutation assignReport', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: 123123) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -208,11 +220,13 @@ describe('Mutation assignReport', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "3", report: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -229,11 +243,13 @@ describe('Mutation assignReport', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${config.id}", report: 3) {
           id
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
@@ -252,14 +268,16 @@ describe('Mutation assignReport', function () {
       .post('/graphql')
       .set('Cookie', cookie)
       .set('Accept', 'application/json')
-      .send({ query: `mutation assignReport {
+      .send({
+        query: `mutation assignReport {
         assignReport(player: "${unparse(player.id)}", serverId: "${server.id}", report: 3) {
           id
           assignee {
             id
           }
         }
-      }` })
+      }`
+      })
 
     assert.strictEqual(statusCode, 200)
 
