@@ -35,30 +35,30 @@ describe('Query serverTables', function () {
 
     assert(body)
     assert(body.data)
-    assert.deepStrictEqual(body.data.serverTables,
-      ['players',
-        'playerBans',
-        'playerBanRecords',
-        'playerMutes',
-        'playerMuteRecords',
-        'playerKicks',
-        'playerNotes',
-        'playerHistory',
-        'playerPins',
-        'playerReports',
-        'playerReportCommands',
-        'playerReportComments',
-        'playerReportLocations',
-        'playerReportStates',
-        'playerReportLogs',
-        'serverLogs',
-        'playerWarnings',
-        'ipBans',
-        'ipBanRecords',
-        'ipMutes',
-        'ipMuteRecords',
-        'ipRangeBans',
-        'ipRangeBanRecords'
-      ])
+    assert.deepStrictEqual(body.data.serverTables, [
+      'players',
+      'playerBans',
+      'playerBanRecords',
+      'playerMutes',
+      'playerMuteRecords',
+      'playerKicks',
+      'playerNotes',
+      'playerHistory',
+      'playerReports',
+      'playerReportLocations',
+      'playerReportStates',
+      'playerReportCommands',
+      'playerReportComments',
+      'playerWarnings',
+      'ipBans',
+      'ipBanRecords',
+      'ipMutes',
+      'ipMuteRecords',
+      'ipRangeBans',
+      'ipRangeBanRecords',
+      'playerPins',
+      'serverLogs',
+      'playerReportLogs'
+    ])
   })
 })
