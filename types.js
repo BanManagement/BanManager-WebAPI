@@ -1,6 +1,6 @@
 const { EOL } = require('os')
 const tables = require('./data/tables')
-const tableTypes = tables.map(table => `${table}: String`).join(EOL)
+const tableTypes = Object.keys(tables).map(table => `${table}: String`).join(EOL)
 const tableTypesRequired = tables.map(table => `${table}: String!`).join(EOL)
 
 /* eslint max-len: 0 */

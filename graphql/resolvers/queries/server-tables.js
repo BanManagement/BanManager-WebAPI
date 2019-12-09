@@ -1,4 +1,4 @@
-const tables = require('../../../data/tables')
+const tables = Object.keys(require('../../../data/tables'))
 
 module.exports = function serverTables () {
   return tables

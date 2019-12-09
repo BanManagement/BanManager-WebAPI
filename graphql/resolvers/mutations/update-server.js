@@ -11,8 +11,8 @@ module.exports = async function updateServer (obj, { id, input }, { state }) {
   // @TODO Check if connection details changed to avoid needing password to change server name
   const conn = await createConnection(input)
 
-  const tablesMissing = await Promise.reduce(tables, async (missing, table) => {
-    const [[{ exists }]] = await conn.execute(
+  const tablesMissing = await Promise.reduce(Object.keys(tables), async (missing, table) => {
+    const [ [ { exists } ] ] = await conn.execute(
       'SELECT COUNT(*) AS `exists` FROM information_schema.tables WHERE table_schema = ? AND table_name = ?'
       , [input.database, input.tables[table]])
 

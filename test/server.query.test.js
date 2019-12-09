@@ -3,7 +3,7 @@ const { EOL } = require('os')
 const { unparse } = require('uuid-parse')
 const supertest = require('supertest')
 const createApp = require('../app')
-const tables = require('../data/tables')
+const tables = Object.keys(require('../data/tables'))
 const { createSetup, getAuthPassword } = require('./lib')
 
 describe('Query server', function () {
