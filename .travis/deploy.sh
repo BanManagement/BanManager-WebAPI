@@ -5,7 +5,7 @@ eval "$(ssh-agent -s)"
 chmod 600 .travis/deploy.key
 ssh-add .travis/deploy.key
 ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
-git remote add deploy dokku@$DEPLOY_SERVER:api.demo.banmanagement.com >/dev/null 2>&1
+git remote add deploy dokku@$DEPLOY_SERVER:api-demo.banmanagement.com >/dev/null 2>&1
 git config --global push.default simple
 git stash --all
 git checkout master
