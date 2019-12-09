@@ -12,7 +12,7 @@ module.exports = async function updateServer (obj, { id, input }, { state }) {
   const conn = await createConnection(input)
 
   const tablesMissing = await Promise.reduce(Object.keys(tables), async (missing, table) => {
-    const [ [ { exists } ] ] = await conn.execute(
+    const [[{ exists }]] = await conn.execute(
       'SELECT COUNT(*) AS `exists` FROM information_schema.tables WHERE table_schema = ? AND table_name = ?'
       , [input.database, input.tables[table]])
 
