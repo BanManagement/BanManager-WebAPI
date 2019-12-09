@@ -59,27 +59,29 @@ exports.handler = async function () {
 
   await dbm.up()
 
-  const [ [ { exists } ] ] = await conn.execute('SELECT COUNT(*) AS `exists` FROM bm_web_servers')
+  const [results] = await conn.execute('SELECT id FROM bm_web_servers LIMIT 1')
+  let serverConn
+  let serverTables
 
-  if (!exists) {
+  if (!results.length) {
     console.log('Add BanManager server')
 
     const { connection: serverConn, serverTables } = await promptServerDetails()
 
     const consoleId = await askPlayer('Console UUID (paste "uuid" value from BanManager/console.yml)', serverConn, serverTables.players)
-    const { serverName } = await inquirer.prompt([ { name: 'serverName', message: 'Server Name' } ])
+    const { serverName } = await inquirer.prompt([{ name: 'serverName', message: 'Server Name' }])
     const idKey = await generateServerId()
-    const server =
-      { id: idKey.toString('hex'),
-        name: serverName,
-        tables: JSON.stringify(serverTables),
-        console: consoleId,
-        host: serverConn.connection.config.host,
-        port: serverConn.connection.config.port,
-        user: serverConn.connection.config.user,
-        password: serverConn.connection.config.password || '',
-        database: serverConn.connection.config.database
-      }
+    const server = {
+      id: idKey.toString('hex'),
+      name: serverName,
+      tables: JSON.stringify(serverTables),
+      console: consoleId,
+      host: serverConn.connection.config.host,
+      port: serverConn.connection.config.port,
+      user: serverConn.connection.config.user,
+      password: serverConn.connection.config.password || '',
+      database: serverConn.connection.config.database
+    }
 
     if (server.password) {
       server.password = await crypto.encrypt(encryptionKey, server.password)
@@ -189,7 +191,7 @@ async function promptServerDetails () {
 
   const serverTables = {}
 
-  for (const table of tables) {
+  for (const table of Object.entries(tables)) {
     const tableName = await promptTable(conn, table)
 
     serverTables[table] = tableName
@@ -199,7 +201,7 @@ async function promptServerDetails () {
 }
 
 async function promptTable (conn, table) {
-  const { tableName } = await inquirer.prompt([{ name: 'tableName', message: `${table} table name` }])
+  const { tableName } = await inquirer.prompt([{ name: 'tableName', message: `${table[0]} table name`, default: table[1] }])
 
   try {
     await checkTable(conn, tableName)
