@@ -17,7 +17,7 @@
   "author": "James Mortemore (jamesmortemore@gmail.com)",
   "license": "MIT",
   "engines": {
-    "node": ">=8.0.0 <14"
+    "node": ">=8.0.0 <13"
   },
   "dependencies": {
     "@koa/cors": "3.0.0",
