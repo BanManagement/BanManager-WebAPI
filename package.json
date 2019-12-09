@@ -29,7 +29,7 @@
     "db-migrate-mysql": "1.1.10",
     "dotenv": "8.1.0",
     "graphql": "0.13.2",
-    "graphql-constraint-directive": "1.4.0",
+    "graphql-constraint-directive": "1.4.1",
     "graphql-depth-limit": "1.1.0",
     "graphql-list-fields": "2.0.2",
     "graphql-tools": "4.0.5",
