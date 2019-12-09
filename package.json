@@ -52,7 +52,7 @@
     "yargs": "14.0.0"
   },
   "devDependencies": {
-    "coveralls": "3.0.6",
+    "coveralls": "3.0.9",
     "faker": "4.1.0",
     "json-to-graphql-query": "1.9.0",
     "mocha": "6.2.0",
