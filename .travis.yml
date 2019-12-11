@@ -4,7 +4,6 @@ node_js:
 - 9
 - 10
 - 11
-- 12
 cache: npm
 after_success:
 - npm run coverage
@@ -25,10 +24,10 @@ env:
 jobs:
   include:
   - stage: deploy
-    node_js: 11
+    node_js: 12
     deploy:
       provider: script
       script: bash ./.travis/deploy.sh
       on:
         branch: master
-        node: '11'
+        node: '12'
