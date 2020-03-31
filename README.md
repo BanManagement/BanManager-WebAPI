@@ -1,8 +1,8 @@
 # BanManager WebAPI
-
 [![Build Status](https://api.travis-ci.org/BanManagement/BanManager-WebAPI.svg?branch=master)](https://travis-ci.org/BanManagement/BanManager-WebAPI)
 [![Coverage Status](https://coveralls.io/repos/github/BanManagement/BanManager-WebAPI/badge.svg?branch=master)](https://coveralls.io/github/BanManagement/BanManager-WebAPI?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/banmanagement/banmanager-webapi/badge.svg?targetFile=package.json)](https://snyk.io/test/github/banmanagement/banmanager-webapi?targetFile=package.json)
+## Deprecated - now part of WebUI
 
 API to power web client
 
