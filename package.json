@@ -26,7 +26,7 @@
     "bluebird": "3.7.2",
     "dataloader": "1.4.0",
     "db-migrate": "0.11.6",
-    "db-migrate-mysql": "1.1.10",
+    "db-migrate-mysql": "2.1.1",
     "dotenv": "8.2.0",
     "graphql": "0.13.2",
     "graphql-constraint-directive": "1.4.1",
