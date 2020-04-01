@@ -57,7 +57,7 @@
     "json-to-graphql-query": "1.9.0",
     "mocha": "6.2.2",
     "mockdate": "2.0.5",
-    "nock": "11.9.1",
+    "nock": "12.0.3",
     "nyc": "14.1.1",
     "standard": "14.3.1",
     "supertest": "4.0.2",
